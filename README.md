@@ -20,5 +20,10 @@ by building the ZMK firmwares using this repo.
 
 ### Changed ZMK Keymap from Yiwei
 We iterate the current ZMK keymap from Keeb in this repo and add the following changes:
-1. Swap the SPACE and RET.
-2. 
+1. Use left hand for escape.
+2. Use left hand for all modifiers.
+3. Use right hand for space.
+4. Use right hand for enter.
+5. Use right hand to switch layers.
+6. Use right hand to type symbols.
+7. Use left hand and layers for graved and tilde.
