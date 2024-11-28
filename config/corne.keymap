@@ -32,7 +32,7 @@
                 , <&macro_release &kp LCTRL>
                 ;
         };
-        // alt delete
+        // alt_backspace
         alt_backspace: alt_backspace {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -40,6 +40,32 @@
                 = <&macro_press &kp LALT>
                 , <&macro_tap &kp BSPC>
                 , <&macro_release &kp LALT>
+                ;
+        };
+        //
+        macos_screenshot: macos_screenshot {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_press &kp LCTRL>
+                , <&macro_press &kp LSHFT>
+                , <&macro_tap &kp N4>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LCTRL>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+        //
+        macos_screenshot_with_annotation: macos_screenshot_with_annotation {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_press &kp LSHFT>
+                , <&macro_tap &kp N4>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LGUI>
                 ;
         };
     };
@@ -66,12 +92,12 @@
 // -----------------------------------------------------------------------------------------
 // | ` / LCTRL |  1    |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  |             |
 // |           | BTCLR | BT0 | BT1 | BT2 | BT3 |   | LFT | DWN |  UP | RGT |     |             |
-// |           |       |     |     |     |     |   |     |     |     |     |     |             |
+// |           |       |     |     |     |     |   |     | macos_screenshot | macos_screenshot_with_annotation |     |     |             |
 //                           |     |     |     |   |     | macos_input |   |
                         bindings = <
    &mt LCTRL GRAVE &kp N1 &kp N2   &kp N3    &kp N4    &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &trans
-   &trans    &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3   &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
-   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+   &trans &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3   &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
+   &trans &trans     &trans       &trans       &trans       &trans         &trans   &macos_screenshot &macos_screenshot_with_annotation &trans    &trans &trans
                           &trans &trans &trans &trans &macos_input &trans
                         >;
                 };
