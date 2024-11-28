@@ -2,6 +2,9 @@
  * Copyright (c) 2020 The ZMK Contributors
  *
  * SPDX-License-Identifier: MIT
+ *
+ * Reference: https://zmk.dev/docs/keymaps/behaviors/key-press
+ *
  */
 
 #include <behaviors.dtsi>
