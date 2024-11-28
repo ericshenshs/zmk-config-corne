@@ -20,7 +20,7 @@
 // reference: https://zmk.dev/docs/keymaps/behaviors/macros
 / {
     macros {
-        //
+        // switch input method
         macos_input: macos_input {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -30,6 +30,16 @@
                 , <&macro_tap &kp SPACE>
                 , <&macro_release &kp LALT>
                 , <&macro_release &kp LCTRL>
+                ;
+        };
+        // alt delete
+        alt_backspace: alt_backspace {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LALT>
+                , <&macro_tap &kp BSPC>
+                , <&macro_release &kp LALT>
                 ;
         };
     };
@@ -70,12 +80,12 @@
 // | ~ / LCTRL |   !   |   @   |   #   |   $   |   %   |   |  ^  |  &  |  *  |  (  |  )  |      |
 // |          |RGB_TOG|RGB_HUI|RGB_SAI|RGB_VAI|       |   |  -  |  =  |  [  |  ]  |  \  |      |
 // |          |RGB_MOD|RGB_HUD|RGB_SAD|RGB_VAD|QK_BOOT|   |  _  |  +  |  {  |  }  | "|" |      |
-//                            |       |      |       |   |     |     |     |
+//                            |       | alt_backspace |       |   |     |     |     |
                         bindings = <
    &mt LCTRL TILDE &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT   &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &trans
    &trans    &rgb_ug  RGB_TOG   &rgb_ug RGB_HUI &rgb_ug RGB_SAI   &rgb_ug RGB_BRI   &trans      &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp BSLH &trans
    &trans    &rgb_ug RGB_EFF   &rgb_ug RGB_HUD &rgb_ug RGB_SAD   &rgb_ug RGB_BRD   &bootloader      &kp UNDER &kp PLUS  &kp LBRC        &kp RBRC &kp PIPE &trans
-                  &trans &trans &trans &trans &trans   &trans
+                  &trans &alt_backspace &trans &trans &trans &trans
                         >;
                 };
         };
