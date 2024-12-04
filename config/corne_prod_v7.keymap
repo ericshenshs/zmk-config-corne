@@ -205,15 +205,15 @@
                 };
                 lower_layer {
 // -----------------------------------------------------------------------------------------
-// | ` / LALT  |  1    |  2    |  3        |  4          |  5    |   |  6  |  7  | 8  |  9  |  0  |  |
-// |           | MAC_SC| MAC_SA| cmd_grave | macos_input |       |   | LFT | DWN | UP | RGT |     |  |
-// |           | cmd_1 | cmd_2 | cmd_3     | cmd_4       | cmd_5 |   | ctrl_alt_left  | ctrl_alt_down | ctrl_alt_up | ctrl_alt_right |  |
-//                             |           |             |       |   | ctrl_alt_enter |     |    |
+// | ` / LALT  |  1    |  2    |  3        |  4    |  5          |   |  6  |  7  | 8  |  9  |  0  |  |
+// |           | MAC_SC| MAC_SA| cmd_grave | SPC   | macos_input |   | LFT | DWN | UP | RGT |     |  |
+// |           | cmd_1 | cmd_2 | cmd_3     | cmd_4 | cmd_5       |   | ctrl_alt_left  | ctrl_alt_down | ctrl_alt_up | ctrl_alt_right |  |
+//                             |           |       |             |   | ctrl_alt_enter |     |    |
                         bindings = <
-   &mt LALT GRAVE &kp N1            &kp N2                            &kp N3     &kp N4       &kp N5   &kp N6          &kp N7         &kp N8       &kp N9          &kp N0 &trans
-   &trans         &macos_screenshot &macos_screenshot_with_annotation &cmd_grave &macos_input &kp LEFT &kp DOWN        &kp UP         &kp RIGHT    &trans          &trans &trans
-   &trans         &cmd_1            &cmd_2                            &cmd_3     &cmd_4       &cmd_5   &ctrl_alt_left  &ctrl_alt_down &ctrl_alt_up &ctrl_alt_right &trans &trans
-                                                                      &trans     &trans       &trans   &ctrl_alt_enter &trans         &trans
+   &mt LALT GRAVE &kp N1            &kp N2                            &kp N3     &kp N4       &kp N5       &kp N6          &kp N7         &kp N8       &kp N9          &kp N0 &trans
+   &trans         &macos_screenshot &macos_screenshot_with_annotation &cmd_grave &kp SPACE    &macos_input &kp LEFT        &kp DOWN       &kp UP        &kp RIGHT      &trans &trans
+   &trans         &cmd_1            &cmd_2                            &cmd_3     &cmd_4       &cmd_5       &ctrl_alt_left  &ctrl_alt_down &ctrl_alt_up &ctrl_alt_right &trans &trans
+                                                                      &trans     &trans       &trans       &ctrl_alt_enter &trans         &trans
                         >;
                 };
                 raise_layer {
