@@ -223,9 +223,9 @@
 // |          | BTCLR | BT0   | BT1   |BT2    | BT3   |   |  _  |  +  |  {  |  }  | "|" | |
 //                            |       |ALT_BS |       |   |     |     |     |
                         bindings = <
-   &mt LALT TILDE &kp EXCL        &kp AT          &kp HASH        &kp DLLR        &kp PRCNT    &kp CARET &kp AMPS &kp KP_MULTIPLY &kp LPAR &kp RPAR &trans
-   &trans         &rgb_ug RGB_TOG &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &bootloader  &kp MINUS &kp EQUAL &kp LBKT &kp RBKT &kp BSLH &trans
-   &trans         &bt BT_CLR      &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3 &kp UNDER &kp PLUS &kp LBRC &kp RBRC &kp PIPE &trans
+   &mt LALT TILDE &kp EXCL        &kp AT          &kp HASH        &kp DLLR        &kp PRCNT    &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &trans
+   &trans         &rgb_ug RGB_TOG &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &bootloader  &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp BSLH &trans
+   &trans         &bt BT_CLR      &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3 &kp UNDER &kp PLUS  &kp LBRC        &kp RBRC &kp PIPE &trans
                                                   &trans          &alt_backspace  &trans       &trans    &trans   &trans
                         >;
                 };
