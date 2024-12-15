@@ -1,0 +1,321 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Reference: https://zmk.dev/docs/keymaps/behaviors/key-press
+ *
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/rgb.h>
+
+&led_strip {
+    chain-length = <27>;
+};
+
+// Define the custom macro
+// reference: https://zmk.dev/docs/keymaps/behaviors/macros
+/ {
+    macros {
+        // switch input method
+        macos_input: macos_input {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_press &kp LALT>
+                , <&macro_tap &kp SPACE>
+                , <&macro_release &kp LALT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+        // alt_backspace ALT_BS
+        alt_backspace: alt_backspace {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LALT>
+                , <&macro_tap &kp BSPC>
+                , <&macro_release &kp LALT>
+                ;
+        };
+        // MAC_SC
+        macos_screenshot: macos_screenshot {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_press &kp LCTRL>
+                , <&macro_press &kp LSHFT>
+                , <&macro_tap &kp N4>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LCTRL>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+        // MAC_SA
+        macos_screenshot_with_annotation: macos_screenshot_with_annotation {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_press &kp LSHFT>
+                , <&macro_tap &kp N4>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+        ctrl_alt_left: ctrl_alt_left {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_press &kp LALT>
+                , <&macro_tap &kp LEFT>
+                , <&macro_release &kp LALT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+        ctrl_alt_right: ctrl_alt_right {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_press &kp LALT>
+                , <&macro_tap &kp RIGHT>
+                , <&macro_release &kp LALT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+        ctrl_alt_up: ctrl_alt_up {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_press &kp LALT>
+                , <&macro_tap &kp UP>
+                , <&macro_release &kp LALT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+        ctrl_alt_down: ctrl_alt_down {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_press &kp LALT>
+                , <&macro_tap &kp DOWN>
+                , <&macro_release &kp LALT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+        ctrl_alt_enter: ctrl_alt_enter {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_press &kp LALT>
+                , <&macro_tap &kp RET>
+                , <&macro_release &kp LALT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+        // cmd_grave
+        cmd_grave: cmd_grave {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_tap &kp GRAVE>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+        // cmd_1
+        cmd_1: cmd_1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_tap &kp N1>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+        // cmd_2
+        cmd_2: cmd_2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_tap &kp N2>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+        // cmd_3
+        cmd_3: cmd_3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_tap &kp N3>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+        // cmd_4
+        cmd_4: cmd_4 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_tap &kp N4>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+        // cmd_5
+        cmd_5: cmd_5 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_tap &kp N5>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+        // cmd_tab
+        cmd_tab: cmd_tab {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_tap &kp TAB>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+    };
+};
+
+/ {
+        keymap {
+                compatible = "zmk,keymap";
+
+                default_layer {
+// -----------------------------------------------------------------------------------------
+// | ` / RSE     | Q | W | E | R | T | | Y | U | I | O | P | BSPC / LWR |
+// | ESC / LCTRL | A | S | D | F | G | | H | J | K | L | ; | '    |
+// | TAB / LSHFT | Z | X | C | V | B | | N | M | , | . | / |RSHFT |
+//                           | LSHFT| BSPC / LWR | LGUI | | ENT / RGUI | SPC / RSE | RSHFT|
+                        bindings = <
+   &lt 2 GRAVE   &kp Q &kp W     &kp E      &kp R    &kp T        &kp Y       &kp U     &kp I     &kp O   &kp P    &lt 3 BSPC
+   &mt LCTRL ESC &kp A &kp S     &kp D      &kp F    &kp G        &kp H       &kp J     &kp K     &kp L   &kp SEMI &kp SQT
+   &mt LSHFT TAB &kp Z &kp X     &kp C      &kp V    &kp B        &kp N       &kp M     &kp COMMA &kp DOT &kp FSLH &kp RSHFT
+                       &kp LSHFT &lt 1 BSPC &kp LGUI &mt RGUI RET &lt 2 SPACE &kp RSHFT
+                        >;
+                };
+                lower_layer {
+// -----------------------------------------------------------------------------------------
+// | ` | 1 | 2 | 3 | 4 | 5 |  | 6 | 7 | 8 | 9 | 0 |  |
+// |   | 4 | 5 | 6 |   |   |  |   | 4 | 5 | 6 |   |  |
+// |   | 7 | 8 | 9 | 0 |   |  |   | 1 | 2 | 3 |   |  |
+//             |   |   |   |  |l3 |l4 |l5 |
+                        bindings = <
+   &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &trans
+   &trans    &kp N4 &kp N5 &kp N6 &trans &trans &trans &kp N4 &kp N5 &kp N6 &trans &trans
+   &trans    &kp N7 &kp N8 &kp N9 &kp N0 &trans &trans &kp N1 &kp N2 &kp N3 &trans &trans
+                           &trans &trans &trans &mo 3  &mo 4  &mo 5
+                        >;
+                };
+                raise_layer {
+// -----------------------------------------------------------------------------------------
+// | ~ | ! | @ | # | $ | % |   |  ^  |  &  |  *  |  (  |  )  |   |
+// |   |   |   |   |   |   |   |  -  |  =  |  [  |  ]  |  \  | ` |
+// |   |   |   |   |   |   |   |  _  |  +  |  {  |  }  | "|" | ~ |
+//             | l6| l7| l8|   |     |     |     |
+                        bindings = <
+   &kp TILDE &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &trans
+   &trans    &trans   &trans &trans   &trans   &trans    &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp BSLH &kp GRAVE
+   &trans    &trans   &trans &trans   &trans   &trans    &kp UNDER &kp PLUS  &kp LBRC        &kp RBRC &kp PIPE &kp TILDE
+                             &mo 6    &mo 7    &mo 8     &trans   &trans    &trans
+                        >;
+                };
+                layer_3 {
+// -----------------------------------------------------------------------------------------
+// ||||||||||||||
+// ||||||||||||||
+// ||||||||||||||
+//    ||||||||
+                        bindings = <
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                        &trans &trans &trans &trans &trans &trans
+                        >;
+                };
+                layer_4 {
+// -----------------------------------------------------------------------------------------
+// | |       |       |       |       |       | | | | | | | |
+// | |RGB_TOG|RGB_HUI|RGB_SAI|RGB_VAI|QK_BOOT| | | | | | | |
+// | |BTCLR  | BT0   | BT1   |BT2    | BT3   | | | | | | | |
+//                   |       |       |       | | | | |
+                        bindings = <
+   &trans &trans          &trans          &trans          &trans          &trans       &trans &trans &trans &trans &trans &trans
+   &trans &rgb_ug RGB_TOG &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &bootloader  &trans &trans &trans &trans &trans &trans
+   &trans &bt BT_CLR      &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3 &trans &trans &trans &trans &trans &trans
+                                          &trans          &trans          &trans       &trans &trans &trans
+                        >;
+                };
+                layer_5 {
+// -----------------------------------------------------------------------------------------
+// ||||||||||||||
+// ||||||||||||||
+// ||||||||||||||
+//    ||||||||
+                        bindings = <
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                        &trans &trans &trans &trans &trans &trans
+                        >;
+                };
+                layer_6 {
+// -----------------------------------------------------------------------------------------
+// ||||||||||||||
+// ||||||||||||||
+// ||||||||||||||
+//    ||||||||
+                        bindings = <
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                        &trans &trans &trans &trans &trans &trans
+                        >;
+                };
+                layer_7 {
+// -----------------------------------------------------------------------------------------
+// ||||||||||||||
+// ||||||||||||||
+// ||||||||||||||
+//    ||||||||
+                        bindings = <
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                        &trans &trans &trans &trans &trans &trans
+                        >;
+                };
+                layer_8 {
+// -----------------------------------------------------------------------------------------
+// ||||||||||||||
+// ||||||||||||||
+// ||||||||||||||
+//    ||||||||
+                        bindings = <
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                        &trans &trans &trans &trans &trans &trans
+                        >;
+                };
+        };
+};
