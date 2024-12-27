@@ -188,10 +188,10 @@
 
 / {
     aliases {
-        // The alias name on the left, referencing the node label (&alt_tab) on the right
-        mac_sc = &macos_screenshot;
-        mac_sca = &macos_screenshot_with_annotation;
-        mac_in = &macos_input;
+        // The alias name on the left, referencing the node label on the right
+        mac_sc = macos_screenshot;
+        mac_sca = macos_screenshot_with_annotation;
+        mac_in = macos_input;
     };
 };
 
