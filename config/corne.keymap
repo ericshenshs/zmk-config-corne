@@ -186,19 +186,14 @@
     };
 };
 
-/ {
-    aliases {
-        // The alias name on the left, referencing the node label on the right
-        mac_sc = macos_screenshot;
-        mac_sca = macos_screenshot_with_annotation;
-        mac_in = macos_input;
-    };
-};
-
 #define DEFAULT 0
 #define DFT 0
 #define LWR 1
 #define RSE 2
+
+#define mac_sc macos_screenshot
+#define mac_sca macos_screenshot_with_annotation
+#define mac_in macos_input
 
 / {
         keymap {
