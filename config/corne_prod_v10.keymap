@@ -207,7 +207,7 @@
 //                           | LGUI | BSPC / LWR | LWR + LGUI | | ENT | SPC / RSE | RSE + RGUI |
                         bindings = <
    &mt LGUI TAB  &kp Q &kp W    &kp E        &kp R   &kp T   &kp Y         &kp U    &kp I     &kp O   &kp P    &mt RGUI BSPC
-   &mt LCTRL ESC &kp A &kp S    &kp D        &kp F   &kp G   &kp H         &kp J    &kp K     &kp L   &kp SEMI &mt RRLT SQT
+   &mt LCTRL ESC &kp A &kp S    &kp D        &kp F   &kp G   &kp H         &kp J    &kp K     &kp L   &kp SEMI &mt RALT SQT
    &kp LSHFT     &kp Z &kp X    &kp C        &kp V   &kp B   &kp N         &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
                        &kp LGUI &lt LWR BSPC &lm LWR LGUI &kp RET &lt RSE SPACE &lm RSE RGUI
                         >;
