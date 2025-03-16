@@ -59,19 +59,21 @@ We try to resolve the problems by:
 
 3. Move the position of Bluetooth clear to the end.
 
-### Feedback
+### Feedback, Changes, Usages
 
-1. Use pinky `ctrl` and `alt` and lower layer to move windows.
-2. Use pinky `ctrl` and lower layer to mission control.
-3. Use pinky `shift` and upper layer to type symbols.
-4. Use the basic 3 layers to type in `Neovim`.
-5. For windows navigation,
-  1. Use thumb `LGUI` and pinky `tab` when switch windows.
-  2. Use thumb `LGUI plus LWR`, lower layer and transparent keys in the default layer to switch windows.
-6. For functions like Bluetooth and RGB, try raise layer and pinky for try RGB toggle and bluetooth device change.
-
+1. **Neovim**: Use the basic 3 layers for typing in `Neovim`.
+2. **`ctrl+alt+arrow`**: Use left pinky `ctrl` and `alt` and lower layer to *move windows*.
+3. **Mission Control**: Use left pinky `ctrl` and lower layer to mission control.
+4. **Symbols**: Use left pinky `shift` and upper layer to type symbols.
+5. **Window Navigation**:
+  1. Hold left thumb `LGUI` and press left pinky `tab` to navigate between windows.
+  2. Hold left thumb `LGUI plus LWR` and press `tilde` (and other number keys) in the lower layer to navigate between Chrome windows.
+6. **Bluetooth and RGB**: Switch to the raise layer, and use left pinky for RGB toggle and bluetooth device switch.
+7. Hold transparent keys in the default layer (for e.g., left pinky `LGUI, LCTRL` and right pinky `RGUI, RALT`) to perform operations.
 
 ## `corne_prod_v11.keymap`
+
+(WIP) Not necessarily a better design than v10.
 
 1. Provide a layer that has all the non-character operations.
   1. What are the keys that we need in the Chrome windows?
