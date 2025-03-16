@@ -45,6 +45,8 @@ Questions are:
 
 ## `corne_prod_v10.keymap`
 
+### Design
+
 We try to resolve the problems by:
 1. Press `ctrl` and `shift` before switching the layer to
   2. Press symbols.
@@ -56,6 +58,18 @@ We try to resolve the problems by:
   2. To navigate MacOS and Chrome windows.
 
 3. Move the position of Bluetooth clear to the end.
+
+### Feedback
+
+1. Use pinky `ctrl` and `alt` and lower layer to move windows.
+2. Use pinky `ctrl` and lower layer to mission control.
+3. Use pinky `shift` and upper layer to type symbols.
+4. Use the basic 3 layers to type in `Neovim`.
+5. For windows navigation,
+  1. Use thumb `LGUI` and pinky `tab` when switch windows.
+  2. Use thumb `LGUI plus LWR`, lower layer and transparent keys in the default layer to switch windows.
+6. For functions like Bluetooth and RGB, try raise layer and pinky for try RGB toggle and bluetooth device change.
+
 
 ## `corne_prod_v11.keymap`
 
