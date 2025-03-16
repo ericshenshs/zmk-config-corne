@@ -55,18 +55,18 @@ We try to resolve the problems by:
   1. Use `lm` to add modifier to both upper and lower layers.
   2. To navigate MacOS and Chrome windows.
 
-3. Move the position of bluetooth clear to the end.
+3. Move the position of Bluetooth clear to the end.
 
 ## `corne_prod_v11.keymap`
 
 1. Provide a layer that has all the non-character operations.
   1. What are the keys that we need in the Chrome windows?
 2. Provide a way to get all the modifiers in the first flow.
-  1. Change RCTRL to RALT on the right hand side.
+  1. Change `RCTRL` to `RALT` on the right hand side.
 
-### Feature Requests for v10
+### Feature Requests for `v10`
 
-1. Simplify the Neovim layers.
+1. Simplify the `Neovim` layers.
   1. Remove arrow keys in the first 3 layers.
 2. Introduce New Layers:
   1. Function Layer: Bluetooth and RGB
