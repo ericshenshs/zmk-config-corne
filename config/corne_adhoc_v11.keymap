@@ -190,6 +190,9 @@
 #define DFT 0
 #define LWR 1
 #define RSE 2
+#define TMP 3
+#define FUC 4
+#define OPR 5
 
 #define mac_sc macos_screenshot
 #define mac_sca macos_screenshot_with_annotation
@@ -200,45 +203,55 @@
                 compatible = "zmk,keymap";
 
                 default_layer {
+// Neovim Layer - Basic
+// DFT
 // -----------------------------------------------------------------------------------------
-// | TAB / LGUI  |  Q  |  W  |  E   |  R         |  T     | | Y   |  U        |  I     |  O  |  P  | BSPC / RGUI |
-// | ESC / LCTRL |  A  |  S  |  D   |  F         |  G     | | H   |  J        |  K     |  L  |  ;  | ' / RALT    |
-// | LSHFT       |  Z  |  X  |  C   |  V         |  B     | | N   |  M        |  ,     |  .  |  /  | RSHFT       |
-//                           | LGUI | BSPC / LWR | LWR + LGUI | | ENT | SPC / RSE | RSE + RGUI |
+// | TAB / LGUI  |  Q  |  W  |  E   |  R         |  T  | | Y   |  U        |  I  |  O  |  P  | BSPC / RCTRL |
+// | ESC / LCTRL |  A  |  S  |  D   |  F         |  G  | | H   |  J        |  K  |  L  |  ;  | ' / RALT     |
+// | LSHFT       |  Z  |  X  |  C   |  V         |  B  | | N   |  M        |  ,  |  .  |  /  | RSHFT        |
+//                           |      | BSPC / LWR | OPR | | ENT / FUC | SPC / RSE |     |
                         bindings = <
-   &mt LGUI TAB  &kp Q &kp W    &kp E        &kp R   &kp T   &kp Y         &kp U    &kp I     &kp O   &kp P    &mt RGUI BSPC
-   &mt LCTRL ESC &kp A &kp S    &kp D        &kp F   &kp G   &kp H         &kp J    &kp K     &kp L   &kp SEMI &mt RRLT SQT
-   &kp LSHFT     &kp Z &kp X    &kp C        &kp V   &kp B   &kp N         &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                       &kp LGUI &lt LWR BSPC &lm LWR LGUI &kp RET &lt RSE SPACE &lm RSE RGUI
+   &mt LGUI TAB  &kp Q &kp W &kp E  &kp R        &kp T   &kp Y         &kp U         &kp I     &kp O   &kp P    &mt RCTRL BSPC
+   &mt LCTRL ESC &kp A &kp S &kp D  &kp F        &kp G   &kp H         &kp J         &kp K     &kp L   &kp SEMI &mt RALT SQT
+   &kp LSHFT     &kp Z &kp X &kp C  &kp V        &kp B   &kp N         &kp M         &kp COMMA &kp DOT &kp FSLH &kp RSHFT
+                             &trans &lt LWR BSPC &to OPR &lt FUC RET   &lt RSE SPACE &trans
                         >;
                 };
                 lower_layer {
+// Neovim Layer - First Hop
+// LWR
 // -----------------------------------------------------------------------------------------
-// | ` / LGUI | 1     | 2      |  3    |  4     | 5          | |  6  |  7  | 8  |  9  |  0  |  |
-// |          |mac_sc |mac_sca |       | mac_in |            | | LFT | DWN | UP | RGT |     |  |
-// |          |       |        |       |        |            | |     |     |    |     |     |  |
-//                             |       |        | ENT / LGUI | |     |     |    |
+// | `      | 1   | 2      |  3    |  4     | 5     | |  6  |  7  | 8   |  9  |  0  | |
+// |        |     |        |       |        |       | |  -  |  =  |  [  |  ]  |  \  | |
+// |        |     |        |       |        |       | |     |     |     |     |     | |
+//                         |       |        |       | |     |     |     |
                         bindings = <
-   &mt LGUI GRAVE &kp N1  &kp N2   &kp N3    &kp N4   &kp N5  &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &trans
-   &trans    &mac_sc &mac_sca &trans    &mac_in  &trans       &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
-   &trans    &trans  &trans   &trans    &trans   &trans       &trans   &trans   &trans &trans    &trans &trans
-                              &trans    &trans   &trans       &trans   &trans   &trans
+   &kp GRAVE &kp N1  &kp N2 &kp N3   &kp N4   &kp N5 &kp N6    &kp N7    &kp N8   &kp N9   &kp N0   &trans
+   &trans    &trans  &trans &trans   &trans   &trans &kp MINUS &kp EQUAL &kp LBKT &kp RBKT &kp BSLH &trans
+   &trans    &trans  &trans &trans   &trans   &trans &trans    &trans    &trans   &trans   &trans   &trans
+                            &trans   &trans   &trans &trans    &trans    &trans
                         >;
                 };
                 raise_layer {
+// Neovim Layer - Second Hop
+// RSE
 // -----------------------------------------------------------------------------------------
-// | ~ / LGUI |   !   |   @      |   #     |   $   |   %   |   |  ^  |  &  |  *  |  (  |  )  | |
-// |          |RGB_TOG| RGB_EFF  | RGB_HUI |RGB_HUD|QK_BOOT|   |  -  |  =  |  [  |  ]  |  \  | |
-// |          | BT0   | BT1      |BT2      | BT3   | BTCLR |   |  _  |  +  |  {  |  }  | "|" | |
+// | ~        |   !   |   @      |   #     |   $   |   %   |   |  ^  |  &  |  *  |  (  |  )  | |
+// |          |       |          |         |       |       |   |  _  |  +  |  {  |  }  | "|" | |
+// |          |       |          |         |       |       |   |     |     |     |     |     | |
 //                               |         |       |       |   |     |     |     |
                         bindings = <
-   &mt LGUI TILDE &kp EXCL        &kp AT          &kp HASH        &kp DLLR        &kp PRCNT    &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &trans
-   &trans         &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_HUI &rgb_ug RGB_HUD &bootloader  &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp BSLH &trans
-   &trans         &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_CLR   &kp UNDER &kp PLUS  &kp LBRC        &kp RBRC &kp PIPE &trans
-                                                  &trans          &trans          &trans       &trans    &trans   &trans
+   &kp TILDE &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT &kp CARET &kp AMPS &kp KP_MULTIPLY &kp LPAR &kp RPAR &trans
+   &trans    &trans   &trans &trans   &trans   &trans    &kp UNDER &kp PLUS &kp LBRC        &kp RBRC &kp PIPE &trans
+   &trans    &trans   &trans &trans   &trans   &trans    &trans    &trans   &trans          &trans   &trans   &trans
+                             &trans   &trans   &trans    &trans    &trans   &trans
                         >;
                 };
                 template_layer {
+// Template Layer: Do Not Change!
+// TMP
+// Seperation Layer Between Neovim Layer, and other layers, including:
+// Function Layer and Operation Layer
 // -----------------------------------------------------------------------------------------
 // | | | | | | | | | | | | | |
 // | | | | | | | | | | | | | |
@@ -248,7 +261,39 @@
    &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
    &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
    &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                        &trans &trans &trans &trans &trans &trans
+                 &trans &trans &trans &trans &trans &trans
+                        >;
+                };
+                function_layer {
+// Function Layer
+// FUC
+// Provide Bluetooth and RGB control.
+// -----------------------------------------------------------------------------------------
+// | | BT0     | BT1     | BT2     | BT3     | BT Clear | | | | | | | |
+// | | RGB_TOG | RGB_EFF | RGB_HUI | RGB_HUD |          | | | | | | | |
+// | | | | | | | | | | | | | |
+//       | | | | | | | |
+                        bindings = <
+   &trans &bt BT_SEL 0   &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_CLR  &trans &trans &trans &trans &trans
+   &trans &rgb_ug GB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_HUI &rgb_ug RGB_HUD &trans      &trans &trans &trans &trans &trans
+   &trans &mac_sc        &mac_sca        &trans          &mac_in         &trans      &trans &trans &trans &trans &trans &trans
+                         &trans          &trans          &trans          &trans      &trans &trans
+                        >;
+                };
+                operation_layer {
+// Operation Layer 1
+// OPR
+// A copy of default layer, but with LGUI added in thumb keys.
+// -----------------------------------------------------------------------------------------
+// | | | | | | | | | | | | | |
+// | | | | | | | | | | | | | |
+// | | | | | | | | | | | | | |
+//       | | | | | | | |
+                        bindings = <
+   &mt LGUI TAB  &kp Q &kp W     &kp E  &kp R   &kp T   &kp Y         &kp U       &kp I     &kp O   &kp P    &mt RCTRL BSPC
+   &mt LCTRL ESC &kp A &kp S     &kp D  &kp F   &kp G   &kp H         &kp J       &kp K     &kp L   &kp SEMI &mt RALT SQT
+   &kp LSHFT     &kp Z &kp X     &kp C  &kp V   &kp B   &kp N         &kp M       &kp COMMA &kp DOT &kp FSLH &kp RSHFT
+                        &kp LGUI &mt(LGUI, &lt(LWR, BSPC)) &to DFT    &lt FUC RET &mt(LGUI, &lt(RSE, SPACE)) &trans
                         >;
                 };
         };
