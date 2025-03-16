@@ -1,11 +1,14 @@
 # Readme
 
 ## ZMK, corne and Keeb
-This is a ZMK configuration repo for corne.
+This is a ZMK configuration repo for corne pre-built by Keeb.
 According to Keeb, the wireless version of corne is using ZMK.
 The default keymap is in https://keebmaker.com/pages/default-keymaps .
 For changes other than to the keymap, refer to the ZMK docs:
 https://zmk.dev/docs/development/documentation .
+
+<!-- START doctoc -->
+<!-- END doctoc -->
 
 ## Change keymaps: Use ZMK keymap config
 
@@ -28,7 +31,7 @@ We iterate the current ZMK keymap from Keeb in this repo and add the following c
 6. Use right hand to type symbols.
 7. Use left hand and layers for graved and tilde.
 
-## `corne_prod_v9.keymap`
+## (deprecated) `corne_prod_v9.keymap`
 
 1. Easy to type in Neovim. Cleared.
 2. The challenges are
@@ -43,7 +46,7 @@ Questions are:
 5. If we put the other keys to a new layer, what are the keys that we need?
 6. How to type the modifiers, for e.g., the control key?
 
-## `corne_prod_v10.keymap`
+## (prod) `corne_prod_v10.keymap`
 
 ### Design
 
@@ -71,16 +74,16 @@ We try to resolve the problems by:
 6. **Bluetooth and RGB**: Switch to the raise layer, and use left pinky for RGB toggle and bluetooth device switch.
 7. Hold transparent keys in the default layer (for e.g., left pinky `LGUI, LCTRL` and right pinky `RGUI, RALT`) to perform operations.
 
-## `corne_prod_v11.keymap`
+## (skip) `corne_prod_v11.keymap`
 
-(WIP) Not necessarily a better design than v10.
+(skip) The v11 seems not necessarily a better design than v10.
 
 1. Provide a layer that has all the non-character operations.
   1. What are the keys that we need in the Chrome windows?
 2. Provide a way to get all the modifiers in the first flow.
   1. Change `RCTRL` to `RALT` on the right hand side.
 
-### Feature Requests for `v10`
+### Feature Requests for `v11`
 
 1. Simplify the `Neovim` layers.
   1. Remove arrow keys in the first 3 layers.
