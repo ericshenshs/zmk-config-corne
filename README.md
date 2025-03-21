@@ -74,6 +74,7 @@ We try to resolve the problems by:
   2. To navigate MacOS and Chrome windows.
 
 3. Move the position of Bluetooth clear to the end.
+4. Add space and return to the second layer: use finger and middle finger for space and return there.
 
 ### Feedback, Changes, Usages
 
