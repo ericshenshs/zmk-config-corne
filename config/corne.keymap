@@ -243,14 +243,14 @@
                 lower_layer {
 // -----------------------------------------------------------------------------------------
 // | ` / LGUI | 1     | 2      |  3    |  4     | 5          | |  6  |  7  | 8  |  9  |  0  |  |
-// |          |mac_sc |mac_sca |       | mac_in |            | | LFT | DWN | UP | RGT |     |  |
+// |          |mac_sc |mac_sca | enter | space  |            | | LFT | DWN | UP | RGT |     |  |
 // |          |       |        |       |        |            | |     |     |    |     |     |  |
 //                             |       |        | ENT / LGUI | |     |     |    |
                         bindings = <
    &mt LGUI GRAVE &kp N1  &kp N2   &kp N3    &kp N4   &kp N5  &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &trans
-   &trans    &mac_sc &mac_sca &trans    &mac_in  &trans       &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
-   &trans    &trans  &trans   &trans    &trans   &trans       &trans   &trans   &trans &trans    &trans &trans
-                              &trans    &trans   &trans       &trans   &trans   &trans
+   &trans    &mac_sc &mac_sca &kp RET &kp SPACE &trans &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
+   &trans    &trans  &trans   &trans  &trans    &trans &trans   &trans   &trans &trans    &trans &trans
+                              &trans  &trans    &trans &trans   &trans   &trans
                         >;
                 };
                 raise_layer {
