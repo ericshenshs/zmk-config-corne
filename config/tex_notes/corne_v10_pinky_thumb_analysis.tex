@@ -1,0 +1,85 @@
+\chapter{Corne v10 生产版按键深度分析: 拇指与小拇指位 (Corne v10 Keymap Analysis: Thumb and Pinky)}
+
+\section{概述 (Overview)}
+本文详细列出了 \lstinline|corne_prod_v10.keymap| 配置中拇指键 (第 4 行) 和小拇指键 (最左侧与最右侧列) 的映射关系。这些按键广泛使用了 ZMK 的 Mod-Tap (\lstinline|&mt|) 和 Layer-Tap (\lstinline|&lt|) 功能，以在有限的按键数量下提供最大化的修饰键覆盖。
+
+\section{拇指键位分析 (Thumb Keys - Row 4)}
+Corne 键盘每侧有 3 个拇指键。在 v10 配置中，它们不仅负责层级切换，还集成了复杂的宏。
+
+\subsection{默认层 (Default Layer) 拇指映射}
+\begin{description}
+    \item[左 1 (最内侧)]: \lstinline|&kp LGUI|
+        \begin{itemize}
+            \item 短按: \lstinline|LGUI| (Cmd/Win)
+            \item 长按: \lstinline|LGUI|
+        \end{itemize}
+    \item[左 2 (中间)]: \lstinline|&lt LWR BSPC|
+        \begin{itemize}
+            \item 短按: \lstinline|BSPC| (退格)
+            \item 长按: 开启 \lstinline|LWR| 层 (Layer 1)
+        \end{itemize}
+    \item[左 3 (最外侧)]: \lstinline|&lm LWR LGUI| (自定义宏)
+        \begin{itemize}
+            \item 长按: 同时激活 \lstinline|LWR| 层并按下 \lstinline|LGUI|。
+        \end{itemize}
+    \item[右 1 (最内侧)]: \lstinline|&kp RET|
+        \begin{itemize}
+            \item 短按: \lstinline|RET| (回车)
+            \item 长按: \lstinline|RET|
+        \end{itemize}
+    \item[右 2 (中间)]: \lstinline|&lt RSE SPACE|
+        \begin{itemize}
+            \item 短按: \lstinline|SPACE| (空格)
+            \item 长按: 开启 \lstinline|RSE| 层 (Layer 2)
+        \end{itemize}
+    \item[右 3 (最外侧)]: \lstinline|&lm RSE RGUI| (自定义宏)
+        \begin{itemize}
+            \item 长按: 同时激活 \lstinline|RSE| 层并按下 \lstinline|RGUI|。
+        \end{itemize}
+\end{description}
+
+\section{小拇指键位分析 (Pinky Keys - Col 1 \& Col 12)}
+小拇指键位主要分布在键盘的最左侧和最右侧。
+
+\subsection{左侧小拇指 (Column 1)}
+\begin{itemize}
+    \item \textbf{第一行 (Tab 键位)}: \lstinline|&mt LGUI TAB|
+        \begin{itemize}
+            \item 短按: \lstinline|TAB|
+            \item 长按: \lstinline|LGUI|
+        \end{itemize}
+    \item \textbf{第二行 (Esc 键位)}: \lstinline|&mt LCTRL ESC|
+        \begin{itemize}
+            \item 短按: \lstinline|ESC|
+            \item 长按: \lstinline|LCTRL|
+        \end{itemize}
+    \item \textbf{第三行 (Shift 键位)}: \lstinline|&kp LSHFT|
+        \begin{itemize}
+            \item 短按/长按: \lstinline|LSHFT|
+        \end{itemize}
+\end{itemize}
+
+\subsection{右侧小拇指 (Column 12)}
+\begin{itemize}
+    \item \textbf{第一行 (Backspace 键位)}: \lstinline|&mt RGUI BSPC|
+        \begin{itemize}
+            \item 短按: \lstinline|BSPC| (退格)
+            \item 长按: \lstinline|RGUI|
+        \end{itemize}
+    \item \textbf{第二行 (Quote 键位)}: \lstinline|&mt RALT SQT|
+        \begin{itemize}
+            \item 短按: \lstinline|'| (单引号)
+            \item 长按: \lstinline|RALT|
+        \end{itemize}
+    \item \textbf{第三行 (Shift 键位)}: \lstinline|&kp RSHFT|
+        \begin{itemize}
+            \item 短按/长按: \lstinline|RSHFT|
+        \end{itemize}
+\end{itemize}
+
+\section{层级中的差异 (Layer Specifics)}
+\begin{itemize}
+    \item \textbf{Lower 层}: 左上角 pinky 变为 \lstinline|&mt LGUI GRAVE| (短按 \lstinline|`|, 长按 \lstinline|LGUI|)。
+    \item \textbf{Raise 层}: 左上角 pinky 变为 \lstinline|&mt LGUI TILDE| (短按 \lstinline|~|, 长按 \lstinline|LGUI|)。
+    \item 其余层的大部分 pinky/thumb 键位均设置为 \lstinline|&trans|, 即透传默认层的行为。
+\end{itemize}

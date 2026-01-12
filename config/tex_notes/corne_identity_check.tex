@@ -1,0 +1,31 @@
+\chapter{Corne Keymap Identity Analysis: Identifying the Current Config}
+
+\section{Introduction}
+This analysis aims to determine the identity of the current \lstinline|corne.keymap| by comparing its structure, macros, and layer definitions against two reference versions: \lstinline|corne_prod_v10.keymap| (Production v10) and \lstinline|corne_adhoc_v11.keymap| (Ad-hoc v11).
+
+\section{Comparison: corne.keymap vs. corne_prod_v10.keymap}
+A line-by-line inspection of the provided content reveals that \lstinline|corne.keymap| is an exact match for \lstinline|corne_prod_v10.keymap|. The following key features are identical in both:
+
+\begin{itemize}
+    \item \textbf{Layer Count}: Both define exactly 4 layers: \lstinline|default_layer| (0), \lstinline|lower_layer| (1), \lstinline|raise_layer| (2), and \lstinline|template_layer| (3).
+    \item \textbf{Macro Definitions}: Both include the specialized \lstinline|lm| (two-param) macro, which is missing in the v11 Ad-hoc version.
+    \item \textbf{Thumb Key Bindings}: The thumb cluster in the \lstinline|default_layer| uses identical mappings:
+    \begin{itemize}
+        \item Left: \lstinline|&kp LGUI|, \lstinline|&lt LWR BSPC|, \lstinline|&lm LWR LGUI|
+        \item Right: \lstinline|&kp RET|, \lstinline|&lt RSE SPACE|, \lstinline|&lm RSE RGUI|
+    \end{itemize}
+    \item \textbf{Modifiers}: Both use \lstinline|mt RGUI BSPC| for the top-right key and \lstinline|mt RALT SQT| for the middle-right key.
+\end{itemize}
+
+\section{Comparison: corne.keymap vs. corne_adhoc_v11.keymap}
+The \lstinline|corne.keymap| significantly differs from the \lstinline|corne_adhoc_v11.keymap|:
+
+\begin{itemize}
+    \item \textbf{Layer Expansion}: v11 has expanded to 6 layers, including \lstinline|FUC| (Function) and \lstinline|OPR| (Operation) layers, which are completely absent in \lstinline|corne.keymap|.
+    \item \textbf{Thumb Logic}: v11 uses \lstinline|&to OPR| and \lstinline|&lt FUC RET|, whereas \lstinline|corne.keymap| relies on the \lstinline|lm| macro for temporary layer/modifier combinations.
+    \item \textbf{Right-side Modifiers}: v11 has transitioned from \lstinline|RGUI| to \lstinline|RCTRL| for the backspace/thumb interaction, a change not present in the current \lstinline|corne.keymap|.
+\end{itemize}
+
+\section{Conclusion}
+Based on the structural and functional analysis, it is confirmed that \textbf{\lstinline|corne.keymap| is currently a copy of \lstinline|corne_prod_v10.keymap|}.
+It represents the stable production version before the significant architectural shift towards the Neovim-optimized 6-layer structure introduced in \lstinline|corne_adhoc_v11.keymap|.
