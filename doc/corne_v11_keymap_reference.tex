@@ -1,0 +1,125 @@
+\chapter{Corne 键盘配置 v11 完整键位参考 (Complete Keymap Reference for Corne v11)}
+
+\section{引言 (Introduction)}
+本文档提供了 \lstinline|corne_prod_v11.keymap| 的完整键位映射参考。Corne 键盘采用 42 键布局（3x12 主矩阵加 6 个拇指键）。v11 版本针对 macOS 和编程工作流进行了高度优化，引入了 \lstinline|lm| (Layer-Mod) 行为和多层架构。
+
+\section{Default Layer (层 0)}
+\paragraph{第一行 (Top Row)}
+\begin{itemize}
+    \item \lstinline|&lt LWR TAB|: 短按为 \lstinline|TAB|，长按进入 \lstinline|LWR| 层。
+    \item \lstinline|&kp Q|, \lstinline|&kp W|, \lstinline|&kp E|, \lstinline|&kp R|, \lstinline|&kp T|
+    \item \lstinline|&kp Y|, \lstinline|&kp U|, \lstinline|&kp I|, \lstinline|&kp O|, \lstinline|&kp P|
+    \item \lstinline|&mt RALT BSPC|: 短按为 \lstinline|BackSpace|，长按为 \lstinline|Right Alt|。
+\end{itemize}
+
+\paragraph{第二行 (Home Row)}
+\begin{itemize}
+    \item \lstinline|&mt LCTRL ESC|: 短按为 \lstinline|ESC|，长按为 \lstinline|Left Control|。
+    \item \lstinline|&kp A|, \lstinline|&kp S|, \lstinline|&kp D|, \lstinline|&kp F|, \lstinline|&kp G|
+    \item \lstinline|&kp H|, \lstinline|&kp J|, \lstinline|&kp K|, \lstinline|&kp L|, \lstinline|&kp SEMI|, \lstinline|&kp SQT|
+\end{itemize}
+
+\paragraph{第三行 (Bottom Row)}
+\begin{itemize}
+    \item \lstinline|&kp LSHFT|: \lstinline|Left Shift|。
+    \item \lstinline|&kp Z|, \lstinline|&kp X|, \lstinline|&kp C|, \lstinline|&kp V|, \lstinline|&kp B|
+    \item \lstinline|&kp N|, \lstinline|&kp M|, \lstinline|&kp COMMA|, \lstinline|&kp DOT|, \lstinline|&kp FSLH|, \lstinline|&kp RSHFT|
+\end{itemize}
+
+\paragraph{拇指键 (Thumb Keys)}
+\begin{itemize}
+    \item 左 1: \lstinline|&kp LGUI| (\lstinline|Command|)。
+    \item 左 2: \lstinline|&lt LWR BSPC|: 短按 \lstinline|BackSpace|，长按进入 \lstinline|LWR| 层。
+    \item 左 3: \lstinline|&lm LWR LGUI|: 长按进入 \lstinline|LWR| 层并保持 \lstinline|LGUI|。
+    \item 右 1: \lstinline|&kp RET| (\lstinline|Enter|)。
+    \item 右 2: \lstinline|&lt RSE SPACE|: 短按 \lstinline|Space|，长按进入 \lstinline|RSE| 层。
+    \item 右 3: \lstinline|&mo FUNC|: 长按进入 \lstinline|FUNC| 层。
+\end{itemize}
+
+\section{Lower Layer (LWR - 层 1)}
+\paragraph{第一行 (Top Row)}
+\begin{itemize}
+    \item \lstinline|&mt LGUI GRAVE|: 短按为 \lstinline|`| (Grave)，长按为 \lstinline|LGUI|。
+    \item \lstinline|&kp N1|, \lstinline|&kp N2|, \lstinline|&kp N3|, \lstinline|&kp N4|, \lstinline|&kp N5|
+    \item \lstinline|&kp N6|, \lstinline|&kp N7|, \lstinline|&kp N8|, \lstinline|&kp N9|, \lstinline|&kp N0|
+    \item \lstinline|&trans|: 透明。
+\end{itemize}
+
+\paragraph{第二行 (Home Row)}
+\begin{itemize}
+    \item \lstinline|&trans|
+    \item \lstinline|&mac_sc|: macOS 截图 (Cmd+Ctrl+Shift+4)。
+    \item \lstinline|&mac_sca|: macOS 截图带注释 (Cmd+Shift+4)。
+    \item \lstinline|&kp RET|: \lstinline|Enter|。
+    \item \lstinline|&kp SPACE|: \lstinline|Space|。
+    \item \lstinline|&trans|
+    \item \lstinline|&kp LEFT|, \lstinline|&kp DOWN|, \lstinline|&kp UP|, \lstinline|&kp RIGHT|
+    \item \lstinline|&trans|, \lstinline|&trans|
+\end{itemize}
+
+\paragraph{第三行 (Bottom Row)}
+\begin{itemize}
+    \item \lstinline|&mo RSE|: 长按进入 \lstinline|RSE| 层。
+    \item \lstinline|&trans| x 11
+\end{itemize}
+
+\paragraph{拇指键 (Thumb Keys)}
+\begin{itemize}
+    \item \lstinline|&trans| (左1, 左2, 左3)
+    \item \lstinline|&trans| (右1)
+    \item \lstinline|&kp RGUI| (右2 - \lstinline|Right Command|)
+    \item \lstinline|&trans| (右3)
+\end{itemize}
+
+\section{Raise Layer (RSE - 层 2)}
+\paragraph{第一行 (Top Row)}
+\begin{itemize}
+    \item \lstinline|&kp TILDE| (\lstinline|~|), \lstinline|&kp EXCL| (\lstinline|!|), \lstinline|&kp AT| (\lstinline|@|), \lstinline|&kp HASH| (\lstinline|#|), \lstinline|&kp DLLR| (\lstinline|$|), \lstinline|&kp PRCNT| (\lstinline|%|)
+    \item \lstinline|&kp CARET| (\lstinline|^|), \lstinline|&kp AMPS| (\lstinline|&|), \lstinline|&kp KP_MULTIPLY| (\lstinline|*|), \lstinline|&kp LPAR| (\lstinline|(|), \lstinline|&kp RPAR| (\lstinline|)|)
+    \item \lstinline|&trans|
+\end{itemize}
+
+\paragraph{第二行 (Home Row)}
+\begin{itemize}
+    \item \lstinline|&trans| x 6
+    \item \lstinline|&kp MINUS| (\lstinline|-|), \lstinline|&kp EQUAL| (\lstinline|=|), \lstinline|&kp LBKT| (\lstinline|[|), \lstinline|&kp RBKT| (\lstinline|]|), \lstinline|&kp BSLH| (\lstinline|\|), \lstinline|&trans|
+\end{itemize}
+
+\paragraph{第三行 (Bottom Row)}
+\begin{itemize}
+    \item \lstinline|&trans| x 6
+    \item \lstinline|&kp UNDER| (\lstinline|_|), \lstinline|&kp PLUS| (\lstinline|+|), \lstinline|&kp LBRC| (\lstinline|{|), \lstinline|&kp RBRC| (\lstinline|}|), \lstinline|&kp PIPE| (\lstinline|\||), \lstinline|&mo LWR|
+\end{itemize}
+
+\paragraph{拇指键 (Thumb Keys)}
+\begin{itemize}
+    \item 左1: \lstinline|&trans|
+    \item 左2: \lstinline|&kp LGUI|
+    \item 左3: \lstinline|&trans|
+    \item 右1, 右2, 右3: \lstinline|&trans|
+\end{itemize}
+
+\section{Function Layer (FUNC - 层 3)}
+\paragraph{第一行 (Top Row)}
+\begin{itemize}
+    \item \lstinline|&trans|
+    \item \lstinline|&bt BT_SEL 0| 至 \lstinline|&bt BT_SEL 4|: 蓝牙设备 0-4 选择。
+    \item \lstinline|&bt BT_CLR|: 清除蓝牙绑定。
+    \item 其余为 \lstinline|&trans|。
+\end{itemize}
+
+\paragraph{第三行 (Bottom Row)}
+\begin{itemize}
+    \item \lstinline|&trans|
+    \item \lstinline|&rgb_ug RGB_TOG|: RGB 开关。
+    \item \lstinline|&rgb_ug RGB_EFF|: RGB 特效循环。
+    \item \lstinline|&rgb_ug RGB_HUI|: RGB 色调增加。
+    \item \lstinline|&rgb_ug RGB_HUD|: RGB 色调减少。
+    \item \lstinline|&trans|
+    \item \lstinline|&bootloader|: 进入固件烧录模式。
+    \item 其余为 \lstinline|&trans|。
+\end{itemize}
+
+\section{Template Layer (层 4)}
+\paragraph{说明}
+该层目前主要作为模板，所有键位映射为 \lstinline|&trans|。
