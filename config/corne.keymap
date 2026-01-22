@@ -231,6 +231,23 @@
   };
 };
 
+/ {
+  behaviors {
+    comma_oneshot_ctrl_td: comma_oneshot_ctrl_td {
+      compatible = "zmk,behavior-tap-dance";
+      label = "COMMA_OS_CTRL_TD";
+      #binding-cells = <0>;
+
+      bindings = <
+        &kp COMMA    /* 1 tap -> , */
+        &sk LCTRL    /* 2 taps -> one-shot Ctrl */
+      >;
+
+      tapping-term-ms = <200>;
+    };
+  };
+};
+
 #define DEFAULT 0
 #define DFT 0
 #define LWR 1
@@ -249,12 +266,12 @@
 // -----------------------------------------------------------------------------------------
 // | TAB / LWR (single-hand) |  Q  |  W  |  E   |  R         |  T     | | Y   |  U        |  I       |  O  |  P  | BSPC / RALT |
 // | ESC / LCTRL             |  A  |  S  |  D   |  F         |  G     | | H   |  J        |  K       |  L  | sc_oneshot_shift_td | '           |
-// | LSHFT                   |  Z  |  X  |  C   |  V         |  B     | | N   |  M        |  ,       |  .  |  /  | RSHFT       |
+// | LSHFT                   |  Z  |  X  |  C   |  V         |  B     | | N   |  M        | comma_oneshot_ctrl_td |  .  |  /  | RSHFT       |
 //                                       | LGUI | BSPC / LWR | LWR + LGUI | | ENT | SPC / RSE | FUNC |
                         bindings = <
    &lt LWR TAB   &kp Q &kp W &kp E    &kp R        &kp T        &kp Y   &kp U         &kp I     &kp O   &kp P    &mt RALT BSPC
    &mt LCTRL ESC &kp A &kp S &kp D    &kp F        &kp G        &kp H   &kp J         &kp K     &kp L   &sc_oneshot_shift_td &kp SQT
-   &kp LSHFT     &kp Z &kp X &kp C    &kp V        &kp B        &kp N   &kp M         &kp COMMA &kp DOT &kp FSLH &kp RSHFT
+   &kp LSHFT     &kp Z &kp X &kp C    &kp V        &kp B        &kp N   &kp M         &comma_oneshot_ctrl_td &kp DOT &kp FSLH &kp RSHFT
                              &kp LGUI &lt LWR BSPC &lm LWR LGUI &kp RET &lt RSE SPACE &mo FUNC
                         >;
                 };
