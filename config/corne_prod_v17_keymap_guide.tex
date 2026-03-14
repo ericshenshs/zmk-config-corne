@@ -1,0 +1,262 @@
+\documentclass[11pt, letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{microtype}
+
+\title{\textbf{Corne Keymap v17 — Reference Guide}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+% ------------------------------------------------------------------
+\section{Overview}
+
+This keymap is designed for a 42-key Corne split keyboard running ZMK
+firmware on Nice!Nano controllers. It has four active layers and one
+reserved template layer.
+
+\begin{center}
+\begin{tabular}{cll}
+\toprule
+\textbf{Layer} & \textbf{Name}    & \textbf{How to activate} \\
+\midrule
+0              & Default          & Always active \\
+1              & Lower            & Hold left thumb \texttt{BSPC} key \\
+2              & Raise            & Hold right thumb \texttt{SPC} key \\
+3              & Func             & Hold rightmost thumb key \\
+4              & Template         & Unused / reserved \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ------------------------------------------------------------------
+\section{Layer 0 — Default (QWERTY)}
+
+Standard QWERTY alpha layout with home-row modifiers on the outer
+columns and layer-tap thumb keys.
+
+\subsection*{Key layout}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|c|c|c|c|c||c|c|c|c|c|c|}
+\hline
+TAB/CTRL & Q & W & E & R & T & Y & U & I & O & P & BSPC/RALT \\
+\hline
+LSHFT & A & S & D & F & G & H & J & K & L & ; & RSHFT \\
+\hline
+ESC & Z & X & C & V & B & N & M & , & . & / & ' \\
+\hline
+\multicolumn{3}{|c}{} &
+GUI &
+\multicolumn{1}{|c|}{BSPC/LWR} &
+\multicolumn{1}{|c||}{LWR+GUI} &
+\multicolumn{1}{c|}{ENT} &
+\multicolumn{1}{c|}{SPC/RSE} &
+\multicolumn{1}{c|}{FUNC} &
+\multicolumn{3}{c}{} \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Special behaviors}
+
+\begin{tabular}{lp{9cm}}
+\toprule
+\textbf{Key} & \textbf{Behavior} \\
+\midrule
+\texttt{TAB / LCTRL}   & Tap = Tab; hold = Left Control (mod-tap) \\
+\texttt{BSPC / RALT}   & Tap = Backspace; hold = Right Alt (mod-tap) \\
+\texttt{BSPC / LWR}    & Tap = Backspace; hold = activate Lower layer \\
+\texttt{SPC / RSE}     & Tap = Space; hold = activate Raise layer \\
+\texttt{LWR + GUI}     & Hold = Lower layer \emph{with} Left GUI modifier held simultaneously (single-hand \texttt{Cmd+number} shortcuts) \\
+\texttt{;}             & 1 tap = \texttt{;}; 2 taps = one-shot Shift (next key is shifted) \\
+\texttt{,}             & 1 tap = \texttt{,}; 2 taps = one-shot Ctrl (next key gets Ctrl) \\
+\bottomrule
+\end{tabular}
+
+% ------------------------------------------------------------------
+\section{Layer 1 — Lower}
+
+Activated by holding the left \texttt{BSPC/LWR} thumb key. Provides
+numbers, arrow keys, and macOS screenshot shortcuts.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|c|c|c|c|c||c|c|c|c|c|c|}
+\hline
+\texttt{`} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 0 & --- \\
+\hline
+--- & SC & SCA & --- & --- & --- & $\leftarrow$ & $\downarrow$ & $\uparrow$ & $\rightarrow$ & --- & --- \\
+\hline
+--- & --- & --- & --- & --- & --- & --- & --- & --- & --- & --- & --- \\
+\hline
+\multicolumn{6}{|c|}{(transparent — same as default)} &
+\multicolumn{6}{c|}{(transparent)} \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Macro keys}
+
+\begin{tabular}{lp{9cm}}
+\toprule
+\textbf{Key} & \textbf{Behavior} \\
+\midrule
+\texttt{SC}  & macOS screenshot to clipboard (\texttt{Cmd+Ctrl+Shift+4}) \\
+\texttt{SCA} & macOS screenshot with annotation (\texttt{Cmd+Shift+4}) \\
+$\leftarrow / \downarrow / \uparrow / \rightarrow$ & Arrow keys \\
+\bottomrule
+\end{tabular}
+
+% ------------------------------------------------------------------
+\section{Layer 2 — Raise}
+
+Activated by holding the right \texttt{SPC/RSE} thumb key. Provides
+symbols for programming — brackets, operators, and punctuation.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|c|c|c|c|c||c|c|c|c|c|c|}
+\hline
+\texttt{\~{}} & ! & @ & \# & \$ & \% & \^{} & \& & * & ( & ) & --- \\
+\hline
+--- & --- & --- & --- & --- & --- & [ & - & = & ] & \textbackslash & --- \\
+\hline
+--- & --- & --- & --- & --- & --- & \{ & \_ & + & \} & | & --- \\
+\hline
+\multicolumn{6}{|c|}{(transparent)} &
+\multicolumn{6}{c|}{(transparent)} \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Symbol groups}
+
+\begin{tabular}{ll}
+\toprule
+\textbf{Group}            & \textbf{Keys} \\
+\midrule
+Shifted numbers           & \texttt{\~{} ! @ \# \$ \% \^{} \& * ( )} \\
+Brackets (unshifted)      & \texttt{[ ]} \\
+Braces (shifted via layer)& \texttt{\{ \}} \\
+Operators                 & \texttt{- = + \_ \textbackslash{} |} \\
+\bottomrule
+\end{tabular}
+
+% ------------------------------------------------------------------
+\section{Layer 3 — Func}
+
+Activated by holding the rightmost thumb key. Provides Bluetooth
+profile management and RGB underglow controls.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|c|c|c|c|c||c|c|c|c|c|c|}
+\hline
+--- & BT0 & BT1 & BT2 & BT3 & BT4 & BTCLR & --- & --- & --- & --- & --- \\
+\hline
+--- & --- & --- & --- & --- & --- & --- & --- & --- & --- & --- & --- \\
+\hline
+--- & TOG & EFF & HUI & HUD & --- & --- & --- & --- & --- & --- & --- \\
+\hline
+\multicolumn{6}{|c|}{(transparent)} &
+\multicolumn{6}{c|}{(transparent)} \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Bluetooth controls}
+
+\begin{tabular}{lp{9cm}}
+\toprule
+\textbf{Key}       & \textbf{Behavior} \\
+\midrule
+\texttt{BT0--BT4}  & Select Bluetooth profile 0 through 4. The keyboard
+                     can remember up to 5 paired devices. \\
+\texttt{BTCLR}     & Clear the \emph{currently selected} Bluetooth pairing.
+                     Use this before re-pairing a device. \\
+\bottomrule
+\end{tabular}
+
+\subsection*{RGB underglow controls}
+
+\begin{tabular}{lp{9cm}}
+\toprule
+\textbf{Key}       & \textbf{Behavior} \\
+\midrule
+\texttt{TOG}       & Toggle RGB underglow on / off. \\
+\texttt{EFF}       & Cycle through available RGB effects (solid, breathe, rainbow, etc.). \\
+\texttt{HUI}       & Increase hue (shift color toward red $\to$ yellow $\to$ green \ldots). \\
+\texttt{HUD}       & Decrease hue. \\
+\bottomrule
+\end{tabular}
+
+% ------------------------------------------------------------------
+\section{Thumb Cluster Summary}
+
+The three thumb keys on each hand have the following roles:
+
+\begin{center}
+\begin{tabular}{clll}
+\toprule
+\textbf{Side} & \textbf{Thumb} & \textbf{Tap} & \textbf{Hold} \\
+\midrule
+Left  & Inner  & --- & Left GUI (Cmd) \\
+Left  & Middle & Backspace & Lower layer \\
+Left  & Outer  & --- & Lower layer + Left GUI simultaneously \\
+Right & Inner  & Enter & --- \\
+Right & Middle & Space & Raise layer \\
+Right & Outer  & --- & Func layer \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ------------------------------------------------------------------
+\section{One-Shot Keys (tap-dance)}
+
+Two keys have tap-dance behavior to provide one-shot modifiers:
+
+\begin{center}
+\begin{tabular}{clll}
+\toprule
+\textbf{Key} & \textbf{1 tap} & \textbf{2 taps} & \textbf{Tapping window} \\
+\midrule
+\texttt{;} & Semicolon & One-shot Shift & 200\,ms \\
+\texttt{,} & Comma     & One-shot Ctrl  & 200\,ms \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A \emph{one-shot} modifier applies to the very next key pressed, then
+releases automatically. Double-tap within 200\,ms to activate.
+
+% ------------------------------------------------------------------
+\section{Defined Macros (not bound to a key by default)}
+
+The following macros are defined but not yet assigned to any key. They
+can be added to any layer:
+
+\begin{tabular}{lp{9cm}}
+\toprule
+\textbf{Macro}         & \textbf{Action} \\
+\midrule
+\texttt{macos\_input}  & Switch macOS input method (\texttt{Ctrl+Alt+Space}) \\
+\texttt{alt\_backspace}& Delete previous word (\texttt{Alt+Backspace}) \\
+\texttt{ctrl\_alt\_left/right/up/down} & \texttt{Ctrl+Alt+Arrow} — useful for workspace/window navigation \\
+\texttt{ctrl\_alt\_enter} & \texttt{Ctrl+Alt+Enter} \\
+\texttt{cmd\_grave}    & Cycle windows of the same app (\texttt{Cmd+\textasciigrave}) \\
+\texttt{cmd\_1..5}     & Switch to tab/space 1--5 (\texttt{Cmd+1} through \texttt{Cmd+5}) \\
+\texttt{lm}            & Parameterized: hold layer $N$ with modifier $M$ simultaneously \\
+\bottomrule
+\end{tabular}
+
+\end{document}
