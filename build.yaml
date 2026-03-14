@@ -14,7 +14,7 @@
 # @2026.01.11 nice_nano_v2 is renamed to nice_nano, see: https://www.answeroverflow.com/m/1449500711137050645
 ---
 include:
-  - board: nice_nano
+  - board: nice_nano/nrf52840
     shield: corne_left
-  - board: nice_nano
+  - board: nice_nano/nrf52840
     shield: corne_right
