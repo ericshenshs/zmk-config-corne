@@ -7,7 +7,7 @@
 \usepackage{parskip}
 \usepackage{microtype}
 
-\title{\textbf{Corne Keymap v17 — Reference Guide}}
+\title{\textbf{Corne Keymap v15 — Reference Guide}}
 \author{}
 \date{}
 
@@ -37,11 +37,15 @@ reserved template layer.
 \end{tabular}
 \end{center}
 
+\noindent\textbf{Key difference from v16/v17:} In v15 the lower-left key is
+\texttt{`} (grave/backtick) and \texttt{ESC} lives on the home row as a
+mod-tap with Left Shift. In v16 these were swapped — \texttt{ESC} moved
+to the lower-left and \texttt{LSHFT} became a plain key on the home row.
+
 % ------------------------------------------------------------------
 \section{Layer 0 — Default (QWERTY)}
 
-Standard QWERTY alpha layout with home-row modifiers on the outer
-columns and layer-tap thumb keys.
+Standard QWERTY alpha layout. Note the mod-tap keys on the outer columns.
 
 \subsection*{Key layout}
 
@@ -51,9 +55,9 @@ columns and layer-tap thumb keys.
 \hline
 TAB/CTRL & Q & W & E & R & T & Y & U & I & O & P & BSPC/RALT \\
 \hline
-LSHFT & A & S & D & F & G & H & J & K & L & ; & RSHFT \\
+ESC/LSHFT & A & S & D & F & G & H & J & K & L & ; & RSHFT \\
 \hline
-ESC & Z & X & C & V & B & N & M & , & . & / & ' \\
+\texttt{`} & Z & X & C & V & B & N & M & , & . & / & ' \\
 \hline
 \multicolumn{3}{|c}{} &
 GUI &
@@ -74,10 +78,12 @@ GUI &
 \textbf{Key} & \textbf{Behavior} \\
 \midrule
 \texttt{TAB / LCTRL}   & Tap = Tab; hold = Left Control (mod-tap) \\
+\texttt{ESC / LSHFT}   & Tap = Escape; hold = Left Shift (mod-tap) \\
 \texttt{BSPC / RALT}   & Tap = Backspace; hold = Right Alt (mod-tap) \\
+\texttt{`}             & Grave / backtick (lower-left, always) \\
 \texttt{BSPC / LWR}    & Tap = Backspace; hold = activate Lower layer \\
 \texttt{SPC / RSE}     & Tap = Space; hold = activate Raise layer \\
-\texttt{LWR + GUI}     & Hold = Lower layer \emph{with} Left GUI modifier held simultaneously (single-hand \texttt{Cmd+number} shortcuts) \\
+\texttt{LWR + GUI}     & Hold = Lower layer \emph{with} Left GUI held simultaneously (single-hand \texttt{Cmd+number} shortcuts) \\
 \texttt{;}             & 1 tap = \texttt{;}; 2 taps = one-shot Shift (next key is shifted) \\
 \texttt{,}             & 1 tap = \texttt{,}; 2 taps = one-shot Ctrl (next key gets Ctrl) \\
 \bottomrule
@@ -143,12 +149,12 @@ symbols for programming — brackets, operators, and punctuation.
 
 \begin{tabular}{ll}
 \toprule
-\textbf{Group}            & \textbf{Keys} \\
+\textbf{Group}             & \textbf{Keys} \\
 \midrule
-Shifted numbers           & \texttt{\~{} ! @ \# \$ \% \^{} \& * ( )} \\
-Brackets (unshifted)      & \texttt{[ ]} \\
-Braces (shifted via layer)& \texttt{\{ \}} \\
-Operators                 & \texttt{- = + \_ \textbackslash{} |} \\
+Shifted numbers            & \texttt{\~{} ! @ \# \$ \% \^{} \& * ( )} \\
+Brackets (unshifted)       & \texttt{[ ]} \\
+Braces                     & \texttt{\{ \}} \\
+Operators                  & \texttt{- = + \_ \textbackslash{} |} \\
 \bottomrule
 \end{tabular}
 
@@ -191,19 +197,17 @@ profile management and RGB underglow controls.
 
 \begin{tabular}{lp{9cm}}
 \toprule
-\textbf{Key}       & \textbf{Behavior} \\
+\textbf{Key}  & \textbf{Behavior} \\
 \midrule
-\texttt{TOG}       & Toggle RGB underglow on / off. \\
-\texttt{EFF}       & Cycle through available RGB effects (solid, breathe, rainbow, etc.). \\
-\texttt{HUI}       & Increase hue (shift color toward red $\to$ yellow $\to$ green \ldots). \\
-\texttt{HUD}       & Decrease hue. \\
+\texttt{TOG}  & Toggle RGB underglow on / off. \\
+\texttt{EFF}  & Cycle through available RGB effects (solid, breathe, rainbow, etc.). \\
+\texttt{HUI}  & Increase hue (shift color toward red $\to$ yellow $\to$ green \ldots). \\
+\texttt{HUD}  & Decrease hue. \\
 \bottomrule
 \end{tabular}
 
 % ------------------------------------------------------------------
 \section{Thumb Cluster Summary}
-
-The three thumb keys on each hand have the following roles:
 
 \begin{center}
 \begin{tabular}{clll}
@@ -223,8 +227,6 @@ Right & Outer  & --- & Func layer \\
 % ------------------------------------------------------------------
 \section{One-Shot Keys (tap-dance)}
 
-Two keys have tap-dance behavior to provide one-shot modifiers:
-
 \begin{center}
 \begin{tabular}{clll}
 \toprule
@@ -240,22 +242,14 @@ A \emph{one-shot} modifier applies to the very next key pressed, then
 releases automatically. Double-tap within 200\,ms to activate.
 
 % ------------------------------------------------------------------
-\section{Defined Macros (not bound to a key by default)}
+\section{v15 vs v16 Differences}
 
-The following macros are defined but not yet assigned to any key. They
-can be added to any layer:
-
-\begin{tabular}{lp{9cm}}
+\begin{tabular}{lll}
 \toprule
-\textbf{Macro}         & \textbf{Action} \\
+\textbf{Key position}  & \textbf{v15}              & \textbf{v16 / v17} \\
 \midrule
-\texttt{macos\_input}  & Switch macOS input method (\texttt{Ctrl+Alt+Space}) \\
-\texttt{alt\_backspace}& Delete previous word (\texttt{Alt+Backspace}) \\
-\texttt{ctrl\_alt\_left/right/up/down} & \texttt{Ctrl+Alt+Arrow} — useful for workspace/window navigation \\
-\texttt{ctrl\_alt\_enter} & \texttt{Ctrl+Alt+Enter} \\
-\texttt{cmd\_grave}    & Cycle windows of the same app (\texttt{Cmd+\textasciigrave}) \\
-\texttt{cmd\_1..5}     & Switch to tab/space 1--5 (\texttt{Cmd+1} through \texttt{Cmd+5}) \\
-\texttt{lm}            & Parameterized: hold layer $N$ with modifier $M$ simultaneously \\
+Lower-left (row 3)     & \texttt{`} (grave)        & \texttt{ESC} \\
+Home-row left (row 2)  & \texttt{ESC/LSHFT} mod-tap & \texttt{LSHFT} (plain) \\
 \bottomrule
 \end{tabular}
 
