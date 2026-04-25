@@ -8,10 +8,10 @@
  * Changes from v17:
  *  - Removed unused behaviors: sc_oneshot_shift_td, comma_oneshot_ctrl_td
  *  - Removed unused macros: alt_backspace, lm (two-param)
- *  - Added NAV layer (layer 3): numbers + arrows, mirrors Lower
- *    Default rightmost thumb now activates NAV instead of FUNC directly
+ *  - Added NUM layer (layer 3): numbers + arrows, mirrors Lower
+ *    Default rightmost thumb now activates NUM instead of FUNC directly
  *  - FUNC layer moved to layer 4, now requires two deliberate thumbs:
- *      hold right outer thumb (→ NAV) + hold left outer thumb (→ FUNC)
+ *      hold right outer thumb (→ NUM) + hold left outer thumb (→ FUNC)
  *  - BT_CLR kept as combo (BT_SEL0 + BT_SEL1) on FUNC for extra safety
  *  - FUNC layer right half: F1–F12 + media controls (was all &trans)
  */
@@ -37,7 +37,7 @@
 #define DFT     0
 #define LWR     1
 #define RSE     2
-#define NAV     3
+#define NUM     3
 #define FUNC    4
 
 // ============================================================
@@ -253,6 +253,16 @@
             bindings = <&lm_lwr_lgui>, <&kp>;
         };
 
+        // tap -> sticky layer (one-shot)   |   hold -> momentary layer
+        ht_sl_mo: ht_sl_mo {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HT_SL_MO";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            flavor = "tap-preferred";
+            bindings = <&mo>, <&sl>;
+        };
+
     };
 };
 
@@ -294,9 +304,9 @@
         // ├──────────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼──────────┤
         // │ SK_CTRL  │ Z │ X │ C │ V │ B │   │ N │ M │ , │ . │ / │    '     │
         // └──────────┴───┴───┴─┬─┴─┬─┴─┬┘   └┬──┴─┬─┴─┬─┴───┴───┴──────────┘
-        //                      │SK │BSP│ESC   │ENT │SPC│ NAV   │
-        //                      │GUI│LWR│LWR   │    │RSE│       │
-        //                      │   │   │+GUI  │    │   │       │
+        //                      │SK │BSP│ESC   │ENT │SPC│tap:SK │
+        //                      │GUI│LWR│LWR   │    │RSE│hld:MO │
+        //                      │   │   │+GUI  │    │   │  NUM  │
         //                      └───┴───┘       └────┴───┘
         // ----------------------------------------------------
         default_layer {
@@ -304,7 +314,7 @@
    &mt LCTRL TAB   &kp Q  &kp W  &kp E  &kp R        &kp T          &kp Y    &kp U          &kp I      &kp O    &kp P     &sk RALT
    &sk LSHFT       &kp A  &kp S  &kp D  &kp F        &kp G          &kp H    &kp J          &kp K      &kp L    &kp SEMI  &sk RSHFT
    &sk LCTRL       &kp Z  &kp X  &kp C  &kp V        &kp B          &kp N    &kp M          &kp COMMA  &kp DOT  &kp FSLH  &kp SQT
-                                  &sk LGUI  &lt LWR BSPC  &ht_lm_esc 0 ESC   &kp RET  &lt RSE SPACE  &mo NAV
+                                  &sk LGUI  &lt LWR BSPC  &ht_lm_esc 0 ESC   &kp RET  &lt RSE SPACE  &ht_sl_mo NUM NUM
             >;
         };
 
@@ -353,30 +363,30 @@
         // ----------------------------------------------------
         // Layer 3 — Nav  (hold right outer thumb)
         //
-        // Same number row and arrows as Lower. Left outer thumb gates FUNC.
-        // Hold right outer thumb (→ NAV) + left outer thumb (→ FUNC) to
-        // reach the function/BT/media layer deliberately.
+        // Left half: backtick + 1-5 number row, screenshot macros on home row.
+        // Right half: numpad 7-9 / 4-6 / 1-3, with 0 on right inner thumb.
+        // Left outer thumb gates FUNC.
         //
         // ┌──────┬───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┬─────┐
-        // │  `   │ 1 │ 2 │ 3 │ 4 │ 5 │   │ 6 │ 7 │ 8 │ 9 │ 0 │     │
+        // │      │ 1 │ 2 │ 3 │ 4 │ 5 │   │ 6 │ 7 │ 8 │ 9 │ 0 │     │
         // ├──────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼─────┤
-        // │      │SC │SCA│   │C-b│   │   │ ← │ ↓ │ ↑ │ → │   │     │
+        // │      │   │   │   │   │   │   │   │ 4 │ 5 │ 6 │ 0 │     │
         // ├──────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼─────┤
-        // │      │   │   │   │   │   │   │   │   │   │   │   │     │
+        // │      │   │   │   │   │   │   │ 0 │ 1 │ 2 │ 3 │   │     │
         // └──────┴───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┴─────┘
         //               │FUNC│    │    │   │    │    │(held)│
         // ----------------------------------------------------
-        nav_layer {
+        num_layer {
             bindings = <
-   &kp GRAVE  &kp N1   &kp N2    &kp N3  &kp N4     &kp N5    &kp N6    &kp N7    &kp N8  &kp N9     &kp N0  &trans
-   &trans     &mac_sc  &mac_sca  &trans  &kp LC(B)  &trans    &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans
-   &trans     &trans   &trans    &trans  &trans     &trans    &trans    &trans    &trans  &trans     &trans  &trans
-                                 &mo FUNC  &trans   &trans    &trans    &trans    &trans
+   &trans     &kp N1  &kp N2  &kp N3  &kp N4   &kp N5    &kp N6  &kp N7  &kp N8  &kp N9  &kp N0  &trans
+   &trans     &trans  &trans  &trans  &trans   &trans    &trans  &kp N4  &kp N5  &kp N6  &kp N0  &trans
+   &trans     &trans  &trans  &trans  &trans   &trans    &kp N0  &kp N1  &kp N2  &kp N3  &trans  &trans
+                               &mo FUNC  &trans  &trans  &trans  &trans  &trans
             >;
         };
 
         // ----------------------------------------------------
-        // Layer 4 — Func  (NAV + left outer thumb)
+        // Layer 4 — Func  (NUM + left outer thumb)
         //
         // Requires two deliberate thumb holds to reach. BT_CLR is
         // additionally guarded by a combo (BT_SEL0 + BT_SEL1).

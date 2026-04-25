@@ -31,17 +31,18 @@ gh run download <run-id> --repo ericshenshs/zmk-config-corne --dir <path>
 
 ## Key Notes
 - **Symlinks don't work well** for `corne.keymap` — use exact copies
-- Current keyboard is running **v17** (as of 2026-04-21)
+- Current keyboard is running **v18** (as of 2026-04-25)
 - `corne.keymap` must always match the current prod version file
 
-## Layer Structure (v15+)
+## Layer Structure (v18+)
 | Layer | Name    | Activation |
 |-------|---------|------------|
 | 0     | Default | Always active |
 | 1     | Lower   | Hold left BSPC thumb |
 | 2     | Raise   | Hold right SPC thumb |
-| 3     | Func    | Hold rightmost thumb |
-| 4     | Template | Unused/reserved |
+| 3     | Num      | Tap/hold right outer thumb |
+| 4     | Func     | While in Num, hold left outer thumb |
+| 5     | Template | Unused/reserved |
 
 ## GitHub Repo
 `https://github.com/ericshenshs/zmk-config-corne`
