@@ -33,8 +33,8 @@ If any job fails, show the failed step log:
 gh run view --job=<job-id> --log-failed --repo ericshenshs/zmk-config-corne
 ```
 
-### 5. Download artifacts (ask user first)
-If the build succeeded, ask the user whether to download the firmware. Artifacts live inside this repo under:
+### 5. Download artifacts
+Once the build succeeds, automatically download the firmware. Artifacts live inside this repo under:
 
 ```
 artifacts/v<N>/
