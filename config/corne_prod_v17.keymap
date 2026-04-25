@@ -295,15 +295,6 @@
             bindings = <&lm_lwr_lgui>, <&kp>;
         };
 
-        // tap -> toggle Lower layer   |   hold -> momentary Func layer
-        tog_lwr_mo_func: tog_lwr_mo_func {
-            compatible = "zmk,behavior-hold-tap";
-            label = "TOG_LWR_MO_FUNC";
-            #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            flavor = "tap-preferred";
-            bindings = <&mo>, <&tog>;
-        };
     };
 };
 
@@ -385,7 +376,7 @@
         // Layer 3 — Func  (hold rightmost thumb)
         //
         // ┌─────┬────┬────┬────┬────┬────┐   ┌──────┬───┬───┬───┬───┬─────┐
-        // │     │BT0 │BT1 │BT2 │BT3 │BT4 │   │BTCLR │   │   │   │   │     │
+        // │BTCLR│BT0 │BT1 │BT2 │BT3 │BT4 │   │      │   │   │   │   │     │
         // ├─────┼────┼────┼────┼────┼────┤   ├──────┼───┼───┼───┼───┼─────┤
         // │     │    │    │    │    │    │   │      │   │   │   │   │     │
         // ├─────┼────┼────┼────┼────┼────┤   ├──────┼───┼───┼───┼───┼─────┤
@@ -399,10 +390,10 @@
         // ----------------------------------------------------
         func_layer {
             bindings = <
-   &trans  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4    &bt BT_CLR  &trans  &trans  &trans  &trans  &trans
-   &trans  &trans           &trans           &trans           &trans           &trans          &trans      &trans  &trans  &trans  &trans  &trans
-   &trans  &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_HUI  &rgb_ug RGB_HUD  &trans          &trans      &trans  &trans  &trans  &trans  &trans
-                                             &trans           &trans           &trans          &trans      &trans  &trans
+   &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4    &trans      &trans  &trans  &trans  &trans  &trans
+   &trans      &trans           &trans           &trans           &trans           &trans          &trans      &trans  &trans  &trans  &trans  &trans
+   &trans      &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_HUI  &rgb_ug RGB_HUD  &trans          &trans      &trans  &trans  &trans  &trans  &trans
+                                                 &trans           &trans           &trans          &trans      &trans  &trans
             >;
         };
 
