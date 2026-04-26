@@ -31,7 +31,7 @@ gh run download <run-id> --repo ericshenshs/zmk-config-corne --dir <path>
 
 ## Key Notes
 - **Symlinks don't work well** for `corne.keymap` — use exact copies
-- Current keyboard is running **v18** (as of 2026-04-25)
+- Current keyboard is running **v19** (as of 2026-04-26)
 - `corne.keymap` must always match the current prod version file
 
 ## Layer Structure (v18+)
