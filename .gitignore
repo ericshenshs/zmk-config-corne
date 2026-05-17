@@ -1,6 +1,7 @@
 
 .zmk/
 .DS_Store
+.tmp/
 
 # LaTeX build artifacts
 *.aux
