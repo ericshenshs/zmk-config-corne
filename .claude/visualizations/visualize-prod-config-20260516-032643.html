@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZMK Corne Prod Config — v19</title>
+  <style>
+:root {
+  color-scheme: dark;
+  --bg: #0f1117;
+  --scrollbar-track: #161a23;
+  --scrollbar-thumb: #2a3243;
+  --scrollbar-thumb-hover: #3a455c;
+  --bg-elev: #161a23;
+  --bg-card: #1c2230;
+  --border: #2a3243;
+  --text: #e6e8ee;
+  --text-muted: #9aa3b2;
+  --accent: #7c9cff;
+  --accent-2: #b07cff;
+  --accent-3: #7cffd1;
+  --warn: #ffb86b;
+  --danger: #ff6b8a;
+  --code-bg: #0b0e15;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --maxw: 1040px;
+  --mono: ui-monospace, "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+}
+* { box-sizing: border-box; }
+html { scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 6px; border: 3px solid var(--scrollbar-track); }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+::-webkit-scrollbar-corner { background: var(--scrollbar-track); }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+body {
+  background-image:
+    radial-gradient(1200px 600px at 80% -10%, rgba(124, 156, 255, 0.18), transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, rgba(176, 124, 255, 0.14), transparent 60%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+.page { max-width: var(--maxw); margin: 0 auto; padding: 48px 24px 96px; }
+header.hero { margin-bottom: 32px; }
+header.hero .eyebrow { text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72rem; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+header.hero h1 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); line-height: 1.15; margin: 0 0 12px; background: linear-gradient(135deg, var(--accent), var(--accent-2) 60%, var(--accent-3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+header.hero p.subtitle { color: var(--text-muted); margin: 0; font-size: 1.05rem; }
+header.hero .meta { margin-top: 16px; display: flex; gap: 14px; flex-wrap: wrap; color: var(--text-muted); font-size: 0.85rem; }
+header.hero .meta span::before { content: "·"; margin-right: 14px; color: var(--border); }
+header.hero .meta span:first-child::before { content: ""; margin: 0; }
+.toc { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin: 24px 0 32px; }
+.toc strong { color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.toc ol { margin: 8px 0 0; padding-left: 20px; }
+.toc a { color: var(--accent); text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin: 20px 0; box-shadow: var(--shadow); }
+.card > h2:first-child, .card > h3:first-child { margin-top: 0; }
+h2 { font-size: 1.5rem; margin: 32px 0 12px; letter-spacing: -0.01em; }
+h3 { font-size: 1.15rem; margin: 24px 0 8px; color: var(--text); }
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.tile { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; }
+.tile .label { color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.tile .value { font-size: 1.6rem; font-weight: 600; margin-top: 6px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; background: rgba(124, 156, 255, 0.15); color: var(--accent); font-size: 0.78rem; font-weight: 600; border: 1px solid rgba(124, 156, 255, 0.35); }
+.badge.warn { background: rgba(255, 184, 107, 0.12); color: var(--warn); border-color: rgba(255, 184, 107, 0.4); }
+.badge.danger { background: rgba(255, 107, 138, 0.12); color: var(--danger); border-color: rgba(255, 107, 138, 0.4); }
+.badge.ok { background: rgba(124, 255, 209, 0.12); color: var(--accent-3); border-color: rgba(124, 255, 209, 0.4); }
+a { color: var(--accent); }
+ul, ol { padding-left: 22px; }
+li { margin: 4px 0; }
+blockquote { margin: 16px 0; padding: 12px 18px; border-left: 3px solid var(--accent); background: var(--bg-elev); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; color: var(--text-muted); }
+code, kbd, samp { font-family: var(--mono); font-size: 0.92em; background: var(--code-bg); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border); }
+pre { font-family: var(--mono); background: var(--code-bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; overflow-x: auto; font-size: 0.88rem; line-height: 1.55; }
+pre code { background: transparent; border: none; padding: 0; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.95rem; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+th { color: var(--text-muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; }
+tbody tr:hover { background: rgba(124, 156, 255, 0.05); }
+details { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; margin: 8px 0; }
+details summary { cursor: pointer; font-weight: 600; color: var(--text); }
+details[open] summary { margin-bottom: 8px; }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+.diagram { display: flex; justify-content: center; padding: 24px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); margin: 12px 0; }
+.diagram svg { max-width: 100%; height: auto; }
+footer.foot { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.82rem; text-align: center; }
+@media (max-width: 640px) { .page { padding: 28px 16px 64px; } .card { padding: 18px 18px; } }
+
+/* [cc] Corne keyboard renderer — 6 cols × 4 rows per half, thumbs occupy row 4 (cols 4-6 on left, cols 1-3 on right). */
+.kbd { display: flex; justify-content: center; gap: 28px; padding: 18px; margin: 16px 0; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow-x: auto; }
+.kbd .half { display: grid; grid-template-columns: repeat(6, 54px); grid-template-rows: repeat(4, 48px); gap: 4px; flex-shrink: 0; }
+.kbd .key { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 2px; font-family: var(--mono); line-height: 1.05; text-align: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; color: var(--text); user-select: none; overflow: hidden; }
+.kbd .key b { font-weight: 700; font-style: normal; font-size: 0.78rem; }
+.kbd .key i { font-style: normal; font-size: 0.55rem; color: var(--text-muted); white-space: nowrap; }
+.kbd .key.tr { opacity: 0.28; }
+.kbd .key.tr b { color: var(--text-muted); font-size: 0.85rem; font-weight: 400; }
+.kbd .key.acc { background: rgba(124, 156, 255, 0.16); border-color: rgba(124, 156, 255, 0.55); }
+.kbd .key.acc b { color: var(--accent); }
+.kbd .key.warn { background: rgba(255, 184, 107, 0.18); border-color: rgba(255, 184, 107, 0.55); }
+.kbd .key.warn b { color: var(--warn); }
+.kbd .key.warn i { color: var(--warn); opacity: 0.85; }
+.kbd .key.hot { background: rgba(255, 107, 138, 0.16); border-color: rgba(255, 107, 138, 0.55); }
+.kbd .key.hot b { color: var(--danger); }
+.kbd .half.left .thumb.t1 { grid-column: 4; grid-row: 4; }
+.kbd .half.left .thumb.t2 { grid-column: 5; grid-row: 4; }
+.kbd .half.left .thumb.t3 { grid-column: 6; grid-row: 4; }
+.kbd .half.right .thumb.t1 { grid-column: 1; grid-row: 4; }
+.kbd .half.right .thumb.t2 { grid-column: 2; grid-row: 4; }
+.kbd .half.right .thumb.t3 { grid-column: 3; grid-row: 4; }
+
+.layer-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.layer-label .name { font-family: var(--mono); font-size: 0.82rem; color: var(--text-muted); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.78rem; color: var(--text-muted); margin: 8px 0 4px; }
+.legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: middle; margin-right: 6px; border: 1px solid var(--border); }
+.legend .sw.neutral { background: var(--bg-card); }
+.legend .sw.acc { background: rgba(124, 156, 255, 0.5); border-color: rgba(124, 156, 255, 0.7); }
+.legend .sw.warn { background: rgba(255, 184, 107, 0.55); border-color: rgba(255, 184, 107, 0.75); }
+.legend .sw.tr { background: var(--bg-card); opacity: 0.35; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="eyebrow">visualize</div>
+      <h1>ZMK Corne Prod Config — v19</h1>
+      <p class="subtitle">42-key Keebmaker Corne on Nice!Nano controllers. Six layers, hold-tap thumbs, all five mod-shift keys live as one-shot stickies. Source: <code>config/corne.keymap</code> (exact copy of <code>corne_prod_v19.keymap</code>).</p>
+      <div class="meta">
+        <span>Version <strong>v19</strong></span>
+        <span>Board <code>nice_nano//zmk</code></span>
+        <span>6 layers</span>
+        <span>42 keys (3×6 + 3 thumbs, per side)</span>
+        <span>Rendered 2026-05-16</span>
+      </div>
+    </header>
+
+    <nav class="toc">
+      <strong>Contents</strong>
+      <ol>
+        <li><a href="#sec-1">Overview &amp; hardware</a></li>
+        <li><a href="#sec-2">Layer 0 — Default (QWERTY)</a></li>
+        <li><a href="#sec-3">Layer 1 — Lower (numbers, arrows, screenshots)</a></li>
+        <li><a href="#sec-4">Layer 2 — Raise (symbols)</a></li>
+        <li><a href="#sec-5">Layer 3 — Num (numpad)</a></li>
+        <li><a href="#sec-6">Layer 4 — Func (F-keys, Bluetooth, RGB, media)</a></li>
+        <li><a href="#sec-7">Behaviors &amp; macros</a></li>
+        <li><a href="#sec-8">Build &amp; deploy</a></li>
+      </ol>
+    </nav>
+
+    <main>
+
+      <h2 id="sec-1">Overview &amp; hardware</h2>
+      <div class="card">
+        <div class="grid">
+          <div class="tile"><div class="label">Version</div><div class="value">v19</div></div>
+          <div class="tile"><div class="label">Layers</div><div class="value">6</div></div>
+          <div class="tile"><div class="label">Keys</div><div class="value">42</div></div>
+          <div class="tile"><div class="label">Macros</div><div class="value">14</div></div>
+          <div class="tile"><div class="label">Hold-tap behaviors</div><div class="value">2</div></div>
+          <div class="tile"><div class="label">LED chain length</div><div class="value">27</div></div>
+        </div>
+
+        <h3>Layer summary</h3>
+        <table>
+          <thead><tr><th>Idx</th><th>Name</th><th>Activation</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td>Default</td><td>Always on</td><td>QWERTY + sticky mods + hold-tap thumbs</td></tr>
+            <tr><td>1</td><td>Lower</td><td>Hold left BSPC thumb</td><td>Number row, arrows, screenshot macros</td></tr>
+            <tr><td>2</td><td>Raise</td><td>Hold right SPC thumb</td><td>Symbols and brackets</td></tr>
+            <tr><td>3</td><td>Num</td><td>Hold (or tap = sticky) right outer thumb</td><td>10-key numpad on right half</td></tr>
+            <tr><td>4</td><td>Func</td><td>While in Num, hold left outer thumb</td><td>F1–F12, Bluetooth, RGB, media</td></tr>
+            <tr><td>5</td><td>Template</td><td>Unreachable</td><td>Reserved (all <code>&amp;trans</code>)</td></tr>
+          </tbody>
+        </table>
+
+        <h3>What changed from v18</h3>
+        <p>The dedicated <code>BT_CLR</code> key at the top-left of the Func layer replaces the old <code>BT_SEL 0 + BT_SEL 1</code> combo, which was confusing — the combo name implied "clear profiles 0+1" but actually cleared the currently active profile. The combo has been removed entirely.</p>
+      </div>
+
+      <div class="legend">
+        <span><span class="sw neutral"></span>letter / number / symbol</span>
+        <span><span class="sw acc"></span>sticky / hold-tap / special</span>
+        <span><span class="sw warn"></span>activator (held to reach this layer)</span>
+        <span><span class="sw tr"></span>transparent — falls through</span>
+      </div>
+
+      <h2 id="sec-2">Layer 0 — Default (QWERTY)</h2>
+      <div class="card">
+        <p>Base layer. Thumbs do triple duty as layer holds, modifier stickies, and core keys. Three of the six thumbs are <em>hold-tap</em> — tap them for a normal key, hold them to engage a layer.</p>
+
+        <div class="kbd" aria-label="Layer 0 keymap">
+          <div class="half left">
+            <div class="key acc"><b>TAB</b><i>⌃ hold</i></div>
+            <div class="key"><b>Q</b></div>
+            <div class="key"><b>W</b></div>
+            <div class="key"><b>E</b></div>
+            <div class="key"><b>R</b></div>
+            <div class="key"><b>T</b></div>
+            <div class="key acc"><b>⇧</b><i>sticky</i></div>
+            <div class="key"><b>A</b></div>
+            <div class="key"><b>S</b></div>
+            <div class="key"><b>D</b></div>
+            <div class="key"><b>F</b></div>
+            <div class="key"><b>G</b></div>
+            <div class="key acc"><b>⌃</b><i>sticky</i></div>
+            <div class="key"><b>Z</b></div>
+            <div class="key"><b>X</b></div>
+            <div class="key"><b>C</b></div>
+            <div class="key"><b>V</b></div>
+            <div class="key"><b>B</b></div>
+            <div class="key thumb t1 acc"><b>⌘</b><i>sticky</i></div>
+            <div class="key thumb t2 acc"><b>BSPC</b><i>LWR hold</i></div>
+            <div class="key thumb t3 acc"><b>ESC</b><i>LWR+⌘ hold</i></div>
+          </div>
+          <div class="half right">
+            <div class="key"><b>Y</b></div>
+            <div class="key"><b>U</b></div>
+            <div class="key"><b>I</b></div>
+            <div class="key"><b>O</b></div>
+            <div class="key"><b>P</b></div>
+            <div class="key acc"><b>⌥</b><i>sticky-R</i></div>
+            <div class="key"><b>H</b></div>
+            <div class="key"><b>J</b></div>
+            <div class="key"><b>K</b></div>
+            <div class="key"><b>L</b></div>
+            <div class="key"><b>;</b></div>
+            <div class="key acc"><b>⇧</b><i>sticky-R</i></div>
+            <div class="key"><b>N</b></div>
+            <div class="key"><b>M</b></div>
+            <div class="key"><b>,</b></div>
+            <div class="key"><b>.</b></div>
+            <div class="key"><b>/</b></div>
+            <div class="key"><b>'</b></div>
+            <div class="key thumb t1"><b>↩</b><i>RET</i></div>
+            <div class="key thumb t2 acc"><b>SPC</b><i>RSE hold</i></div>
+            <div class="key thumb t3 acc"><b>NUM</b><i>tap=SL · hold=MO</i></div>
+          </div>
+        </div>
+
+        <h3>Thumb cluster cheat-sheet</h3>
+        <table>
+          <thead><tr><th>Position</th><th>Tap</th><th>Hold</th></tr></thead>
+          <tbody>
+            <tr><td>Left outer</td><td>Sticky <code>LGUI</code> (⌘)</td><td>—</td></tr>
+            <tr><td>Left middle</td><td><code>BSPC</code></td><td>Layer 1 (Lower)</td></tr>
+            <tr><td>Left inner</td><td><code>ESC</code></td><td>Layer 1 (Lower) + LGUI <span class="badge">via macro <code>lm_lwr_lgui</code></span></td></tr>
+            <tr><td>Right inner</td><td><code>RET</code></td><td>—</td></tr>
+            <tr><td>Right middle</td><td><code>SPACE</code></td><td>Layer 2 (Raise)</td></tr>
+            <tr><td>Right outer</td><td>Sticky-Layer Num <span class="badge">one-shot</span></td><td>Momentary Num</td></tr>
+          </tbody>
+        </table>
+        <p>The <code>TAB</code> top-left is itself a mod-tap: tap for <code>TAB</code>, hold for <code>LCTRL</code>. Every other sticky modifier (⇧L, ⌃L, ⌘L on thumb, ⌥R, ⇧R) is a one-shot — tap it, then the next key receives the modifier.</p>
+      </div>
+
+      <h2 id="sec-3">Layer 1 — Lower (numbers, arrows, screenshots)</h2>
+      <div class="card">
+        <p>Reached by holding the <strong>left BSPC thumb</strong>. The number row jumps to the top row, arrows sit under JKL-ish on the right home row, and the two macOS screenshot macros live on the left home row.</p>
+
+        <div class="kbd" aria-label="Layer 1 keymap">
+          <div class="half left">
+            <div class="key"><b>`</b></div>
+            <div class="key"><b>1</b></div>
+            <div class="key"><b>2</b></div>
+            <div class="key"><b>3</b></div>
+            <div class="key"><b>4</b></div>
+            <div class="key"><b>5</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key acc"><b>SC</b><i>⌘⌃⇧4</i></div>
+            <div class="key acc"><b>SCA</b><i>⌘⇧4</i></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key acc"><b>⌃B</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key thumb t1 tr"><b>·</b></div>
+            <div class="key thumb t2 warn"><b>BSPC</b><i>(held)</i></div>
+            <div class="key thumb t3 tr"><b>·</b></div>
+          </div>
+          <div class="half right">
+            <div class="key"><b>6</b></div>
+            <div class="key"><b>7</b></div>
+            <div class="key"><b>8</b></div>
+            <div class="key"><b>9</b></div>
+            <div class="key"><b>0</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key"><b>←</b></div>
+            <div class="key"><b>↓</b></div>
+            <div class="key"><b>↑</b></div>
+            <div class="key"><b>→</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key thumb t1 tr"><b>·</b></div>
+            <div class="key thumb t2 tr"><b>·</b></div>
+            <div class="key thumb t3 tr"><b>·</b></div>
+          </div>
+        </div>
+
+        <ul>
+          <li><strong>SC</strong> — full macOS screenshot to clipboard (<code>⌘⌃⇧4</code>)</li>
+          <li><strong>SCA</strong> — screenshot with annotation, lands as a file/preview (<code>⌘⇧4</code>)</li>
+          <li><strong>⌃B</strong> — <code>LC(B)</code>, the tmux prefix key</li>
+        </ul>
+      </div>
+
+      <h2 id="sec-4">Layer 2 — Raise (symbols)</h2>
+      <div class="card">
+        <p>Reached by holding the <strong>right SPC thumb</strong>. Shifted top-row symbols on the left, the four bracket/operator stacks on the right (square / round / curly / pipe).</p>
+
+        <div class="kbd" aria-label="Layer 2 keymap">
+          <div class="half left">
+            <div class="key"><b>~</b></div>
+            <div class="key"><b>!</b></div>
+            <div class="key"><b>@</b></div>
+            <div class="key"><b>#</b></div>
+            <div class="key"><b>$</b></div>
+            <div class="key"><b>%</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key thumb t1 tr"><b>·</b></div>
+            <div class="key thumb t2 tr"><b>·</b></div>
+            <div class="key thumb t3 tr"><b>·</b></div>
+          </div>
+          <div class="half right">
+            <div class="key"><b>^</b></div>
+            <div class="key"><b>&amp;</b></div>
+            <div class="key"><b>*</b></div>
+            <div class="key"><b>(</b></div>
+            <div class="key"><b>)</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key"><b>[</b></div>
+            <div class="key"><b>-</b></div>
+            <div class="key"><b>=</b></div>
+            <div class="key"><b>]</b></div>
+            <div class="key"><b>\</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key"><b>{</b></div>
+            <div class="key"><b>_</b></div>
+            <div class="key"><b>+</b></div>
+            <div class="key"><b>}</b></div>
+            <div class="key"><b>|</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key thumb t1 tr"><b>·</b></div>
+            <div class="key thumb t2 warn"><b>SPC</b><i>(held)</i></div>
+            <div class="key thumb t3 tr"><b>·</b></div>
+          </div>
+        </div>
+
+        <p>Right-half columns line up vertically: <code>[ - = ]</code> on home row, <code>{ _ + }</code> on bottom — so the shifted/unshifted brackets share a finger.</p>
+      </div>
+
+      <h2 id="sec-5">Layer 3 — Num (numpad)</h2>
+      <div class="card">
+        <p>Reached by holding the <strong>right outer thumb</strong>. Tap the same thumb instead to make it sticky — useful for typing one or two digits without a long hold. The right half forms a real 10-key numpad; the left half just exposes the top number row again for muscle-memory continuity. The left outer thumb is now the gateway to Func.</p>
+
+        <div class="kbd" aria-label="Layer 3 keymap">
+          <div class="half left">
+            <div class="key tr"><b>·</b></div>
+            <div class="key"><b>1</b></div>
+            <div class="key"><b>2</b></div>
+            <div class="key"><b>3</b></div>
+            <div class="key"><b>4</b></div>
+            <div class="key"><b>5</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key thumb t1 acc"><b>FUNC</b><i>hold→L4</i></div>
+            <div class="key thumb t2 tr"><b>·</b></div>
+            <div class="key thumb t3 tr"><b>·</b></div>
+          </div>
+          <div class="half right">
+            <div class="key"><b>6</b></div>
+            <div class="key"><b>7</b></div>
+            <div class="key"><b>8</b></div>
+            <div class="key"><b>9</b></div>
+            <div class="key"><b>0</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key"><b>4</b></div>
+            <div class="key"><b>5</b></div>
+            <div class="key"><b>6</b></div>
+            <div class="key"><b>0</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key"><b>0</b></div>
+            <div class="key"><b>1</b></div>
+            <div class="key"><b>2</b></div>
+            <div class="key"><b>3</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key thumb t1 tr"><b>·</b></div>
+            <div class="key thumb t2 tr"><b>·</b></div>
+            <div class="key thumb t3 warn"><b>NUM</b><i>(held)</i></div>
+          </div>
+        </div>
+
+        <p>Two zeros are deliberate: <code>0</code> on the right home-row outer (next to <code>6</code>) and again on the bottom-row inner (under <code>7</code>) — so whichever neighbor you're chaining from, a zero is close.</p>
+      </div>
+
+      <h2 id="sec-6">Layer 4 — Func (F-keys, Bluetooth, RGB, media)</h2>
+      <div class="card">
+        <p>The only layer that needs <strong>two simultaneous thumb holds</strong>: NUM (right outer) <em>and</em> FUNC (left outer). The cost is deliberate — this is system-administration territory: F-keys, Bluetooth pairing, RGB control, media transport. You don't want to land here by accident.</p>
+
+        <div class="kbd" aria-label="Layer 4 keymap">
+          <div class="half left">
+            <div class="key acc"><b>BT_CLR</b><i>current</i></div>
+            <div class="key acc"><b>BT0</b></div>
+            <div class="key acc"><b>BT1</b></div>
+            <div class="key acc"><b>BT2</b></div>
+            <div class="key acc"><b>BT3</b></div>
+            <div class="key acc"><b>BT4</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key acc"><b>TOG</b><i>RGB</i></div>
+            <div class="key acc"><b>EFF</b><i>cycle</i></div>
+            <div class="key acc"><b>HUI</b><i>hue+</i></div>
+            <div class="key acc"><b>HUD</b><i>hue−</i></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key thumb t1 warn"><b>FUNC</b><i>(held)</i></div>
+            <div class="key thumb t2 tr"><b>·</b></div>
+            <div class="key thumb t3 tr"><b>·</b></div>
+          </div>
+          <div class="half right">
+            <div class="key acc"><b>F1</b></div>
+            <div class="key acc"><b>F2</b></div>
+            <div class="key acc"><b>F3</b></div>
+            <div class="key acc"><b>F4</b></div>
+            <div class="key acc"><b>F5</b></div>
+            <div class="key acc"><b>F6</b></div>
+            <div class="key acc hot"><b>F7</b></div>
+            <div class="key acc hot"><b>F8</b></div>
+            <div class="key acc hot"><b>F9</b></div>
+            <div class="key acc hot"><b>F10</b></div>
+            <div class="key acc hot"><b>F11</b></div>
+            <div class="key acc hot"><b>F12</b></div>
+            <div class="key tr"><b>·</b></div>
+            <div class="key acc"><b>MUTE</b></div>
+            <div class="key acc"><b>VOL−</b></div>
+            <div class="key acc"><b>VOL+</b></div>
+            <div class="key acc"><b>PREV</b></div>
+            <div class="key acc"><b>NEXT</b></div>
+            <div class="key thumb t1 acc"><b>▶❙❙</b><i>play/pause</i></div>
+            <div class="key thumb t2 tr"><b>·</b></div>
+            <div class="key thumb t3 warn"><b>NUM</b><i>(held)</i></div>
+          </div>
+        </div>
+
+        <p><span class="badge">F-row</span> F1–F6 on the top row, <strong>F7–F12 on the home row</strong> (highlighted in red). F12 specifically sits at the right-most home-row key — same column as <code>SK ⇧R</code> in the base layer.</p>
+
+        <p><span class="badge ok">v18 → v19</span> The top-left key is the new dedicated <code>BT_CLR</code>, replacing the deleted <code>BT_SEL0 + BT_SEL1</code> combo. Clears the <em>currently active</em> Bluetooth profile.</p>
+      </div>
+
+      <h2 id="sec-7">Behaviors &amp; macros</h2>
+      <div class="card">
+        <h3>Custom behaviors (hold-taps)</h3>
+        <table>
+          <thead><tr><th>Name</th><th>Tap</th><th>Hold</th><th>Flavor / term</th></tr></thead>
+          <tbody>
+            <tr><td><code>ht_lm_esc</code></td><td><code>ESC</code> (the param)</td><td>Lower layer + LGUI (via <code>lm_lwr_lgui</code>)</td><td><code>tap-preferred</code>, 200 ms</td></tr>
+            <tr><td><code>ht_sl_mo</code></td><td>Sticky-layer (one-shot)</td><td>Momentary layer</td><td><code>tap-preferred</code>, 200 ms</td></tr>
+          </tbody>
+        </table>
+        <p><code>ht_sl_mo NUM NUM</code> is what makes the right outer thumb so versatile: tap once for a one-shot Num layer (next key only), or hold for as long as you need.</p>
+
+        <h3>Macros</h3>
+        <table>
+          <thead><tr><th>Name</th><th>Sends</th><th>Used for</th></tr></thead>
+          <tbody>
+            <tr><td><code>macos_input</code></td><td><kbd>⌃ ⌥ Space</kbd></td><td>Switch macOS input method</td></tr>
+            <tr><td><code>macos_screenshot</code></td><td><kbd>⌘ ⌃ ⇧ 4</kbd></td><td>Screenshot to clipboard</td></tr>
+            <tr><td><code>macos_screenshot_with_annotation</code></td><td><kbd>⌘ ⇧ 4</kbd></td><td>Screenshot, then annotate</td></tr>
+            <tr><td><code>ctrl_alt_left/right/up/down/enter</code></td><td><kbd>⌃ ⌥ &lt;arrow&gt;</kbd></td><td>Workspace / window navigation</td></tr>
+            <tr><td><code>cmd_grave</code></td><td><kbd>⌘ `</kbd></td><td>Cycle windows of same app</td></tr>
+            <tr><td><code>cmd_1 … cmd_5</code></td><td><kbd>⌘ 1</kbd> … <kbd>⌘ 5</kbd></td><td>Switch tabs / spaces</td></tr>
+            <tr><td><code>lm_lwr_lgui</code></td><td>—</td><td>Wrapper: hold Lower + LGUI simultaneously (used by <code>ht_lm_esc</code>)</td></tr>
+          </tbody>
+        </table>
+        <p>Most macros are defined but only some are bound on the visible layers — the rest are available for future versions. <code>SC</code> and <code>SCA</code> on the Lower layer are the only macros currently mapped to keys.</p>
+      </div>
+
+      <h2 id="sec-8">Build &amp; deploy</h2>
+      <div class="card">
+        <h3>GitHub Actions pipeline</h3>
+        <p>Every push triggers <code>.github/workflows/build.yml</code>, which uses ZMK's standard build action driven by <code>build.yaml</code>. Two firmware artifacts are produced per run:</p>
+        <ul>
+          <li><code>corne_left.uf2</code></li>
+          <li><code>corne_right.uf2</code></li>
+        </ul>
+
+        <h3>Board identifier</h3>
+        <p>The board name is <code>nice_nano//zmk</code> — the <code>//zmk</code> suffix has been required since ZMK's Zephyr 4.1 update in December 2025. Older configs that still use <code>nice_nano</code> alone will fail to build.</p>
+
+        <h3>Versioning convention (from CLAUDE.md)</h3>
+        <ul>
+          <li>Active build file: <code>config/corne.keymap</code> — always an exact copy of the current prod version (not a symlink — symlinks have historically caused issues here).</li>
+          <li>Version files live alongside it: <code>config/corne_prod_vN.keymap</code>.</li>
+          <li>Each version has a matching <code>config/corne_prod_vN_keymap_guide.tex</code> with a compiled PDF. Compile with <code>pdflatex -interaction=nonstopmode &lt;file&gt;.tex</code> — twice, so the TOC resolves.</li>
+        </ul>
+
+        <h3>Firmware download</h3>
+        <pre><code>gh run download &lt;run-id&gt; \
+  --repo ericshenshs/zmk-config-corne \
+  --dir /Users/yiweishen/github/ysconfig/keyboard/keebmaker_corne/zmk_firmware/v19/</code></pre>
+
+        <h3>Files this prod config touches</h3>
+        <table>
+          <thead><tr><th>Path</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td><code>config/corne.keymap</code></td><td>Active keymap — exact copy of <code>corne_prod_v19.keymap</code></td></tr>
+            <tr><td><code>config/corne_prod_v19.keymap</code></td><td>v19 source of truth</td></tr>
+            <tr><td><code>config/corne_prod_v19_keymap_guide.tex</code> / <code>.pdf</code></td><td>Human-readable guide (LaTeX)</td></tr>
+            <tr><td><code>config/corne.conf</code></td><td>Per-side Kconfig knobs (BLE, RGB, etc.)</td></tr>
+            <tr><td><code>build.yaml</code></td><td>Build matrix (left + right halves)</td></tr>
+            <tr><td><code>.github/workflows/build.yml</code></td><td>CI workflow</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+
+    <footer class="foot">
+      Generated 2026-05-16 03:26:43 · /visualize
+    </footer>
+  </div>
+</body>
+</html>

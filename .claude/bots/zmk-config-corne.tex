@@ -1,0 +1,32 @@
+\begin{cardlisting}{ZmkConfigCorne}
+  name: zmk-config-corne
+  abbrev: CRN
+  path: /home/ericshenshs/github/zmk-config-corne
+  description: ZMK firmware config for a 42-key Keebmaker Corne split keyboard running on Nice!Nano controllers; tracked via versioned `corne_prod_vN.keymap` files with matching LaTeX guides.
+  session-id:
+  parents:
+  manages:
+  principles:
+    1. `config/corne.keymap` is an EXACT COPY (never a symlink) of the current prod version file. Symlinks break the build path on some platforms.
+    2. Versioned keymaps live in `config/corne_prod_vN.keymap` with matching `corne_prod_vN_keymap_guide.tex` + compiled `.pdf`. To bump, copy the prior version and increment N.
+    3. The Nice!Nano board name in build.yaml is `nice_nano//zmk` — the `//zmk` suffix has been required since ZMK's Zephyr 4.1 update (Dec 2025).
+    4. Compile LaTeX guides with `pdflatex -interaction=nonstopmode <file>.tex`; run twice for correct TOC. Intermediate files (`.aux`, `.log`, `.out`) are gitignored.
+  permissions: managed
+  memory:
+    - [2026-05-16][importance=medium] Used as the verification target for the user-level skill restructuring done in ysconfig — first folder to receive the new `.claude/bots/` + `.claude/visualizations/` layout that replaces the legacy top-level `bots/` convention. See ysconfig plan `claude/devices/clockwork_uconsole/plans/when-we-save-memory-zippy-catmull.md`.
+    - [2026-05-16][importance=medium] `.tmp/visualize-prod-config-20260516-032643.html` is a self-contained 33 KB render of the prod-config story output from `/visualize` in an earlier session. Used as the source-side fixture for the new Step 5.5 viz-save flow.
+    - [2026-05-16][importance=low] Current keyboard running v19 as of 2026-04-26 (per CLAUDE.md). No firmware changes today.
+    - [2026-05-16][importance=low] V3 combined-flow test confirmed: Step 5.5 invoked on an already-saved viz finds the same single match, re-copies idempotently, and appends another `visualizations:` line. The SKILL.md does not currently dedupe — minor; may revisit.
+  conversations:
+    - [2026-05-16] Iteration 1 — verification target for new `.claude/bots/` save layout; see conversations/2026-05-16.md
+    - [2026-05-16] Iteration 2 — combined `save memory and visualization` flow; see conversations/2026-05-16.md
+  visualizations:
+    - [2026-05-16] visualize-prod-config-20260516-032643.html — self-contained 33 KB render of the prod-config keymap story from an earlier `/visualize` run; copied from `.tmp/` via the new Step 5.5 viz-save flow.
+    - [2026-05-16] visualize-prod-config-20260516-032643.html — re-copy via V3 combined-flow test (idempotent; same source/dest path).
+  next_steps:
+    - Once verification finishes in ysconfig, this CardListing can be re-saved with `/save-memory-to-bots` for any real corne work; the skill correctly resolves the new layout now.
+  done_steps:
+    - 2026-05-16: Bootstrapped `.claude/bots/zmk-config-corne.tex` + `.claude/bots/conversations/2026-05-16.md` from scratch via the new skill — exercises the no-prior-bot path of Step 3.
+    - 2026-05-16: V2 viz-save — copied `.tmp/visualize-prod-config-20260516-032643.html` to `.claude/visualizations/`, source preserved, CardListing gained `visualizations:` field.
+    - 2026-05-16: V3 combined flow — appended Iteration 2 to memory + conversations + visualizations + done_steps in a single invocation; Step 5.5 ran without re-prompting since exactly one viz candidate exists in `.tmp/`.
+\end{cardlisting}
