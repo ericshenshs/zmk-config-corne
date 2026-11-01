@@ -1,0 +1,7 @@
+# [cc] Devicetree binding for the custom rgb_hs behavior.
+# Usage: &rgb_hs <hue 0-360> <saturation 0-100>
+description: Set underglow hue and saturation, keeping the current brightness
+
+compatible: "zmk,behavior-rgb-hue-sat"
+
+include: two_param.yaml

@@ -1,0 +1,9 @@
+# [cc] Makes this zmk-config repo also a Zephyr/ZMK module so the custom
+# rgb_hs behavior (src/behaviors/behavior_rgb_hue_sat.c) is compiled in.
+# ZMK's build-user-config workflow auto-loads it when this file exists.
+name: zmk-config-corne-behaviors
+build:
+  cmake: .
+  kconfig: Kconfig
+  settings:
+    dts_root: .

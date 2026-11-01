@@ -12,9 +12,13 @@
  *    macros go_l0..go_l3 that switch layer + set colour.
  *    L0 = white, L1 = green, L2 = blue, L3 = purple. Colour only; on/off
  *    is left to TOG on L3.
+ *  - [cc] Layer colours use custom &rgb_hs (hue+sat only), so BRI/BRD
+ *    brightness persists across layer switches (was reset every switch).
  *  - [cc] RT2 on L1–L3 = go_l0 (thumb way back to L0).
  *  - [cc] LP2 on L1–L3 = &none.
  *  - [cc] LT2 on L1–L3 = go_l0 (left-thumb way back to L0, mirrors RT2).
+ *  - [cc] L2: * is now plain STAR (was KP_MULTIPLY, keypad code);
+ *    LP3 = M4 (left Shift) for Shift-shortcuts like Cmd+Shift+[.
  *
  * v20 changes from v19 (kept for history):
  *  - [cc] Four layers only: L0 Default, L1 Lower, L2 Raise, L3 Func.
@@ -58,8 +62,22 @@
 #define L2 2
 #define L3 3
 
-// [cc] v21: brightness (0–100) used by the per-layer underglow colours.
-#define LAYER_BRT 50
+
+// ============================================================
+// Behaviors
+// ============================================================
+
+/ {
+    behaviors {
+        // [cc] v21: custom behavior from this repo's module (zephyr/module.yml).
+        // &rgb_hs <hue> <sat>: set underglow colour, keep current brightness.
+        // Node name kept short (split transport sends behavior names).
+        rgb_hs: rgb_hs {
+            compatible = "zmk,behavior-rgb-hue-sat";
+            #binding-cells = <2>;
+        };
+    };
+};
 
 // ============================================================
 // Macros
@@ -101,8 +119,9 @@
         // AND sets the colour. They only set the colour, never on/off: on/off
         // is controlled solely by TOG on L3. (HSB: hue 0–360, sat 0–100,
         // brightness 0–100.)
-        // Note: the colour includes brightness, so BRI/BRD only last until
-        // the next layer switch; edit LAYER_BRT to change it permanently.
+        // [cc] Uses the custom &rgb_hs behavior (src/behaviors/behavior_rgb_hue_sat.c)
+        // which sets hue + saturation only, so BRI/BRD brightness persists
+        // across layer switches.
         // Effect should be "solid" (EFF) for the colour to show cleanly.
 
         // L0: white (sat 0)
@@ -112,7 +131,7 @@
             wait-ms = <0>;
             tap-ms  = <0>;
             bindings
-                = <&macro_tap &rgb_ug RGB_COLOR_HSB(0, 0, LAYER_BRT)>
+                = <&macro_tap &rgb_hs 0 0>
                 , <&macro_tap &to L0>
                 ;
         };
@@ -124,7 +143,7 @@
             wait-ms = <0>;
             tap-ms  = <0>;
             bindings
-                = <&macro_tap &rgb_ug RGB_COLOR_HSB(120, 100, LAYER_BRT)>
+                = <&macro_tap &rgb_hs 120 100>
                 , <&macro_tap &to L1>
                 ;
         };
@@ -136,7 +155,7 @@
             wait-ms = <0>;
             tap-ms  = <0>;
             bindings
-                = <&macro_tap &rgb_ug RGB_COLOR_HSB(240, 100, LAYER_BRT)>
+                = <&macro_tap &rgb_hs 240 100>
                 , <&macro_tap &to L2>
                 ;
         };
@@ -148,7 +167,7 @@
             wait-ms = <0>;
             tap-ms  = <0>;
             bindings
-                = <&macro_tap &rgb_ug RGB_COLOR_HSB(280, 100, LAYER_BRT)>
+                = <&macro_tap &rgb_hs 280 100>
                 , <&macro_tap &to L3>
                 ;
         };
@@ -204,15 +223,15 @@
         //
         // │ ~   │ !  │ @  │ #  │ $ │ % │   │ ^ │ & │ * │ ( │ ) │ ✕ │
         // │ ✕   │ ✕  │ ✕  │ ✕  │ ✕ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
-        // │ ✕   │ M1 │ M2 │ M3 │ ✕ │ ✕ │   │ { │ _ │ + │ } │ | │ " │
+        // │ M4  │ M1 │ M2 │ M3 │ ✕ │ ✕ │   │ { │ _ │ + │ } │ | │ " │
         //        ✕ │ →L0 │ →L3     ✕ │ →L0 │ ✕
         // ----------------------------------------------------
         raise_layer {
             display-name = "L2";
             bindings = <
-   &kp TILDE  &kp EXCL   &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &none
+   &kp TILDE  &kp EXCL   &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp STAR         &kp LPAR  &kp RPAR  &none
    &none      &none      &none     &none     &none     &none        &kp LBKT   &kp MINUS  &kp EQUAL        &kp RBKT  &kp BSLH  &kp SQT
-   &none      &kp LCTRL  &kp LALT  &kp LGUI  &none     &none        &kp LBRC   &kp UNDER  &kp PLUS         &kp RBRC  &kp PIPE  &kp DQT
+   &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI  &none     &none        &kp LBRC   &kp UNDER  &kp PLUS         &kp RBRC  &kp PIPE  &kp DQT
                                    &none     &go_l0    &go_l3       &none      &go_l0     &none
             >;
         };

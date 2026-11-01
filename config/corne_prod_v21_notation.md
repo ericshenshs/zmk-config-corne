@@ -16,15 +16,16 @@ v21 is forked from `corne_prod_v20.keymap`; design below is implemented in
 
 | Layer | Underglow | Set by |
 |-------|-----------|--------|
-| L0 | white (HSB 0,0,50) | LT2 or RT2 on L1–L3 (`go_l0`) |
-| L1 | green (HSB 120,100,50) | LT3 on L0 (`go_l1`) |
-| L2 | blue (HSB 240,100,50) | LT3 on L1 (`go_l2`) |
-| L3 | purple (HSB 280,100,50) | LT3 on L2 (`go_l3`) |
+| L0 | white (hue 0, sat 0) | LT2 or RT2 on L1–L3 (`go_l0`) |
+| L1 | green (hue 120, sat 100) | LT3 on L0 (`go_l1`) |
+| L2 | blue (hue 240, sat 100) | LT3 on L1 (`go_l2`) |
+| L3 | purple (hue 280, sat 100) | LT3 on L2 (`go_l3`) |
 
 <!-- [cc] Macros set colour only; on/off is controlled by TOG on L3. -->
 The macros only change colour, never on/off (TOG on L3 controls that).
-Brightness comes from `LAYER_BRT` (50) in the keymap; BRI/BRD only last until
-the next layer switch.
+<!-- [cc] Custom &rgb_hs behavior keeps brightness across switches. -->
+Colours are set with the custom `&rgb_hs` behavior (hue + saturation only), so
+brightness set with BRI/BRD persists across layer switches.
 
 ## Key notation
 
@@ -100,7 +101,7 @@ v19 Num (3) and Template (5) are removed. Layer switches are persistent
 
 Rules:
 - LP1–3, RP1–3, LT1, LT2, RT1, RT2 are `✕` on every layer, except:
-  LP1 on L1/L2/L3 = `` ` `` / `~` / BT_CLR; RP2/RP3 on L2 = `'` / `"`; LP3/RP3 on L1 = M4/M4b; on L0: LP3/RP3 = M4/M4b (Shift), LT2 = BSPC, RT2 = SPC, RT1 = ENT, RP1 = M1, RP2 = M2, LT1 = M3, LP2 = M2+BSPC, LP1 = TAB.
+  LP1 on L1/L2/L3 = `` ` `` / `~` / BT_CLR; RP2/RP3 on L2 = `'` / `"`; LP3/RP3 on L1 = M4/M4b; LP3 on L2 = M4; on L0: LP3/RP3 = M4/M4b (Shift), LT2 = BSPC, RT2 = SPC, RT1 = ENT, RP1 = M1, RP2 = M2, LT1 = M3, LP2 = M2+BSPC, LP1 = TAB.
 - LT3 = layer cycle: L0 → L1 → L2 → L3 (stops; `✕` on L3).
 <!-- [cc] RT3 re-added as a per-layer jump (all &to): L0→L2, L1→L0, L2→L1, L3→L0.
      Restores a path back to L0 from every layer. -->
@@ -146,12 +147,14 @@ SC = macOS screenshot to clipboard, SCA = screenshot with annotation, C-b = Ctrl
 ```
 │ ~ │ ! │ @ │ # │ $ │ % │   │ ^ │ & │ * │ ( │ ) │ ✕ │
 │ ✕ │ ✕ │ ✕ │ ✕ │ ✕ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
-│ ✕ │ M1│ M2│ M3│ ✕ │ ✕ │   │ { │ _ │ + │ } │ | │ " │
+│ M4│ M1│ M2│ M3│ ✕ │ ✕ │   │ { │ _ │ + │ } │ | │ " │
           ✕ │ →L0 │ LT3 →L3     RT3 ✕ │ →L0 │ ✕
 ```
 <!-- [cc] L2: Z/X/C = M1/M2/M3 (LCTRL/LALT/LGUI), matching L1's left bottom row.
      LP1 on L2 = ~ (TILDE), as in v19. RP2 on L2 = ' (SQT), RP3 on L2 = " (DQT; moved from L3). LP3 on L2 = ✕ (Shift removed). -->
 Z X C = M1 M2 M3. LP1 = `~`. RP2 = `'`. RP3 = `"`.
+<!-- [cc] v21: LP3 on L2 = M4 (left Shift); * is plain STAR (not keypad). -->
+LP3 = M4. `*` = `STAR` (not keypad `KP_MULTIPLY`).
 
 **L3: Func**
 ```
@@ -169,4 +172,4 @@ BRI/BRD = underglow brightness up / down.
 ### Open items
 <!-- [cc] Refreshed: L0 essentials are now placed. -->
 - Not yet placed anywhere: media keys (mute/vol/prev/next/play).
-- L2 and L3 have no Shift.
+- L3 has no Shift.

@@ -1,0 +1,8 @@
+# [cc] Enables the custom "set hue/sat, keep brightness" underglow behavior
+# whenever the keymap uses compatible "zmk,behavior-rgb-hue-sat".
+DT_COMPAT_ZMK_BEHAVIOR_RGB_HUE_SAT := zmk,behavior-rgb-hue-sat
+
+config ZMK_BEHAVIOR_RGB_HUE_SAT
+    bool
+    default $(dt_compat_enabled,$(DT_COMPAT_ZMK_BEHAVIOR_RGB_HUE_SAT))
+    depends on ZMK_RGB_UNDERGLOW
