@@ -1,4 +1,4 @@
-% [cc] v22 reference guide, forked from the v21 guide; only the L1 return-to-L0 keys changed.
+% [cc] v22 reference guide, forked from the v21 guide; v22 adds LT1 = return to L0 on L1--L3.
 % Source of truth: corne_prod_v22.keymap and corne_prod_v22_notation.md.
 \documentclass[11pt, letterpaper]{article}
 \usepackage[margin=0.8in]{geometry}
@@ -39,7 +39,7 @@ nothing (shown as \nk).
 \toprule
 \textbf{Layer} & \textbf{Name} & \textbf{Reached by} & \textbf{Underglow} \\
 \midrule
-L0 & Default (QWERTY) & LT2 or RT2 on L1--L3 & white \\
+L0 & Default (QWERTY) & LT1, LT2 or RT2 on L1--L3 & white \\
 L1 & Lower  & LT3 on L0 & green \\
 L2 & Raise  & LT3 on L1 & blue \\
 L3 & Func   & LT3 on L2 & purple \\
@@ -79,21 +79,28 @@ LP3 & Z & X & C & V & B & N & M & , & . & / & RP3 \\ \hline
 \section{Layer switching}
 
 \begin{center}
-\begin{tabular}{cccc}
+% [cc] v22: LT1 column added (LT1 = return to L0 on L1--L3).
+\begin{tabular}{ccccc}
 \toprule
-\textbf{On} & \textbf{LT3} & \textbf{LT2} & \textbf{RT2} \\
+\textbf{On} & \textbf{LT1} & \textbf{LT3} & \textbf{LT2} & \textbf{RT2} \\
 \midrule
-L0 & \gl{1} & Backspace & Space \\
-L1 & \gl{2} & \gl{0} & \gl{0} \\
-L2 & \gl{3} & \gl{0} & \gl{0} \\
-L3 & \nk    & \gl{0} & \gl{0} \\
+L0 & Cmd (M3) & \gl{1} & Backspace & Space \\
+L1 & \gl{0} & \gl{2} & \gl{0} & \gl{0} \\
+L2 & \gl{0} & \gl{3} & \gl{0} & \gl{0} \\
+L3 & \gl{0} & \nk    & \gl{0} & \gl{0} \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-LT3 steps forward and stops at L3; either main thumb (LT2/RT2) goes home.
-On L1--L3 the first press of LT2/RT2 only returns to L0 (no Backspace /
-Space is sent). The OLED shows the active layer name (L0--L3).
+LT3 steps forward and stops at L3; LT1, LT2 or RT2 goes home.
+On L1--L3 the first press of LT1/LT2/RT2 only returns to L0 (no Backspace /
+Space is sent).
+
+% [cc] Usage convention for choosing which thumb to leave L1--L3 with.
+\textbf{Which thumb to go home with:} after typing on L1, L2 or L3, if a
+space comes next, return with \textbf{RT2} --- it is the Space thumb on L0,
+so the next RT2 tap types the space. If no space comes next, return with
+\textbf{LT2} (or LT1). The OLED shows the active layer name (L0--L3).
 
 % ------------------------------------------------------------------
 \section{L0 --- Default}
@@ -135,16 +142,13 @@ RT1 & Enter \\
 \texttt{`} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 0 & \nk \\ \hline
 \nk & SC & SCA & \nk & C-b & \nk & $\leftarrow$ & $\downarrow$ & $\uparrow$ & $\rightarrow$ & \nk & \nk \\ \hline
 M4 & M1 & M2 & M3 & \nk & \nk & \nk & \nk & M3b & M2b & M1b & M4b \\ \hline
-\multicolumn{3}{|c|}{} & \nk & \gl{0} & \gl{2} & \nk & \gl{0} & \nk & \multicolumn{3}{c|}{} \\ \hline
+\multicolumn{3}{|c|}{} & \gl{0} & \gl{0} & \gl{2} & \nk & \gl{0} & \nk & \multicolumn{3}{c|}{} \\ \hline
 \end{tabular}
 \end{center}
 
 % [cc] Spaces around "+" let LaTeX break these lines (fixes overfull hbox).
 SC = macOS screenshot to clipboard (Cmd + Ctrl + Shift + 4); SCA = screenshot
-with annotation (Cmd + Shift + 4); C-b = Ctrl + B (tmux prefix).
-% [cc] v22 behaviour change, documented next to the keys it affects.
-In v22, SC, SCA and C-b \emph{return to L0} (white underglow) right after
-sending their shortcut, so no extra LT2/RT2 press is needed. Modifiers on
+with annotation (Cmd + Shift + 4); C-b = Ctrl + B (tmux prefix). Modifiers on
 the bottom row allow e.g.\ Shift+arrows (select), Alt+arrows (word jump),
 Cmd+arrows (line start/end), Cmd+1--5.
 
@@ -158,7 +162,7 @@ Cmd+arrows (line start/end), Cmd+1--5.
 \texttt{\~{}} & \texttt{!} & \texttt{@} & \texttt{\#} & \texttt{\$} & \texttt{\%} & \texttt{\^{}} & \texttt{\&} & \texttt{*} & \texttt{(} & \texttt{)} & \nk \\ \hline
 \nk & \nk & \nk & \nk & \nk & \nk & \texttt{[} & \texttt{-} & \texttt{=} & \texttt{]} & \texttt{\textbackslash} & \texttt{\textquotesingle} \\ \hline
 M4 & M1 & M2 & M3 & \nk & \nk & \texttt{\{} & \texttt{\_} & \texttt{+} & \texttt{\}} & \texttt{|} & \texttt{"} \\ \hline
-\multicolumn{3}{|c|}{} & \nk & \gl{0} & \gl{3} & \nk & \gl{0} & \nk & \multicolumn{3}{c|}{} \\ \hline
+\multicolumn{3}{|c|}{} & \gl{0} & \gl{0} & \gl{3} & \nk & \gl{0} & \nk & \multicolumn{3}{c|}{} \\ \hline
 \end{tabular}
 \end{center}
 
@@ -175,7 +179,7 @@ below it. Left-hand modifiers allow shortcuts such as Cmd+Shift+[ / ].
 BT\_CLR & BT0 & BT1 & BT2 & BT3 & BT4 & \nk & F1 & F2 & F3 & F4 & \nk \\ \hline
 \nk & TOG & EFF & HUI & HUD & BRI & \nk & F5 & F6 & F7 & F8 & \nk \\ \hline
 \nk & M1 & M2 & M3 & \nk & BRD & \nk & F9 & F10 & F11 & F12 & \nk \\ \hline
-\multicolumn{3}{|c|}{} & \nk & \gl{0} & \nk & \nk & \gl{0} & \nk & \multicolumn{3}{c|}{} \\ \hline
+\multicolumn{3}{|c|}{} & \gl{0} & \gl{0} & \nk & \nk & \gl{0} & \nk & \multicolumn{3}{c|}{} \\ \hline
 \end{tabular}
 \end{center}
 
@@ -226,9 +230,8 @@ remembers the on/off state and brightness after that.
 \toprule
 \textbf{Key / feature} & \textbf{v21} & \textbf{v22} \\
 \midrule
-L1 C-b & Ctrl+B, stay on L1 & Ctrl+B, then \gl{0} (white) \\
-L1 SC & screenshot, stay on L1 & screenshot, then \gl{0} (white) \\
-L1 SCA & screenshot, stay on L1 & screenshot, then \gl{0} (white) \\
+% [cc] v22 only change: LT1 on L1--L3.
+LT1 on L1--L3 & \nk & \gl{0} \\
 \bottomrule
 \end{tabular}
 

@@ -7,10 +7,11 @@
  * Notation (LP/RP/LT/RT, L0–L3, M1–M4/M1b–M4b): corne_prod_v22_notation.md
  *
  * Changes from v21:
- *  - [cc] L1: C-b key is now macro cb_l0 = tap Ctrl+B, then return to L0
- *    (white underglow), so one press sends the shortcut and you land on L0.
- *  - [cc] L1: SC / SCA (mac_sc / mac_sca) also return to L0 after the
- *    screenshot shortcut, same as cb_l0.
+ *  - [cc] L1 SC / SCA / C-b stay plain (send shortcut, stay on L1), as in v21;
+ *    an earlier v22 draft returned them to L0, dropped by request.
+ *  - [cc] LT1 on L1–L3 = go_l0 (one tap back to L0); was &none in v21.
+ *  - [cc] RT2 on L1–L3 stays go_l0 (one tap back to L0), as in v21; an
+ *    earlier v22 draft freed RT2 (&none), restored by request.
  *
  * v21 changes from v20 (kept for history):
  *  - [cc] L3: added underglow brightness up (G) / down (B) under HUD's row.
@@ -105,9 +106,6 @@
                 , <&macro_release &kp LSHFT>
                 , <&macro_release &kp LCTRL>
                 , <&macro_release &kp LGUI>
-                // [cc] v22: return to L0 (white) after the shortcut, like cb_l0.
-                , <&macro_tap     &rgb_hs 0 0>
-                , <&macro_tap     &to L0>
                 ;
         };
 
@@ -121,22 +119,6 @@
                 , <&macro_tap     &kp N4>
                 , <&macro_release &kp LSHFT>
                 , <&macro_release &kp LGUI>
-                // [cc] v22: return to L0 (white) after the shortcut, like cb_l0.
-                , <&macro_tap     &rgb_hs 0 0>
-                , <&macro_tap     &to L0>
-                ;
-        };
-
-        // [cc] v22: Ctrl+B then back to L0. Ctrl+B is usually followed by
-        // typing on L0, so the key returns there itself instead of needing
-        // an extra LT2/RT2 press. Steps match go_l0 (white, &to L0).
-        cb_l0: cb_l0 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_tap &kp LC(B)>
-                , <&macro_tap &rgb_hs 0 0>
-                , <&macro_tap &to L0>
                 ;
         };
 
@@ -227,20 +209,27 @@
         };
 
         // ----------------------------------------------------
+        // [cc] Usage convention for leaving L1/L2/L3 (requested 2026-11-01):
+        //   want a space next  → press RT2 to go back to L0 (RT2 is the Space
+        //                        thumb on L0, so the next RT2 tap types it);
+        //   no space next      → press LT2 (or LT1) to go back to L0.
+        //   Either key only switches layer; neither sends a character itself.
+        // [cc] v22: LT1 on L1–L3 is also go_l0 (was &none in v21).
+        // ----------------------------------------------------
         // L1 — Lower: numbers, screenshots, Ctrl+B, arrows, mods
         //
         // │ `   │ 1  │ 2   │ 3  │ 4   │ 5 │   │ 6 │ 7 │ 8   │ 9   │ 0   │ ✕   │
         // │ ✕   │ SC │ SCA │ ✕  │ C-b │ ✕ │   │ ← │ ↓ │ ↑   │ →   │ ✕   │ ✕   │
         // │ M4  │ M1 │ M2  │ M3 │ ✕   │ ✕ │   │ ✕ │ ✕ │ M3b │ M2b │ M1b │ M4b │
-        //        ✕ │ →L0 │ →L2     ✕ │ →L0 │ ✕
+        //      →L0 │ →L0 │ →L2     ✕ │ →L0 │ ✕
         // ----------------------------------------------------
         lower_layer {
             display-name = "L1";
             bindings = <
    &kp GRAVE  &kp N1     &kp N2    &kp N3    &kp N4     &kp N5     &kp N6    &kp N7    &kp N8    &kp N9     &kp N0     &none
-   &none      &mac_sc    &mac_sca  &none     &cb_l0     &none      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none      &none
+   &none      &mac_sc    &mac_sca  &none     &kp LC(B)  &none      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none      &none
    &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI  &none      &none      &none     &none     &kp RGUI  &kp RALT   &kp RCTRL  &kp RSHFT
-                                   &none     &go_l0     &go_l2     &none     &go_l0    &none
+                                   &go_l0    &go_l0     &go_l2     &none     &go_l0    &none
             >;
         };
 
@@ -250,7 +239,7 @@
         // │ ~   │ !  │ @  │ #  │ $ │ % │   │ ^ │ & │ * │ ( │ ) │ ✕ │
         // │ ✕   │ ✕  │ ✕  │ ✕  │ ✕ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
         // │ M4  │ M1 │ M2 │ M3 │ ✕ │ ✕ │   │ { │ _ │ + │ } │ | │ " │
-        //        ✕ │ →L0 │ →L3     ✕ │ →L0 │ ✕
+        //      →L0 │ →L0 │ →L3     ✕ │ →L0 │ ✕
         // ----------------------------------------------------
         raise_layer {
             display-name = "L2";
@@ -258,7 +247,7 @@
    &kp TILDE  &kp EXCL   &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp STAR         &kp LPAR  &kp RPAR  &none
    &none      &none      &none     &none     &none     &none        &kp LBKT   &kp MINUS  &kp EQUAL        &kp RBKT  &kp BSLH  &kp SQT
    &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI  &none     &none        &kp LBRC   &kp UNDER  &kp PLUS         &kp RBRC  &kp PIPE  &kp DQT
-                                   &none     &go_l0    &go_l3       &none      &go_l0     &none
+                                   &go_l0    &go_l0    &go_l3       &none      &go_l0     &none
             >;
         };
 
@@ -268,9 +257,9 @@
         // │ BT_CLR │ BT0 │ BT1 │ BT2 │ BT3 │ BT4 │   │ ✕ │ F1 │ F2  │ F3  │ F4  │ ✕ │
         // │ ✕      │ TOG │ EFF │ HUI │ HUD │ BRI │   │ ✕ │ F5 │ F6  │ F7  │ F8  │ ✕ │
         // │ ✕      │ M1  │ M2  │ M3  │ ✕   │ BRD │   │ ✕ │ F9 │ F10 │ F11 │ F12 │ ✕ │
-        //        ✕ │ →L0 │ ✕     ✕ │ →L0 │ ✕
+        //      →L0 │ →L0 │ ✕     ✕ │ →L0 │ ✕
         // BRI/BRD = underglow brightness up/down (added in v21).
-        // LT3 is &none here: the cycle stops at L3; LT2 / RT2 exit to L0.
+        // LT3 is &none here: the cycle stops at L3; LT1 / LT2 / RT2 exit to L0.
         // ----------------------------------------------------
         func_layer {
             display-name = "L3";
@@ -278,7 +267,7 @@
    &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4    &none  &kp F1  &kp F2   &kp F3   &kp F4   &none
    &none       &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_HUI  &rgb_ug RGB_HUD  &rgb_ug RGB_BRI &none  &kp F5  &kp F6   &kp F7   &kp F8   &none
    &none       &kp LCTRL        &kp LALT         &kp LGUI         &none            &rgb_ug RGB_BRD &none  &kp F9  &kp F10  &kp F11  &kp F12  &none
-                                                 &none            &go_l0           &none           &none  &go_l0  &none
+                                                 &go_l0           &go_l0           &none           &none  &go_l0  &none
             >;
         };
     };

@@ -7,7 +7,13 @@
 
 <!-- [cc] v22 notation/design file, forked from the v21 one; keep in sync with corne_prod_v22.keymap. -->
 v22 is forked from `corne_prod_v21.keymap`; design below is implemented in
-`corne_prod_v22.keymap`. Changes from v21: L1 C-b, SC and SCA keys return to L0 after sending their shortcut.
+`corne_prod_v22.keymap`. Changes from v21:
+<!-- [cc] v22: LT1 joins LT2/RT2 as a one-tap return to L0 on L1–L3. -->
+**LT1 on L1–L3 = one tap back to L0** (was `✕`). The two drafts below were tried and reverted.
+<!-- [cc] RT2-freeing was tried in a v22 draft and dropped; RT2 stays →L0. -->
+RT2 on L1–L3 stays one tap back to L0, same as v21.
+<!-- [cc] Return-to-L0 on SC/SCA/C-b was tried in a v22 draft and dropped. -->
+L1 SC, SCA and C-b stay plain keys (stay on L1), same as v21.
 
 v21 changes from v20 (history): L3 brightness up/down on G/B; per-layer underglow colour.
 
@@ -17,7 +23,7 @@ v21 changes from v20 (history): L3 brightness up/down on G/B; per-layer underglo
 
 | Layer | Underglow | Set by |
 |-------|-----------|--------|
-| L0 | white (hue 0, sat 0) | LT2 or RT2 on L1–L3 (`go_l0`) |
+| L0 | white (hue 0, sat 0) | LT1, LT2 or RT2 on L1–L3 (`go_l0`) |
 | L1 | green (hue 120, sat 100) | LT3 on L0 (`go_l1`) |
 | L2 | blue (hue 240, sat 100) | LT3 on L1 (`go_l2`) |
 | L3 | purple (hue 280, sat 100) | LT3 on L2 (`go_l3`) |
@@ -88,7 +94,7 @@ Combined modifiers are written with `+`, e.g. `M1+M3` = Ctrl+Cmd.
 
 | Name | Index | Layer | v20 activation | v19 origin |
 |------|:---:|-------|----------------|------------|
-| L0 | 0 | Default (QWERTY) | base; LT2 or RT2 on L1–L3 | Default (0) |
+| L0 | 0 | Default (QWERTY) | base; LT1, LT2 or RT2 on L1–L3 | Default (0) |
 | L1 | 1 | Lower | LT3 on L0 | Lower (1) |
 | L2 | 2 | Raise | LT3 on L1 | Raise (2) |
 | L3 | 3 | Func  | LT3 on L2 | Func (4) |
@@ -101,7 +107,7 @@ v19 Num (3) and Template (5) are removed. Layer switches are persistent
 `✕` = no key (`&none`). There are **no transparent keys** in v20.
 
 Rules:
-- LP1–3, RP1–3, LT1, LT2, RT1, RT2 are `✕` on every layer, except:
+- LP1–3, RP1–3, LT1, LT2, RT1, RT2 are `✕` on every layer, except (besides the L1–L3 return-to-L0 keys above):
   LP1 on L1/L2/L3 = `` ` `` / `~` / BT_CLR; RP2/RP3 on L2 = `'` / `"`; LP3/RP3 on L1 = M4/M4b; LP3 on L2 = M4; on L0: LP3/RP3 = M4/M4b (Shift), LT2 = BSPC, RT2 = SPC, RT1 = ENT, RP1 = M1, RP2 = `'`, LT1 = M3, LP2 = M2+BSPC, LP1 = TAB.
 - LT3 = layer cycle: L0 → L1 → L2 → L3 (stops; `✕` on L3).
 <!-- [cc] RT3 re-added as a per-layer jump (all &to): L0→L2, L1→L0, L2→L1, L3→L0.
@@ -109,7 +115,9 @@ Rules:
 <!-- [cc] v21: RT3 on L0 = tap ESC / hold M2 (&mt LALT ESC); ✕ on L1–L3. -->
 - RT3 = tap ESC / hold M2 on L0; `✕` on L1–L3.
 <!-- [cc] v21: LT2 and RT2 on L1–L3 return to L0; LP2 on L1–L3 = ✕. -->
-- LT2 and RT2 on L1, L2, L3 = one-tap jump to L0. LP2 on L1–L3 = `✕`.
+- LT1, LT2 and RT2 on L1, L2, L3 = one-tap jump to L0 (LT1 added in v22). LP2 on L1–L3 = `✕`.
+<!-- [cc] Usage convention: which thumb to leave L1–L3 with. -->
+- Leaving L1–L3: if a space comes next, return with **RT2** (it is the Space thumb on L0, so the next RT2 tap types the space); if no space comes next, return with **LT2** (or LT1). Neither key sends a character on L1–L3; they only switch to L0.
 
 **L0: Default**
 ```
