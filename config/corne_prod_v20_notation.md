@@ -7,7 +7,10 @@
 
 <!-- [cc] Keymap now written; this file and the keymap must be kept in sync. -->
 v20 is forked from `corne_prod_v19.keymap`. The design below is implemented in
-`corne_prod_v20.keymap` (not yet copied to `corne.keymap` / prod).
+`corne_prod_v20.keymap`.
+<!-- [cc] Status corrected: v20 did go to prod, later superseded by v21. -->
+v20 was prod on 2026-10-31 and was superseded by v21 the same day
+(see `corne_prod_v21_notation.md`).
 
 ## Key notation
 
