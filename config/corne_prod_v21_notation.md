@@ -16,11 +16,13 @@ v21 is forked from `corne_prod_v20.keymap`; design below is implemented in
 
 | Layer | Underglow | Set by |
 |-------|-----------|--------|
-| L0 | off | LT2 or RT2 on L1–L3 (`go_l0`) |
+| L0 | white (HSB 0,0,50) | LT2 or RT2 on L1–L3 (`go_l0`) |
 | L1 | green (HSB 120,100,50) | LT3 on L0 (`go_l1`) |
 | L2 | blue (HSB 240,100,50) | LT3 on L1 (`go_l2`) |
 | L3 | purple (HSB 280,100,50) | LT3 on L2 (`go_l3`) |
 
+<!-- [cc] Macros set colour only; on/off is controlled by TOG on L3. -->
+The macros only change colour, never on/off (TOG on L3 controls that).
 Brightness comes from `LAYER_BRT` (50) in the keymap; BRI/BRD only last until
 the next layer switch.
 
