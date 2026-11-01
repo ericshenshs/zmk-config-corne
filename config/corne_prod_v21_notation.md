@@ -101,25 +101,27 @@ v19 Num (3) and Template (5) are removed. Layer switches are persistent
 
 Rules:
 - LP1–3, RP1–3, LT1, LT2, RT1, RT2 are `✕` on every layer, except:
-  LP1 on L1/L2/L3 = `` ` `` / `~` / BT_CLR; RP2/RP3 on L2 = `'` / `"`; LP3/RP3 on L1 = M4/M4b; LP3 on L2 = M4; on L0: LP3/RP3 = M4/M4b (Shift), LT2 = BSPC, RT2 = SPC, RT1 = ENT, RP1 = M1, RP2 = M2, LT1 = M3, LP2 = M2+BSPC, LP1 = TAB.
+  LP1 on L1/L2/L3 = `` ` `` / `~` / BT_CLR; RP2/RP3 on L2 = `'` / `"`; LP3/RP3 on L1 = M4/M4b; LP3 on L2 = M4; on L0: LP3/RP3 = M4/M4b (Shift), LT2 = BSPC, RT2 = SPC, RT1 = ENT, RP1 = M1, RP2 = `'`, LT1 = M3, LP2 = M2+BSPC, LP1 = TAB.
 - LT3 = layer cycle: L0 → L1 → L2 → L3 (stops; `✕` on L3).
 <!-- [cc] RT3 re-added as a per-layer jump (all &to): L0→L2, L1→L0, L2→L1, L3→L0.
      Restores a path back to L0 from every layer. -->
-<!-- [cc] RT3 = ESC on L0 (second ESC, right thumb); ✕ on L1–L3. -->
-- RT3 = ESC on L0; `✕` on L1–L3.
+<!-- [cc] v21: RT3 on L0 = tap ESC / hold M2 (&mt LALT ESC); ✕ on L1–L3. -->
+- RT3 = tap ESC / hold M2 on L0; `✕` on L1–L3.
 <!-- [cc] v21: LT2 and RT2 on L1–L3 return to L0; LP2 on L1–L3 = ✕. -->
 - LT2 and RT2 on L1, L2, L3 = one-tap jump to L0. LP2 on L1–L3 = `✕`.
 
 **L0: Default**
 ```
 │TAB│ Q │ W │ E │ R │ T │   │ Y │ U │ I │ O │ P │ M1 │
-│M2+BSPC│ A │ S │ D │ F │ G │   │ H │ J │ K │ L │ ; │ M2 │
+│M2+BSPC│ A │ S │ D │ F │ G │   │ H │ J │ K │ L │ ; │ '  │
 │ M4│ Z │ X │ C │ V │ B │   │ N │ M │ , │ . │ / │ M4b│
-          M3 │ BSPC │ LT3 →L1     RT3 ESC │ SPC │ ENT
+          M3 │ BSPC │ LT3 →L1     RT3 ESC/M2 │ SPC │ ENT
 ```
 <!-- [cc] RP1 = M1 (LCTRL), RP2 = M2 (LALT), LT1 = M3 (LGUI) on L0, as requested
      (left-hand keycodes even on the right-side keys RP1/RP2). -->
-RP1 = M1 (`&kp LCTRL`), RP2 = M2 (`&kp LALT`), LT1 = M3 (`&kp LGUI`).
+RP1 = M1 (`&kp LCTRL`), LT1 = M3 (`&kp LGUI`).
+<!-- [cc] v21: RP2 on L0 = ' (SQT); Alt moved to RT3 hold. -->
+RP2 = `'` (`&kp SQT`); M2 is now on RT3 hold (`&mt LALT ESC`).
 <!-- [cc] LP2 = Alt+Backspace (M2+BSPC, delete previous word on macOS) on L0; LP1 = TAB.
      Plain ESC lives on RT3. -->
 LP2 = `&kp LA(BSPC)` (M2+BSPC), LP1 = `&kp TAB`.

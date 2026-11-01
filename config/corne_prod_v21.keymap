@@ -17,6 +17,7 @@
  *  - [cc] RT2 on L1–L3 = go_l0 (thumb way back to L0).
  *  - [cc] LP2 on L1–L3 = &none.
  *  - [cc] LT2 on L1–L3 = go_l0 (left-thumb way back to L0, mirrors RT2).
+ *  - [cc] L0: RP2 = ' (was M2/Alt); RT3 = tap ESC / hold M2 (Alt) via &mt.
  *  - [cc] L2: * is now plain STAR (was KP_MULTIPLY, keypad code);
  *    LP3 = M4 (left Shift) for Shift-shortcuts like Cmd+Shift+[.
  *
@@ -186,17 +187,17 @@
         // L0 — Default (QWERTY)
         //
         // │ TAB    │ Q │ W │ E │ R │ T │   │ Y │ U │ I │ O │ P │ M1  │
-        // │ M2+BSPC│ A │ S │ D │ F │ G │   │ H │ J │ K │ L │ ; │ M2  │
+        // │ M2+BSPC│ A │ S │ D │ F │ G │   │ H │ J │ K │ L │ ; │ '   │
         // │ M4     │ Z │ X │ C │ V │ B │   │ N │ M │ , │ . │ / │ M4b │
-        //        M3 │ BSPC │ →L1     ESC │ SPC │ ENT
+        //        M3 │ BSPC │ →L1     ESC/M2 │ SPC │ ENT
         // ----------------------------------------------------
         default_layer {
             display-name = "L0";
             bindings = <
    &kp TAB       &kp Q  &kp W  &kp E  &kp R     &kp T        &kp Y    &kp U      &kp I      &kp O    &kp P     &kp LCTRL
-   &kp LA(BSPC)  &kp A  &kp S  &kp D  &kp F     &kp G        &kp H    &kp J      &kp K      &kp L    &kp SEMI  &kp LALT
+   &kp LA(BSPC)  &kp A  &kp S  &kp D  &kp F     &kp G        &kp H    &kp J      &kp K      &kp L    &kp SEMI  &kp SQT 
    &kp LSHFT     &kp Z  &kp X  &kp C  &kp V     &kp B        &kp N    &kp M      &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
-                               &kp LGUI  &kp BSPC  &go_l1    &kp ESC  &kp SPACE  &kp RET
+                               &kp LGUI  &kp BSPC  &go_l1    &mt LALT ESC  &kp SPACE  &kp RET
             >;
         };
 
