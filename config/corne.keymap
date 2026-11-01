@@ -2,11 +2,17 @@
  * Copyright (c) 2020 The ZMK Contributors
  * SPDX-License-Identifier: MIT
  *
- * Corne Keymap v21
+ * Corne Keymap v22
  * Reference: https://zmk.dev/docs/keymaps/behaviors/key-press
- * Notation (LP/RP/LT/RT, L0–L3, M1–M4/M1b–M4b): corne_prod_v20_notation.md
+ * Notation (LP/RP/LT/RT, L0–L3, M1–M4/M1b–M4b): corne_prod_v22_notation.md
  *
- * Changes from v20:
+ * Changes from v21:
+ *  - [cc] L1: C-b key is now macro cb_l0 = tap Ctrl+B, then return to L0
+ *    (white underglow), so one press sends the shortcut and you land on L0.
+ *  - [cc] L1: SC / SCA (mac_sc / mac_sca) also return to L0 after the
+ *    screenshot shortcut, same as cb_l0.
+ *
+ * v21 changes from v20 (kept for history):
  *  - [cc] L3: added underglow brightness up (G) / down (B) under HUD's row.
  *  - [cc] Per-layer underglow colour: layer-switch keys (LT3, LT2, RT2) are now
  *    macros go_l0..go_l3 that switch layer + set colour.
@@ -99,6 +105,9 @@
                 , <&macro_release &kp LSHFT>
                 , <&macro_release &kp LCTRL>
                 , <&macro_release &kp LGUI>
+                // [cc] v22: return to L0 (white) after the shortcut, like cb_l0.
+                , <&macro_tap     &rgb_hs 0 0>
+                , <&macro_tap     &to L0>
                 ;
         };
 
@@ -112,6 +121,22 @@
                 , <&macro_tap     &kp N4>
                 , <&macro_release &kp LSHFT>
                 , <&macro_release &kp LGUI>
+                // [cc] v22: return to L0 (white) after the shortcut, like cb_l0.
+                , <&macro_tap     &rgb_hs 0 0>
+                , <&macro_tap     &to L0>
+                ;
+        };
+
+        // [cc] v22: Ctrl+B then back to L0. Ctrl+B is usually followed by
+        // typing on L0, so the key returns there itself instead of needing
+        // an extra LT2/RT2 press. Steps match go_l0 (white, &to L0).
+        cb_l0: cb_l0 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_tap &kp LC(B)>
+                , <&macro_tap &rgb_hs 0 0>
+                , <&macro_tap &to L0>
                 ;
         };
 
@@ -213,7 +238,7 @@
             display-name = "L1";
             bindings = <
    &kp GRAVE  &kp N1     &kp N2    &kp N3    &kp N4     &kp N5     &kp N6    &kp N7    &kp N8    &kp N9     &kp N0     &none
-   &none      &mac_sc    &mac_sca  &none     &kp LC(B)  &none      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none      &none
+   &none      &mac_sc    &mac_sca  &none     &cb_l0     &none      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none      &none
    &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI  &none      &none      &none     &none     &kp RGUI  &kp RALT   &kp RCTRL  &kp RSHFT
                                    &none     &go_l0     &go_l2     &none     &go_l0    &none
             >;

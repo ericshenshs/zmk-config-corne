@@ -1,0 +1,263 @@
+% [cc] v22 reference guide, forked from the v21 guide; only the L1 return-to-L0 keys changed.
+% Source of truth: corne_prod_v22.keymap and corne_prod_v22_notation.md.
+\documentclass[11pt, letterpaper]{article}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{microtype}
+\usepackage{xcolor}
+% [cc] T1 + upquote (+ \textquotesingle) so | ' " ` render as literal ASCII symbols.
+\usepackage[T1]{fontenc}
+\usepackage{upquote}
+
+\newcommand{\nk}{\textcolor{gray}{---}}  % no key (&none)
+\newcommand{\gl}[1]{$\to$L#1}            % one-tap switch to layer #1
+
+\title{\textbf{Corne Keymap v22 --- Reference Guide}}
+\author{}
+\date{2026-11-01}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+% ------------------------------------------------------------------
+\section{Overview}
+
+ZMK keymap for the 42-key Keebmaker Corne (Nice!Nano, split). v22 has
+exactly four layers. Layer changes are \emph{persistent one-tap switches}
+(no hold-layers), every layer has its own underglow colour, and there are
+no transparent keys: a key either has a binding on that layer or does
+nothing (shown as \nk).
+
+\begin{center}
+\begin{tabular}{clll}
+\toprule
+\textbf{Layer} & \textbf{Name} & \textbf{Reached by} & \textbf{Underglow} \\
+\midrule
+L0 & Default (QWERTY) & LT2 or RT2 on L1--L3 & white \\
+L1 & Lower  & LT3 on L0 & green \\
+L2 & Raise  & LT3 on L1 & blue \\
+L3 & Func   & LT3 on L2 & purple \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ------------------------------------------------------------------
+\section{Notation}
+
+\begin{tabular}{lp{11cm}}
+\toprule
+\textbf{Name} & \textbf{Meaning} \\
+\midrule
+LP1--LP3 / RP1--RP3 & Outer pinky column (left / right), numbered top $\to$ bottom \\
+LT1--LT3 / RT1--RT3 & Thumb keys, numbered outer $\to$ inner (LT1, RT1 farthest from centre) \\
+L0--L3 & Layers by ZMK index \\
+M1, M2, M3, M4 & Left Ctrl, Alt/Option, Command, Shift \\
+M1b--M4b & Right-hand versions of the same modifiers \\
+\gl{n} & One tap switches to layer n (and sets its colour) \\
+\nk & No key \\
+\bottomrule
+\end{tabular}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|c|c|c|c|c||c|c|c|c|c|c|}
+\hline
+LP1 & Q & W & E & R & T & Y & U & I & O & P & RP1 \\ \hline
+LP2 & A & S & D & F & G & H & J & K & L & ; & RP2 \\ \hline
+LP3 & Z & X & C & V & B & N & M & , & . & / & RP3 \\ \hline
+\multicolumn{3}{|c|}{} & LT1 & LT2 & LT3 & RT3 & RT2 & RT1 & \multicolumn{3}{c|}{} \\ \hline
+\end{tabular}
+\end{center}
+
+% ------------------------------------------------------------------
+\section{Layer switching}
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+\textbf{On} & \textbf{LT3} & \textbf{LT2} & \textbf{RT2} \\
+\midrule
+L0 & \gl{1} & Backspace & Space \\
+L1 & \gl{2} & \gl{0} & \gl{0} \\
+L2 & \gl{3} & \gl{0} & \gl{0} \\
+L3 & \nk    & \gl{0} & \gl{0} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+LT3 steps forward and stops at L3; either main thumb (LT2/RT2) goes home.
+On L1--L3 the first press of LT2/RT2 only returns to L0 (no Backspace /
+Space is sent). The OLED shows the active layer name (L0--L3).
+
+% ------------------------------------------------------------------
+\section{L0 --- Default}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|c|c|c|c|c||c|c|c|c|c|c|}
+\hline
+TAB & Q & W & E & R & T & Y & U & I & O & P & M1 \\ \hline
+M2+BSPC & A & S & D & F & G & H & J & K & L & ; & \texttt{\textquotesingle} \\ \hline
+M4 & Z & X & C & V & B & N & M & , & . & / & M4b \\ \hline
+\multicolumn{3}{|c|}{} & M3 & BSPC & \gl{1} & ESC/M2 & SPC & ENT & \multicolumn{3}{c|}{} \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{tabular}{lp{11cm}}
+\toprule
+\textbf{Key} & \textbf{Behavior} \\
+\midrule
+LP1 TAB & Tab \\
+LP2 M2+BSPC & Alt+Backspace (delete previous word on macOS) \\
+LP3 / RP3 & Left / right Shift (hold) \\
+RP1 M1 & Ctrl (hold) \\
+RP2 & \texttt{\textquotesingle} (Shift gives \texttt{"}) \\
+LT1 M3 & Command (hold) \\
+LT2 / RT2 & Backspace / Space \\
+RT3 ESC/M2 & Tap = Escape (sent on release); hold $>$200\,ms = Alt \\
+RT1 & Enter \\
+\bottomrule
+\end{tabular}
+
+% ------------------------------------------------------------------
+\section{L1 --- Lower (green)}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|c|c|c|c|c||c|c|c|c|c|c|}
+\hline
+\texttt{`} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 0 & \nk \\ \hline
+\nk & SC & SCA & \nk & C-b & \nk & $\leftarrow$ & $\downarrow$ & $\uparrow$ & $\rightarrow$ & \nk & \nk \\ \hline
+M4 & M1 & M2 & M3 & \nk & \nk & \nk & \nk & M3b & M2b & M1b & M4b \\ \hline
+\multicolumn{3}{|c|}{} & \nk & \gl{0} & \gl{2} & \nk & \gl{0} & \nk & \multicolumn{3}{c|}{} \\ \hline
+\end{tabular}
+\end{center}
+
+% [cc] Spaces around "+" let LaTeX break these lines (fixes overfull hbox).
+SC = macOS screenshot to clipboard (Cmd + Ctrl + Shift + 4); SCA = screenshot
+with annotation (Cmd + Shift + 4); C-b = Ctrl + B (tmux prefix).
+% [cc] v22 behaviour change, documented next to the keys it affects.
+In v22, SC, SCA and C-b \emph{return to L0} (white underglow) right after
+sending their shortcut, so no extra LT2/RT2 press is needed. Modifiers on
+the bottom row allow e.g.\ Shift+arrows (select), Alt+arrows (word jump),
+Cmd+arrows (line start/end), Cmd+1--5.
+
+% ------------------------------------------------------------------
+\section{L2 --- Raise (blue)}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|c|c|c|c|c||c|c|c|c|c|c|}
+\hline
+\texttt{\~{}} & \texttt{!} & \texttt{@} & \texttt{\#} & \texttt{\$} & \texttt{\%} & \texttt{\^{}} & \texttt{\&} & \texttt{*} & \texttt{(} & \texttt{)} & \nk \\ \hline
+\nk & \nk & \nk & \nk & \nk & \nk & \texttt{[} & \texttt{-} & \texttt{=} & \texttt{]} & \texttt{\textbackslash} & \texttt{\textquotesingle} \\ \hline
+M4 & M1 & M2 & M3 & \nk & \nk & \texttt{\{} & \texttt{\_} & \texttt{+} & \texttt{\}} & \texttt{|} & \texttt{"} \\ \hline
+\multicolumn{3}{|c|}{} & \nk & \gl{0} & \gl{3} & \nk & \gl{0} & \nk & \multicolumn{3}{c|}{} \\ \hline
+\end{tabular}
+\end{center}
+
+On the right half each plain symbol has its shifted version directly
+below it. Left-hand modifiers allow shortcuts such as Cmd+Shift+[ / ].
+
+% ------------------------------------------------------------------
+\section{L3 --- Func (purple)}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|c|c|c|c|c||c|c|c|c|c|c|}
+\hline
+BT\_CLR & BT0 & BT1 & BT2 & BT3 & BT4 & \nk & F1 & F2 & F3 & F4 & \nk \\ \hline
+\nk & TOG & EFF & HUI & HUD & BRI & \nk & F5 & F6 & F7 & F8 & \nk \\ \hline
+\nk & M1 & M2 & M3 & \nk & BRD & \nk & F9 & F10 & F11 & F12 & \nk \\ \hline
+\multicolumn{3}{|c|}{} & \nk & \gl{0} & \nk & \nk & \gl{0} & \nk & \multicolumn{3}{c|}{} \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{tabular}{lp{11cm}}
+\toprule
+\textbf{Key} & \textbf{Behavior} \\
+\midrule
+BT0--BT4 & Select Bluetooth profile 0--4 \\
+BT\_CLR & Clear the pairing of the \emph{current} profile (before re-pairing) \\
+TOG & Underglow on / off (the only key that turns it on or off) \\
+EFF & Next effect (use \emph{solid} so layer colours show cleanly) \\
+HUI / HUD & Hue up / down (overridden by the next layer switch) \\
+BRI / BRD & Brightness up / down --- persists across layer switches and reboots \\
+\bottomrule
+\end{tabular}
+
+% ------------------------------------------------------------------
+\section{Underglow per layer}
+
+Every layer-switch key is a macro that switches the layer \emph{and}
+sets that layer's colour via the custom \texttt{\&rgb\_hs} behavior
+(\texttt{src/behaviors/behavior\_rgb\_hue\_sat.c}), which changes hue and
+saturation but keeps the current brightness. It never turns the
+underglow on or off; TOG controls that. With the underglow off, colours
+are still tracked and appear when it is switched on.
+
+\begin{center}
+\begin{tabular}{cll}
+\toprule
+\textbf{Layer} & \textbf{Colour} & \textbf{Hue / Saturation} \\
+\midrule
+L0 & white  & 0 / 0 \\
+L1 & green  & 120 / 100 \\
+L2 & blue   & 240 / 100 \\
+L3 & purple & 280 / 100 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Startup: underglow is off at first boot (\texttt{ON\_START=n}); ZMK
+remembers the on/off state and brightness after that.
+
+% ------------------------------------------------------------------
+% [cc] v22 diff table added; the v20 vs v21 table is kept below for history.
+\section{v21 vs v22 Differences}
+
+\begin{tabular}{p{5.5cm}p{4.5cm}p{5.5cm}}
+\toprule
+\textbf{Key / feature} & \textbf{v21} & \textbf{v22} \\
+\midrule
+L1 C-b & Ctrl+B, stay on L1 & Ctrl+B, then \gl{0} (white) \\
+L1 SC & screenshot, stay on L1 & screenshot, then \gl{0} (white) \\
+L1 SCA & screenshot, stay on L1 & screenshot, then \gl{0} (white) \\
+\bottomrule
+\end{tabular}
+
+% ------------------------------------------------------------------
+\section{v20 vs v21 Differences}
+
+\begin{tabular}{p{5.5cm}p{4.5cm}p{5.5cm}}
+\toprule
+\textbf{Key / feature} & \textbf{v20} & \textbf{v21} \\
+\midrule
+Return to L0 & LP2 on L1--L3 & LT2 or RT2 on L1--L3 \\
+LP2 on L1--L3 & \gl{0} & \nk \\
+Underglow & manual only & colour per layer (white/green/blue/purple) \\
+Brightness keys & none & BRI / BRD on L3 (G / B) \\
+L0 RP2 & M2 (Alt) & \texttt{\textquotesingle} \\
+L0 RT3 & ESC & tap ESC / hold M2 (Alt) \\
+L2 \texttt{*} & keypad multiply & plain \texttt{*} \\
+L2 LP3 & \nk & M4 (Shift) \\
+\bottomrule
+\end{tabular}
+
+% ------------------------------------------------------------------
+\section{Flashing}
+
+\begin{enumerate}
+  \item Firmware: \texttt{ysconfig/keyboard/keebmaker\_corne/zmk\_firmware/v22/firmware/}.
+  \item Plug in the left half, double-press reset; drive \texttt{NICENANO} appears.
+  \item Copy \texttt{corne\_left-nice\_nano\_\_zmk-zmk.uf2} onto it; it reboots.
+  \item Repeat for the right half with the right \texttt{.uf2}.
+\end{enumerate}
+
+\end{document}

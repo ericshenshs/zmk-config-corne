@@ -1,4 +1,4 @@
-<!-- [cc] Notation + design-state file for v20. Gives short names to the outer
+<!-- [cc] Notation + design-state file for v22 (forked from v21). Gives short names to the outer
      pinky column, the thumb keys, and the layers so designs can be discussed
      precisely, and records the agreed v20 layout so far. Referenced from the
      project CLAUDE.md so future sessions pick it up automatically. -->
