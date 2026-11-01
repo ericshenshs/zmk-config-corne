@@ -1,0 +1,144 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ * SPDX-License-Identifier: MIT
+ *
+ * Corne Template v1
+ *
+ * [cc] Snapshot of the in-progress v20 design (forked from prod v19), saved as
+ * a template so the design can be kept/reused independently of the prod
+ * versioning. Not built by CI (CI only builds config/corne.keymap).
+ * Notation (LP/RP/LT/RT, L0–L3): see corne_template_v1_notation.md.
+ *
+ * Design rules:
+ *  - Four layers only: L0 Default, L1 Lower, L2 Raise, L3 Func.
+ *  - No transparent keys: every unused key is &none.
+ *  - LP1–3, RP1–3, LT1, LT2, RT1, RT2 are &none on every layer
+ *    (exception: LP1 on L3 = BT_CLR).
+ *  - LT3 = persistent layer cycle L0 → L1 → L2 → L3 (stops at L3).
+ *  - RT3 = reset to L0 on every layer.
+ *
+ * Known gaps (open items): no Space, Backspace, Enter, ESC, TAB, modifiers,
+ * quote/backtick/tilde, or media keys yet.
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/rgb.h>
+
+// ============================================================
+// Hardware
+// ============================================================
+
+&led_strip {
+    chain-length = <27>;
+};
+
+// ============================================================
+// Layer indices
+// ============================================================
+
+#define L0 0
+#define L1 1
+#define L2 2
+#define L3 3
+
+// ============================================================
+// Macros
+// ============================================================
+
+/ {
+    macros {
+
+        // macOS screenshot to clipboard (Cmd+Ctrl+Shift+4)
+        mac_sc: macos_screenshot {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press   &kp LGUI>
+                , <&macro_press   &kp LCTRL>
+                , <&macro_press   &kp LSHFT>
+                , <&macro_tap     &kp N4>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LCTRL>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+
+        // macOS screenshot with annotation (Cmd+Shift+4)
+        mac_sca: macos_screenshot_with_annotation {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press   &kp LGUI>
+                , <&macro_press   &kp LSHFT>
+                , <&macro_tap     &kp N4>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+    };
+};
+
+// ============================================================
+// Keymap
+// ============================================================
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        // ----------------------------------------------------
+        // L0 — Default (QWERTY)
+        // ----------------------------------------------------
+        default_layer {
+            display-name = "L0";
+            bindings = <
+   &none  &kp Q  &kp W  &kp E  &kp R  &kp T      &kp Y  &kp U  &kp I      &kp O    &kp P     &none
+   &none  &kp A  &kp S  &kp D  &kp F  &kp G      &kp H  &kp J  &kp K      &kp L    &kp SEMI  &none
+   &none  &kp Z  &kp X  &kp C  &kp V  &kp B      &kp N  &kp M  &kp COMMA  &kp DOT  &kp FSLH  &none
+                        &none  &none  &to L1     &to L0 &none  &none
+            >;
+        };
+
+        // ----------------------------------------------------
+        // L1 — Lower: numbers, screenshots, Ctrl+B, arrows
+        // ----------------------------------------------------
+        lower_layer {
+            display-name = "L1";
+            bindings = <
+   &none  &kp N1   &kp N2    &kp N3  &kp N4     &kp N5     &kp N6    &kp N7    &kp N8  &kp N9     &kp N0  &none
+   &none  &mac_sc  &mac_sca  &none   &kp LC(B)  &none      &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &none   &none
+   &none  &none    &none     &none   &none      &none      &none     &none     &none   &none      &none   &none
+                             &none   &none      &to L2     &to L0    &none     &none
+            >;
+        };
+
+        // ----------------------------------------------------
+        // L2 — Raise: symbols
+        // ----------------------------------------------------
+        raise_layer {
+            display-name = "L2";
+            bindings = <
+   &none  &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &none
+   &none  &none     &none   &none     &none     &none        &kp LBKT   &kp MINUS  &kp EQUAL        &kp RBKT  &kp BSLH  &none
+   &none  &none     &none   &none     &none     &none        &kp LBRC   &kp UNDER  &kp PLUS         &kp RBRC  &kp PIPE  &none
+                            &none     &none     &to L3       &to L0     &none      &none
+            >;
+        };
+
+        // ----------------------------------------------------
+        // L3 — Func: Bluetooth, RGB underglow, F1–F12
+        // LT3 is &none here: the cycle stops at L3; only RT3 leaves.
+        // ----------------------------------------------------
+        func_layer {
+            display-name = "L3";
+            bindings = <
+   &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4    &none  &kp F1  &kp F2   &kp F3   &kp F4   &none
+   &none       &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_HUI  &rgb_ug RGB_HUD  &none           &none  &kp F5  &kp F6   &kp F7   &kp F8   &none
+   &none       &none            &none            &none            &none            &none           &none  &kp F9  &kp F10  &kp F11  &kp F12  &none
+                                                 &none            &none            &none           &to L0 &none   &none
+            >;
+        };
+    };
+};

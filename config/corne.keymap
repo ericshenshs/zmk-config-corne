@@ -2,14 +2,28 @@
  * Copyright (c) 2020 The ZMK Contributors
  * SPDX-License-Identifier: MIT
  *
- * Corne Keymap v19
+ * Corne Keymap v20
  * Reference: https://zmk.dev/docs/keymaps/behaviors/key-press
+ * Notation (LP/RP/LT/RT, L0–L3, M1–M4/M1b–M4b): corne_prod_v20_notation.md
  *
- * Changes from v18:
- *  - [cc] Replaced BT_CLR combo (BT_SEL0+BT_SEL1) with a dedicated BT_CLR key
- *    at the top-left of the FUNC layer; removed the combo entirely.
- *    The combo was confusing (implied clearing profiles 0+1, but actually clears
- *    the currently active profile). A dedicated key is clearer.
+ * Changes from v19:
+ *  - [cc] Four layers only: L0 Default, L1 Lower, L2 Raise, L3 Func.
+ *    v19 Num (3) and Template (5) removed; v19 Func moved to L3.
+ *  - [cc] Layer switching is persistent (&to), no hold-layers:
+ *      LT3 steps L0 → L1 → L2 → L3 (none on L3);
+ *      LP2 on L1–L3 jumps back to L0.
+ *  - [cc] No transparent keys: every unused key is &none.
+ *  - [cc] L0 outer/thumb keys reassigned: LP1 TAB, LP2 Alt+BSPC, LP3 LShift,
+ *    RP1 Ctrl, RP2 Alt, RP3 RShift, LT1 Cmd, LT2 BSPC, RT3 ESC, RT2 SPC, RT1 ENT.
+ *    All modifiers are plain holds (no sticky keys, no mod-taps).
+ *  - [cc] L1–L3: Ctrl/Alt/Cmd on Z X C; L1 also has mirrored right mods on
+ *    / . , and Shift on LP3/RP3.
+ *  - [cc] L2: ' and " moved to RP2/RP3; ~ on LP1.
+ *  - [cc] L3: F1–F12 on the U–/ 4×3 block, RGB on A S D F, BT_CLR on LP1;
+ *    media keys removed.
+ *  - [cc] Removed unused macros/behaviors (ctrl_alt_*, cmd_*, macos_input,
+ *    lm_lwr_lgui, ht_lm_esc, ht_sl_mo) and the Num layer.
+ *  - [cc] Each layer has a display-name so the OLED shows L0–L3.
  */
 
 #include <behaviors.dtsi>
@@ -29,20 +43,10 @@
 // Layer indices
 // ============================================================
 
-#define DEFAULT 0
-#define DFT     0
-#define LWR     1
-#define RSE     2
-#define NUM     3
-#define FUNC    4
-
-// ============================================================
-// Macro aliases
-// ============================================================
-
-#define mac_sc  macos_screenshot
-#define mac_sca macos_screenshot_with_annotation
-#define mac_in  macos_input
+#define L0 0
+#define L1 1
+#define L2 2
+#define L3 3
 
 // ============================================================
 // Macros
@@ -51,21 +55,8 @@
 / {
     macros {
 
-        // Switch macOS input method (Ctrl+Alt+Space)
-        macos_input: macos_input {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LCTRL>
-                , <&macro_press   &kp LALT>
-                , <&macro_tap     &kp SPACE>
-                , <&macro_release &kp LALT>
-                , <&macro_release &kp LCTRL>
-                ;
-        };
-
         // macOS screenshot to clipboard (Cmd+Ctrl+Shift+4)
-        macos_screenshot: macos_screenshot {
+        mac_sc: macos_screenshot {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings
@@ -80,7 +71,7 @@
         };
 
         // macOS screenshot with annotation (Cmd+Shift+4)
-        macos_screenshot_with_annotation: macos_screenshot_with_annotation {
+        mac_sca: macos_screenshot_with_annotation {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings
@@ -91,174 +82,6 @@
                 , <&macro_release &kp LGUI>
                 ;
         };
-
-        // Ctrl+Alt+Arrow macros (workspace/window navigation)
-        ctrl_alt_left: ctrl_alt_left {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LCTRL>
-                , <&macro_press   &kp LALT>
-                , <&macro_tap     &kp LEFT>
-                , <&macro_release &kp LALT>
-                , <&macro_release &kp LCTRL>
-                ;
-        };
-
-        ctrl_alt_right: ctrl_alt_right {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LCTRL>
-                , <&macro_press   &kp LALT>
-                , <&macro_tap     &kp RIGHT>
-                , <&macro_release &kp LALT>
-                , <&macro_release &kp LCTRL>
-                ;
-        };
-
-        ctrl_alt_up: ctrl_alt_up {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LCTRL>
-                , <&macro_press   &kp LALT>
-                , <&macro_tap     &kp UP>
-                , <&macro_release &kp LALT>
-                , <&macro_release &kp LCTRL>
-                ;
-        };
-
-        ctrl_alt_down: ctrl_alt_down {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LCTRL>
-                , <&macro_press   &kp LALT>
-                , <&macro_tap     &kp DOWN>
-                , <&macro_release &kp LALT>
-                , <&macro_release &kp LCTRL>
-                ;
-        };
-
-        ctrl_alt_enter: ctrl_alt_enter {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LCTRL>
-                , <&macro_press   &kp LALT>
-                , <&macro_tap     &kp RET>
-                , <&macro_release &kp LALT>
-                , <&macro_release &kp LCTRL>
-                ;
-        };
-
-        // Cmd+` (cycle windows of same app)
-        cmd_grave: cmd_grave {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LGUI>
-                , <&macro_tap     &kp GRAVE>
-                , <&macro_release &kp LGUI>
-                ;
-        };
-
-        // Cmd+1..5 (switch tabs/spaces)
-        cmd_1: cmd_1 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LGUI>
-                , <&macro_tap     &kp N1>
-                , <&macro_release &kp LGUI>
-                ;
-        };
-
-        cmd_2: cmd_2 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LGUI>
-                , <&macro_tap     &kp N2>
-                , <&macro_release &kp LGUI>
-                ;
-        };
-
-        cmd_3: cmd_3 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LGUI>
-                , <&macro_tap     &kp N3>
-                , <&macro_release &kp LGUI>
-                ;
-        };
-
-        cmd_4: cmd_4 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LGUI>
-                , <&macro_tap     &kp N4>
-                , <&macro_release &kp LGUI>
-                ;
-        };
-
-        cmd_5: cmd_5 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LGUI>
-                , <&macro_tap     &kp N5>
-                , <&macro_release &kp LGUI>
-                ;
-        };
-
-        // Zero-param wrapper: hold LWR layer + LGUI simultaneously
-        lm_lwr_lgui: lm_lwr_lgui {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <0>;
-            tap-ms  = <0>;
-            bindings
-                = <&macro_press   &mo LWR>
-                , <&macro_press   &kp LGUI>
-                , <&macro_pause_for_release>
-                , <&macro_release &kp LGUI>
-                , <&macro_release &mo LWR>
-                ;
-        };
-    };
-};
-
-// ============================================================
-// Behaviors
-// ============================================================
-
-/ {
-    behaviors {
-
-        // tap -> ESC   |   hold -> LWR layer + LGUI
-        ht_lm_esc: ht_lm_esc {
-            compatible = "zmk,behavior-hold-tap";
-            label = "HT_LM_ESC";
-            #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            flavor = "tap-preferred";
-            bindings = <&lm_lwr_lgui>, <&kp>;
-        };
-
-        // tap -> sticky layer (one-shot)   |   hold -> momentary layer
-        ht_sl_mo: ht_sl_mo {
-            compatible = "zmk,behavior-hold-tap";
-            label = "HT_SL_MO";
-            #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            flavor = "tap-preferred";
-            bindings = <&mo>, <&sl>;
-        };
-
     };
 };
 
@@ -271,139 +94,75 @@
         compatible = "zmk,keymap";
 
         // ----------------------------------------------------
-        // Layer 0 — Default (QWERTY)
+        // L0 — Default (QWERTY)
         //
-        // ┌──────────┬───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┬──────────┐
-        // │TAB/LCTRL │ Q │ W │ E │ R │ T │   │ Y │ U │ I │ O │ P │ SK_RALT  │
-        // ├──────────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼──────────┤
-        // │ SK_SHFT  │ A │ S │ D │ F │ G │   │ H │ J │ K │ L │ ; │ SK_SHFT  │
-        // ├──────────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼──────────┤
-        // │ SK_CTRL  │ Z │ X │ C │ V │ B │   │ N │ M │ , │ . │ / │    '     │
-        // └──────────┴───┴───┴─┬─┴─┬─┴─┬┘   └┬──┴─┬─┴─┬─┴───┴───┴──────────┘
-        //                      │SK │BSP│ESC   │ENT │SPC│tap:SK │
-        //                      │GUI│LWR│LWR   │    │RSE│hld:MO │
-        //                      │   │   │+GUI  │    │   │  NUM  │
-        //                      └───┴───┘       └────┴───┘
+        // │ TAB    │ Q │ W │ E │ R │ T │   │ Y │ U │ I │ O │ P │ M1  │
+        // │ M2+BSPC│ A │ S │ D │ F │ G │   │ H │ J │ K │ L │ ; │ M2  │
+        // │ M4     │ Z │ X │ C │ V │ B │   │ N │ M │ , │ . │ / │ M4b │
+        //        M3 │ BSPC │ →L1     ESC │ SPC │ ENT
         // ----------------------------------------------------
         default_layer {
+            display-name = "L0";
             bindings = <
-   &mt LCTRL TAB   &kp Q  &kp W  &kp E  &kp R        &kp T          &kp Y    &kp U          &kp I      &kp O    &kp P     &sk RALT
-   &sk LSHFT       &kp A  &kp S  &kp D  &kp F        &kp G          &kp H    &kp J          &kp K      &kp L    &kp SEMI  &sk RSHFT
-   &sk LCTRL       &kp Z  &kp X  &kp C  &kp V        &kp B          &kp N    &kp M          &kp COMMA  &kp DOT  &kp FSLH  &kp SQT
-                                  &sk LGUI  &lt LWR BSPC  &ht_lm_esc 0 ESC   &kp RET  &lt RSE SPACE  &ht_sl_mo NUM NUM
+   &kp TAB       &kp Q  &kp W  &kp E  &kp R     &kp T        &kp Y    &kp U      &kp I      &kp O    &kp P     &kp LCTRL
+   &kp LA(BSPC)  &kp A  &kp S  &kp D  &kp F     &kp G        &kp H    &kp J      &kp K      &kp L    &kp SEMI  &kp LALT
+   &kp LSHFT     &kp Z  &kp X  &kp C  &kp V     &kp B        &kp N    &kp M      &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
+                               &kp LGUI  &kp BSPC  &to L1    &kp ESC  &kp SPACE  &kp RET
             >;
         };
 
         // ----------------------------------------------------
-        // Layer 1 — Lower  (hold left BSPC thumb)
+        // L1 — Lower: numbers, screenshots, Ctrl+B, arrows, mods
         //
-        // ┌─────┬───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┬─────┐
-        // │  `  │ 1 │ 2 │ 3 │ 4 │ 5 │   │ 6 │ 7 │ 8 │ 9 │ 0 │     │
-        // ├─────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼─────┤
-        // │     │SC │SCA│   │C-b│   │   │ ← │ ↓ │ ↑ │ → │   │     │
-        // ├─────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼─────┤
-        // │     │   │   │   │   │   │   │   │   │   │   │   │     │
-        // └─────┴───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┴─────┘
-        // SC  = macOS screenshot to clipboard (Cmd+Ctrl+Shift+4)
-        // SCA = macOS screenshot with annotation (Cmd+Shift+4)
+        // │ `   │ 1  │ 2   │ 3  │ 4   │ 5 │   │ 6 │ 7 │ 8   │ 9   │ 0   │ ✕   │
+        // │ →L0 │ SC │ SCA │ ✕  │ C-b │ ✕ │   │ ← │ ↓ │ ↑   │ →   │ ✕   │ ✕   │
+        // │ M4  │ M1 │ M2  │ M3 │ ✕   │ ✕ │   │ ✕ │ ✕ │ M3b │ M2b │ M1b │ M4b │
+        //        ✕ │ ✕ │ →L2     ✕ │ ✕ │ ✕
         // ----------------------------------------------------
         lower_layer {
+            display-name = "L1";
             bindings = <
-   &kp GRAVE  &kp N1   &kp N2    &kp N3  &kp N4     &kp N5    &kp N6    &kp N7    &kp N8  &kp N9     &kp N0  &trans
-   &trans     &mac_sc  &mac_sca  &trans  &kp LC(B)  &trans    &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans
-   &trans     &trans   &trans    &trans  &trans     &trans    &trans    &trans    &trans  &trans     &trans  &trans
-                                 &trans  &trans     &trans    &trans    &trans    &trans
+   &kp GRAVE  &kp N1     &kp N2    &kp N3    &kp N4     &kp N5     &kp N6    &kp N7    &kp N8    &kp N9     &kp N0     &none
+   &to L0     &mac_sc    &mac_sca  &none     &kp LC(B)  &none      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none      &none
+   &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI  &none      &none      &none     &none     &kp RGUI  &kp RALT   &kp RCTRL  &kp RSHFT
+                                   &none     &none      &to L2     &none     &none     &none
             >;
         };
 
         // ----------------------------------------------------
-        // Layer 2 — Raise  (hold right SPC thumb)
+        // L2 — Raise: symbols
         //
-        // ┌─────┬───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┬─────┐
-        // │  ~  │ ! │ @ │ # │ $ │ % │   │ ^ │ & │ * │ ( │ ) │     │
-        // ├─────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼─────┤
-        // │     │   │   │   │   │   │   │ [ │ - │ = │ ] │ \ │     │
-        // ├─────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼─────┤
-        // │     │   │   │   │   │   │   │ { │ _ │ + │ } │ | │     │
-        // └─────┴───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┴─────┘
+        // │ ~   │ !  │ @  │ #  │ $ │ % │   │ ^ │ & │ * │ ( │ ) │ ✕ │
+        // │ →L0 │ ✕  │ ✕  │ ✕  │ ✕ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
+        // │ ✕   │ M1 │ M2 │ M3 │ ✕ │ ✕ │   │ { │ _ │ + │ } │ | │ " │
+        //        ✕ │ ✕ │ →L3     ✕ │ ✕ │ ✕
         // ----------------------------------------------------
         raise_layer {
+            display-name = "L2";
             bindings = <
-   &kp TILDE  &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &trans
-   &trans     &trans    &trans  &trans    &trans    &trans       &kp LBKT   &kp MINUS  &kp EQUAL        &kp RBKT  &kp BSLH  &trans
-   &trans     &trans    &trans  &trans    &trans    &trans       &kp LBRC   &kp UNDER  &kp PLUS         &kp RBRC  &kp PIPE  &trans
-                                &trans    &trans    &trans       &trans     &trans     &trans
+   &kp TILDE  &kp EXCL   &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &none
+   &to L0     &none      &none     &none     &none     &none        &kp LBKT   &kp MINUS  &kp EQUAL        &kp RBKT  &kp BSLH  &kp SQT
+   &none      &kp LCTRL  &kp LALT  &kp LGUI  &none     &none        &kp LBRC   &kp UNDER  &kp PLUS         &kp RBRC  &kp PIPE  &kp DQT
+                                   &none     &none     &to L3       &none      &none      &none
             >;
         };
 
         // ----------------------------------------------------
-        // Layer 3 — Nav  (hold right outer thumb)
+        // L3 — Func: Bluetooth, RGB underglow, F1–F12
         //
-        // Left half: backtick + 1-5 number row, screenshot macros on home row.
-        // Right half: numpad 7-9 / 4-6 / 1-3, with 0 on right inner thumb.
-        // Left outer thumb gates FUNC.
-        //
-        // ┌──────┬───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┬─────┐
-        // │      │ 1 │ 2 │ 3 │ 4 │ 5 │   │ 6 │ 7 │ 8 │ 9 │ 0 │     │
-        // ├──────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼─────┤
-        // │      │   │   │   │   │   │   │   │ 4 │ 5 │ 6 │ 0 │     │
-        // ├──────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼─────┤
-        // │      │   │   │   │   │   │   │ 0 │ 1 │ 2 │ 3 │   │     │
-        // └──────┴───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┴─────┘
-        //               │FUNC│    │    │   │    │    │(held)│
-        // ----------------------------------------------------
-        num_layer {
-            bindings = <
-   &trans     &kp N1  &kp N2  &kp N3  &kp N4   &kp N5    &kp N6  &kp N7  &kp N8  &kp N9  &kp N0  &trans
-   &trans     &trans  &trans  &trans  &trans   &trans    &trans  &kp N4  &kp N5  &kp N6  &kp N0  &trans
-   &trans     &trans  &trans  &trans  &trans   &trans    &kp N0  &kp N1  &kp N2  &kp N3  &trans  &trans
-                               &mo FUNC  &trans  &trans  &trans  &trans  &trans
-            >;
-        };
-
-        // ----------------------------------------------------
-        // Layer 4 — Func  (NUM + left outer thumb)
-        //
-        // Requires two deliberate thumb holds to reach.
-        //
-        // ┌──────┬────┬────┬────┬────┬────┐   ┌────┬────┬────┬────┬────┬────┐
-        // │BTCLR │BT0 │BT1 │BT2 │BT3 │BT4 │   │ F1 │ F2 │ F3 │ F4 │ F5 │ F6 │
-        // ├──────┼────┼────┼────┼────┼────┤   ├────┼────┼────┼────┼────┼────┤
-        // │      │    │    │    │    │    │   │ F7 │ F8 │ F9 │F10 │F11 │F12 │
-        // ├──────┼────┼────┼────┼────┼────┤   ├────┼────┼────┼────┼────┼────┤
-        // │      │TOG │EFF │HUI │HUD │    │   │    │MUTE│VOLD│VOLU│PREV│NEXT│
-        // └──────┴────┴────┴────┴────┴────┘   └────┴────┴────┴────┴────┴────┘
-        //               │(held)│    │    │   │ PP │    │    │
-        //
-        // BTCLR = clear current BT profile (top-left key)
-        // BT0-4  = select Bluetooth profile 0-4
-        // TOG    = toggle RGB underglow on/off
-        // EFF    = cycle RGB effect
-        // HUI/D  = hue increase / decrease
-        // MUTE   = mute/unmute
-        // VOLD/U = volume down / up
-        // PREV/NEXT = media previous / next track
-        // PP     = play / pause
+        // │ BT_CLR │ BT0 │ BT1 │ BT2 │ BT3 │ BT4 │   │ ✕ │ F1 │ F2  │ F3  │ F4  │ ✕ │
+        // │ →L0    │ TOG │ EFF │ HUI │ HUD │ ✕   │   │ ✕ │ F5 │ F6  │ F7  │ F8  │ ✕ │
+        // │ ✕      │ M1  │ M2  │ M3  │ ✕   │ ✕   │   │ ✕ │ F9 │ F10 │ F11 │ F12 │ ✕ │
+        //        ✕ │ ✕ │ ✕     ✕ │ ✕ │ ✕
+        // LT3 is &none here: the cycle stops at L3; LP2 is the only exit.
         // ----------------------------------------------------
         func_layer {
+            display-name = "L3";
             bindings = <
-   // [cc] top-left is now BT_CLR (clear current profile); replaces the confusing BT0+BT1 combo
-   &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4    &kp F1    &kp F2       &kp F3        &kp F4        &kp F5      &kp F6
-   &trans      &trans           &trans           &trans           &trans           &trans          &kp F7    &kp F8       &kp F9        &kp F10       &kp F11     &kp F12
-   &trans      &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_HUI  &rgb_ug RGB_HUD  &trans          &trans    &kp C_MUTE   &kp C_VOL_DN  &kp C_VOL_UP  &kp C_PREV  &kp C_NEXT
-                                                 &trans           &trans           &trans          &kp C_PP  &trans       &trans
-            >;
-        };
-
-        // ----------------------------------------------------
-        // Layer 5 — Template  (unused / reserved)
-        // ----------------------------------------------------
-        template_layer {
-            bindings = <
-   &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-   &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-   &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-                           &trans  &trans  &trans    &trans  &trans  &trans
+   &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4    &none  &kp F1  &kp F2   &kp F3   &kp F4   &none
+   &to L0      &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_HUI  &rgb_ug RGB_HUD  &none           &none  &kp F5  &kp F6   &kp F7   &kp F8   &none
+   &none       &kp LCTRL        &kp LALT         &kp LGUI         &none            &none           &none  &kp F9  &kp F10  &kp F11  &kp F12  &none
+                                                 &none            &none            &none           &none  &none   &none
             >;
         };
     };

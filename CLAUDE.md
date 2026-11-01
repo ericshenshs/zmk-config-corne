@@ -31,18 +31,31 @@ gh run download <run-id> --repo ericshenshs/zmk-config-corne --dir <path>
 
 ## Key Notes
 - **Symlinks don't work well** for `corne.keymap` — use exact copies
-- Current keyboard is running **v19** (as of 2026-04-26)
+<!-- [cc] Prod switched to v20 (2026-10-31); layer table updated to v20's persistent-switch design. -->
+- Current prod version is **v20** (as of 2026-10-31); v19 was prod before that
 - `corne.keymap` must always match the current prod version file
 
-## Layer Structure (v18+)
+## Layer Structure (v20)
 | Layer | Name    | Activation |
 |-------|---------|------------|
-| 0     | Default | Always active |
-| 1     | Lower   | Hold left BSPC thumb |
-| 2     | Raise   | Hold right SPC thumb |
-| 3     | Num      | Tap/hold right outer thumb |
-| 4     | Func     | While in Num, hold left outer thumb |
-| 5     | Template | Unused/reserved |
+| L0    | Default | Base; LP2 on L1–L3 returns here |
+| L1    | Lower   | Tap LT3 on L0 |
+| L2    | Raise   | Tap LT3 on L1 |
+| L3    | Func    | Tap LT3 on L2 |
+
+All switches are persistent (`&to`); no hold-layers. v18–v19 had 6 layers (Num at 3, Func at 4, Template at 5).
+
+<!-- [cc] Added so future sessions learn the key/layer shorthand used in v20+ design discussions. -->
+## Key & Layer Notation (v20+)
+Full definition and the in-progress v20 design: `config/corne_prod_v20_notation.md` — read it before discussing or editing v20.
+- **LP1–LP3 / RP1–RP3**: outer pinky column keys (left/right), numbered top → bottom (positions 0/12/24 and 11/23/35)
+- **LT1–LT3 / RT1–RT3**: thumb keys, numbered outer → inner (LT1=36, LT2=37, LT3=38; RT3=39, RT2=40, RT1=41)
+- Alpha-block keys are named by their L0 letter ("the A key")
+- **L0–L3**: v20 layers by ZMK index — L0 Default, L1 Lower, L2 Raise, L3 Func
+- **M1–M4**: left modifiers — M1 Ctrl, M2 Alt/Option, M3 Command (GUI), M4 Shift; **M1b–M4b** = right-hand versions (RCTRL, RALT, RGUI, RSHFT)
+- `✕` = no key (`&none`)
+<!-- [cc] Template snapshots: frozen copies of design states, not built by CI. -->
+- **tvN** = template version N, saved in `template/corne_template_vN.keymap` + `_notation.md` (tv1 = v20 design snapshot before L0 work)
 
 ## GitHub Repo
 `https://github.com/ericshenshs/zmk-config-corne`
