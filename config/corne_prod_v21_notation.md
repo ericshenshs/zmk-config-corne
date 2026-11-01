@@ -16,7 +16,7 @@ v21 is forked from `corne_prod_v20.keymap`; design below is implemented in
 
 | Layer | Underglow | Set by |
 |-------|-----------|--------|
-| L0 | off | LP2 on L1–L3 (`go_l0`) |
+| L0 | off | LT2 or RT2 on L1–L3 (`go_l0`) |
 | L1 | green (HSB 120,100,50) | LT3 on L0 (`go_l1`) |
 | L2 | blue (HSB 240,100,50) | LT3 on L1 (`go_l2`) |
 | L3 | purple (HSB 280,100,50) | LT3 on L2 (`go_l3`) |
@@ -84,7 +84,7 @@ Combined modifiers are written with `+`, e.g. `M1+M3` = Ctrl+Cmd.
 
 | Name | Index | Layer | v20 activation | v19 origin |
 |------|:---:|-------|----------------|------------|
-| L0 | 0 | Default (QWERTY) | base; LP2 on L1–L3 | Default (0) |
+| L0 | 0 | Default (QWERTY) | base; LT2 or RT2 on L1–L3 | Default (0) |
 | L1 | 1 | Lower | LT3 on L0 | Lower (1) |
 | L2 | 2 | Raise | LT3 on L1 | Raise (2) |
 | L3 | 3 | Func  | LT3 on L2 | Func (4) |
@@ -102,11 +102,10 @@ Rules:
 - LT3 = layer cycle: L0 → L1 → L2 → L3 (stops; `✕` on L3).
 <!-- [cc] RT3 re-added as a per-layer jump (all &to): L0→L2, L1→L0, L2→L1, L3→L0.
      Restores a path back to L0 from every layer. -->
-<!-- [cc] RT3 removed (✕) on every layer. NOTE: this leaves no path back to L0. -->
 <!-- [cc] RT3 = ESC on L0 (second ESC, right thumb); ✕ on L1–L3. -->
 - RT3 = ESC on L0; `✕` on L1–L3.
-<!-- [cc] LP2 on L1–L3 = &to L0: the only way back to L0 (RT3 is ✕). -->
-- LP2 on L1, L2, L3 = one-tap jump to L0 (the only exit back to L0).
+<!-- [cc] v21: LT2 and RT2 on L1–L3 return to L0; LP2 on L1–L3 = ✕. -->
+- LT2 and RT2 on L1, L2, L3 = one-tap jump to L0. LP2 on L1–L3 = `✕`.
 
 **L0: Default**
 ```
@@ -130,9 +129,9 @@ LT2 = `&kp BSPC`, RT2 = `&kp SPACE`, RT1 = `&kp RET`.
 **L1: Lower**
 ```
 │ ` │ 1  │ 2   │ 3 │ 4   │ 5 │   │ 6 │ 7 │ 8 │ 9 │ 0 │ ✕ │
-│→L0│ SC │ SCA │ ✕ │ C-b │ ✕ │   │ ← │ ↓ │ ↑ │ → │ ✕ │ ✕ │
+│ ✕ │ SC │ SCA │ ✕ │ C-b │ ✕ │   │ ← │ ↓ │ ↑ │ → │ ✕ │ ✕ │
 │ M4│ M1 │ M2  │ M3│ ✕   │ ✕ │   │ ✕ │ ✕ │M3b│M2b│M1b│M4b│
-          ✕ │ ✕ │ LT3 →L2     RT3 ✕ │ ✕ │ ✕
+          ✕ │ →L0 │ LT3 →L2     RT3 ✕ │ →L0 │ ✕
 ```
 <!-- [cc] L1 bottom row: mirrored modifiers. Z/X/C = M1/M2/M3 (LCTRL/LALT/LGUI),
      / . , = M1b/M2b/M3b (RCTRL/RALT/RGUI). -->
@@ -144,9 +143,9 @@ SC = macOS screenshot to clipboard, SCA = screenshot with annotation, C-b = Ctrl
 **L2: Raise**
 ```
 │ ~ │ ! │ @ │ # │ $ │ % │   │ ^ │ & │ * │ ( │ ) │ ✕ │
-│→L0│ ✕ │ ✕ │ ✕ │ ✕ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
+│ ✕ │ ✕ │ ✕ │ ✕ │ ✕ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
 │ ✕ │ M1│ M2│ M3│ ✕ │ ✕ │   │ { │ _ │ + │ } │ | │ " │
-          ✕ │ ✕ │ LT3 →L3     RT3 ✕ │ ✕ │ ✕
+          ✕ │ →L0 │ LT3 →L3     RT3 ✕ │ →L0 │ ✕
 ```
 <!-- [cc] L2: Z/X/C = M1/M2/M3 (LCTRL/LALT/LGUI), matching L1's left bottom row.
      LP1 on L2 = ~ (TILDE), as in v19. RP2 on L2 = ' (SQT), RP3 on L2 = " (DQT; moved from L3). LP3 on L2 = ✕ (Shift removed). -->
@@ -155,9 +154,9 @@ Z X C = M1 M2 M3. LP1 = `~`. RP2 = `'`. RP3 = `"`.
 **L3: Func**
 ```
 │ BT_CLR │ BT0 │ BT1 │ BT2 │ BT3 │ BT4 │   │ ✕ │ F1 │ F2  │ F3  │ F4  │ ✕ │
-│ →L0    │ TOG │ EFF │ HUI │ HUD │ BRI │   │ ✕ │ F5 │ F6  │ F7  │ F8  │ ✕ │
+│ ✕      │ TOG │ EFF │ HUI │ HUD │ BRI │   │ ✕ │ F5 │ F6  │ F7  │ F8  │ ✕ │
 │ ✕      │ M1  │ M2  │ M3  │ ✕   │ BRD │   │ ✕ │ F9 │ F10 │ F11 │ F12 │ ✕ │
-               ✕ │ ✕ │ ✕     RT3 ✕ │ ✕ │ ✕
+               ✕ │ →L0 │ ✕     RT3 ✕ │ →L0 │ ✕
 ```
 <!-- [cc] L3: Z/X/C = M1/M2/M3, same pattern as L1/L2 (enables Cmd/Ctrl/Alt + F-keys). -->
 Z X C = M1 M2 M3.

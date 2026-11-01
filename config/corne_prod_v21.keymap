@@ -8,9 +8,12 @@
  *
  * Changes from v20:
  *  - [cc] L3: added underglow brightness up (G) / down (B) under HUD's row.
- *  - [cc] Per-layer underglow colour: layer-switch keys (LT3, LP2) are now
+ *  - [cc] Per-layer underglow colour: layer-switch keys (LT3, LT2, RT2) are now
  *    macros go_l0..go_l3 that switch layer + set colour.
  *    L0 = off, L1 = green, L2 = blue, L3 = purple.
+ *  - [cc] RT2 on L1–L3 = go_l0 (thumb way back to L0).
+ *  - [cc] LP2 on L1–L3 = &none.
+ *  - [cc] LT2 on L1–L3 = go_l0 (left-thumb way back to L0, mirrors RT2).
  *
  * v20 changes from v19 (kept for history):
  *  - [cc] Four layers only: L0 Default, L1 Lower, L2 Raise, L3 Func.
@@ -183,17 +186,17 @@
         // L1 — Lower: numbers, screenshots, Ctrl+B, arrows, mods
         //
         // │ `   │ 1  │ 2   │ 3  │ 4   │ 5 │   │ 6 │ 7 │ 8   │ 9   │ 0   │ ✕   │
-        // │ →L0 │ SC │ SCA │ ✕  │ C-b │ ✕ │   │ ← │ ↓ │ ↑   │ →   │ ✕   │ ✕   │
+        // │ ✕   │ SC │ SCA │ ✕  │ C-b │ ✕ │   │ ← │ ↓ │ ↑   │ →   │ ✕   │ ✕   │
         // │ M4  │ M1 │ M2  │ M3 │ ✕   │ ✕ │   │ ✕ │ ✕ │ M3b │ M2b │ M1b │ M4b │
-        //        ✕ │ ✕ │ →L2     ✕ │ ✕ │ ✕
+        //        ✕ │ →L0 │ →L2     ✕ │ →L0 │ ✕
         // ----------------------------------------------------
         lower_layer {
             display-name = "L1";
             bindings = <
    &kp GRAVE  &kp N1     &kp N2    &kp N3    &kp N4     &kp N5     &kp N6    &kp N7    &kp N8    &kp N9     &kp N0     &none
-   &go_l0     &mac_sc    &mac_sca  &none     &kp LC(B)  &none      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none      &none
+   &none      &mac_sc    &mac_sca  &none     &kp LC(B)  &none      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none      &none
    &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI  &none      &none      &none     &none     &kp RGUI  &kp RALT   &kp RCTRL  &kp RSHFT
-                                   &none     &none      &go_l2     &none     &none     &none
+                                   &none     &go_l0     &go_l2     &none     &go_l0    &none
             >;
         };
 
@@ -201,17 +204,17 @@
         // L2 — Raise: symbols
         //
         // │ ~   │ !  │ @  │ #  │ $ │ % │   │ ^ │ & │ * │ ( │ ) │ ✕ │
-        // │ →L0 │ ✕  │ ✕  │ ✕  │ ✕ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
+        // │ ✕   │ ✕  │ ✕  │ ✕  │ ✕ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
         // │ ✕   │ M1 │ M2 │ M3 │ ✕ │ ✕ │   │ { │ _ │ + │ } │ | │ " │
-        //        ✕ │ ✕ │ →L3     ✕ │ ✕ │ ✕
+        //        ✕ │ →L0 │ →L3     ✕ │ →L0 │ ✕
         // ----------------------------------------------------
         raise_layer {
             display-name = "L2";
             bindings = <
    &kp TILDE  &kp EXCL   &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &none
-   &go_l0     &none      &none     &none     &none     &none        &kp LBKT   &kp MINUS  &kp EQUAL        &kp RBKT  &kp BSLH  &kp SQT
+   &none      &none      &none     &none     &none     &none        &kp LBKT   &kp MINUS  &kp EQUAL        &kp RBKT  &kp BSLH  &kp SQT
    &none      &kp LCTRL  &kp LALT  &kp LGUI  &none     &none        &kp LBRC   &kp UNDER  &kp PLUS         &kp RBRC  &kp PIPE  &kp DQT
-                                   &none     &none     &go_l3       &none      &none      &none
+                                   &none     &go_l0    &go_l3       &none      &go_l0     &none
             >;
         };
 
@@ -219,19 +222,19 @@
         // L3 — Func: Bluetooth, RGB underglow, F1–F12
         //
         // │ BT_CLR │ BT0 │ BT1 │ BT2 │ BT3 │ BT4 │   │ ✕ │ F1 │ F2  │ F3  │ F4  │ ✕ │
-        // │ →L0    │ TOG │ EFF │ HUI │ HUD │ BRI │   │ ✕ │ F5 │ F6  │ F7  │ F8  │ ✕ │
+        // │ ✕      │ TOG │ EFF │ HUI │ HUD │ BRI │   │ ✕ │ F5 │ F6  │ F7  │ F8  │ ✕ │
         // │ ✕      │ M1  │ M2  │ M3  │ ✕   │ BRD │   │ ✕ │ F9 │ F10 │ F11 │ F12 │ ✕ │
-        //        ✕ │ ✕ │ ✕     ✕ │ ✕ │ ✕
+        //        ✕ │ →L0 │ ✕     ✕ │ →L0 │ ✕
         // BRI/BRD = underglow brightness up/down (added in v21).
-        // LT3 is &none here: the cycle stops at L3; LP2 is the only exit.
+        // LT3 is &none here: the cycle stops at L3; LT2 / RT2 exit to L0.
         // ----------------------------------------------------
         func_layer {
             display-name = "L3";
             bindings = <
    &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4    &none  &kp F1  &kp F2   &kp F3   &kp F4   &none
-   &go_l0      &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_HUI  &rgb_ug RGB_HUD  &rgb_ug RGB_BRI &none  &kp F5  &kp F6   &kp F7   &kp F8   &none
+   &none       &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_HUI  &rgb_ug RGB_HUD  &rgb_ug RGB_BRI &none  &kp F5  &kp F6   &kp F7   &kp F8   &none
    &none       &kp LCTRL        &kp LALT         &kp LGUI         &none            &rgb_ug RGB_BRD &none  &kp F9  &kp F10  &kp F11  &kp F12  &none
-                                                 &none            &none            &none           &none  &none   &none
+                                                 &none            &go_l0           &none           &none  &go_l0  &none
             >;
         };
     };
