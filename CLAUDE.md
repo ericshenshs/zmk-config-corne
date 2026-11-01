@@ -31,8 +31,8 @@ gh run download <run-id> --repo ericshenshs/zmk-config-corne --dir <path>
 
 ## Key Notes
 - **Symlinks don't work well** for `corne.keymap` — use exact copies
-<!-- [cc] Prod switched to v22 (2026-11-01): L1 C-b/SC/SCA now return to L0 after their shortcut. -->
-- Current prod version is **v22** (as of 2026-11-01); v21 before that, v20 before that
+<!-- [cc] Prod back to v21 (2026-11-01): v22 was promoted then reverted; v22 stays a draft while LT2-to-L0 / LT-only layer switching is designed. -->
+- Current prod version is **v21** (as of 2026-10-31; v22 briefly prod on 2026-11-01, reverted same day — v22 is a draft); v20 before that, v19 before that
 - `corne.keymap` must always match the current prod version file
 
 ## Layer Structure (v21)
