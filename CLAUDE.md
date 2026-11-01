@@ -31,19 +31,26 @@ gh run download <run-id> --repo ericshenshs/zmk-config-corne --dir <path>
 
 ## Key Notes
 - **Symlinks don't work well** for `corne.keymap` — use exact copies
-<!-- [cc] Prod switched to v20 (2026-10-31); layer table updated to v20's persistent-switch design. -->
-- Current prod version is **v20** (as of 2026-10-31); v19 was prod before that
+<!-- [cc] Prod switched to v21 (2026-10-31); v21 is the canonical version on master. -->
+- Current prod version is **v21** (as of 2026-10-31); v20 before that, v19 before that
 - `corne.keymap` must always match the current prod version file
 
-## Layer Structure (v20)
-| Layer | Name    | Activation |
-|-------|---------|------------|
-| L0    | Default | Base; LP2 on L1–L3 returns here |
-| L1    | Lower   | Tap LT3 on L0 |
-| L2    | Raise   | Tap LT3 on L1 |
-| L3    | Func    | Tap LT3 on L2 |
+## Layer Structure (v21)
+| Layer | Name    | Activation | Underglow |
+|-------|---------|------------|-----------|
+| L0    | Default | Base; LT2 or RT2 on L1–L3 returns here | white |
+| L1    | Lower   | Tap LT3 on L0 | green |
+| L2    | Raise   | Tap LT3 on L1 | blue |
+| L3    | Func    | Tap LT3 on L2 | purple |
 
-All switches are persistent (`&to`); no hold-layers. v18–v19 had 6 layers (Num at 3, Func at 4, Template at 5).
+All switches are persistent one-tap macros (`go_l0`..`go_l3`: `&to` + colour); no hold-layers. v18–v19 had 6 layers (Num at 3, Func at 4, Template at 5).
+
+<!-- [cc] Document the custom behavior module added in v21. -->
+## Custom ZMK Module (v21+)
+This repo is also a ZMK module (`zephyr/module.yml`, `Kconfig`, `CMakeLists.txt`,
+`dts/bindings/behaviors/`, `src/behaviors/`). It provides `&rgb_hs <hue> <sat>`:
+sets underglow hue/saturation but keeps current brightness (global locality, so
+both halves update). ZMK's CI auto-loads it because `zephyr/module.yml` exists.
 
 <!-- [cc] Added so future sessions learn the key/layer shorthand used in v20+ design discussions. -->
 ## Key & Layer Notation (v20+)
