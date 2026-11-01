@@ -1,0 +1,238 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ * SPDX-License-Identifier: MIT
+ *
+ * Corne Keymap v21
+ * Reference: https://zmk.dev/docs/keymaps/behaviors/key-press
+ * Notation (LP/RP/LT/RT, L0–L3, M1–M4/M1b–M4b): corne_prod_v20_notation.md
+ *
+ * Changes from v20:
+ *  - [cc] L3: added underglow brightness up (G) / down (B) under HUD's row.
+ *  - [cc] Per-layer underglow colour: layer-switch keys (LT3, LP2) are now
+ *    macros go_l0..go_l3 that switch layer + set colour.
+ *    L0 = off, L1 = green, L2 = blue, L3 = purple.
+ *
+ * v20 changes from v19 (kept for history):
+ *  - [cc] Four layers only: L0 Default, L1 Lower, L2 Raise, L3 Func.
+ *    v19 Num (3) and Template (5) removed; v19 Func moved to L3.
+ *  - [cc] Layer switching is persistent (&to), no hold-layers:
+ *      LT3 steps L0 → L1 → L2 → L3 (none on L3);
+ *      LP2 on L1–L3 jumps back to L0.
+ *  - [cc] No transparent keys: every unused key is &none.
+ *  - [cc] L0 outer/thumb keys reassigned: LP1 TAB, LP2 Alt+BSPC, LP3 LShift,
+ *    RP1 Ctrl, RP2 Alt, RP3 RShift, LT1 Cmd, LT2 BSPC, RT3 ESC, RT2 SPC, RT1 ENT.
+ *    All modifiers are plain holds (no sticky keys, no mod-taps).
+ *  - [cc] L1–L3: Ctrl/Alt/Cmd on Z X C; L1 also has mirrored right mods on
+ *    / . , and Shift on LP3/RP3.
+ *  - [cc] L2: ' and " moved to RP2/RP3; ~ on LP1.
+ *  - [cc] L3: F1–F12 on the U–/ 4×3 block, RGB on A S D F, BT_CLR on LP1;
+ *    media keys removed.
+ *  - [cc] Removed unused macros/behaviors (ctrl_alt_*, cmd_*, macos_input,
+ *    lm_lwr_lgui, ht_lm_esc, ht_sl_mo) and the Num layer.
+ *  - [cc] Each layer has a display-name so the OLED shows L0–L3.
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/rgb.h>
+
+// ============================================================
+// Hardware
+// ============================================================
+
+&led_strip {
+    chain-length = <27>;
+};
+
+// ============================================================
+// Layer indices
+// ============================================================
+
+#define L0 0
+#define L1 1
+#define L2 2
+#define L3 3
+
+// [cc] v21: brightness (0–100) used by the per-layer underglow colours.
+#define LAYER_BRT 50
+
+// ============================================================
+// Macros
+// ============================================================
+
+/ {
+    macros {
+
+        // macOS screenshot to clipboard (Cmd+Ctrl+Shift+4)
+        mac_sc: macos_screenshot {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press   &kp LGUI>
+                , <&macro_press   &kp LCTRL>
+                , <&macro_press   &kp LSHFT>
+                , <&macro_tap     &kp N4>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LCTRL>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+
+        // macOS screenshot with annotation (Cmd+Shift+4)
+        mac_sca: macos_screenshot_with_annotation {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press   &kp LGUI>
+                , <&macro_press   &kp LSHFT>
+                , <&macro_tap     &kp N4>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LGUI>
+                ;
+        };
+
+        // [cc] v21: per-layer underglow colour. Stock ZMK has no per-layer
+        // RGB, so every layer-switch key is a macro that switches the layer
+        // AND sets the colour. L0 turns underglow off; L1–L3 turn it on with
+        // a solid colour (HSB: hue 0–360, sat 0–100, brightness 0–100).
+        // Note: the colour includes brightness, so BRI/BRD only last until
+        // the next layer switch; edit LAYER_BRT to change it permanently.
+        // Effect should be "solid" (EFF) for the colour to show cleanly.
+
+        // L0: underglow off
+        go_l0: go_l0 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms  = <0>;
+            bindings
+                = <&macro_tap &rgb_ug RGB_OFF>
+                , <&macro_tap &to L0>
+                ;
+        };
+
+        // L1: green
+        go_l1: go_l1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms  = <0>;
+            bindings
+                = <&macro_tap &rgb_ug RGB_ON>
+                , <&macro_tap &rgb_ug RGB_COLOR_HSB(120, 100, LAYER_BRT)>
+                , <&macro_tap &to L1>
+                ;
+        };
+
+        // L2: blue
+        go_l2: go_l2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms  = <0>;
+            bindings
+                = <&macro_tap &rgb_ug RGB_ON>
+                , <&macro_tap &rgb_ug RGB_COLOR_HSB(240, 100, LAYER_BRT)>
+                , <&macro_tap &to L2>
+                ;
+        };
+
+        // L3: purple
+        go_l3: go_l3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms  = <0>;
+            bindings
+                = <&macro_tap &rgb_ug RGB_ON>
+                , <&macro_tap &rgb_ug RGB_COLOR_HSB(280, 100, LAYER_BRT)>
+                , <&macro_tap &to L3>
+                ;
+        };
+    };
+};
+
+// ============================================================
+// Keymap
+// ============================================================
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        // ----------------------------------------------------
+        // L0 — Default (QWERTY)
+        //
+        // │ TAB    │ Q │ W │ E │ R │ T │   │ Y │ U │ I │ O │ P │ M1  │
+        // │ M2+BSPC│ A │ S │ D │ F │ G │   │ H │ J │ K │ L │ ; │ M2  │
+        // │ M4     │ Z │ X │ C │ V │ B │   │ N │ M │ , │ . │ / │ M4b │
+        //        M3 │ BSPC │ →L1     ESC │ SPC │ ENT
+        // ----------------------------------------------------
+        default_layer {
+            display-name = "L0";
+            bindings = <
+   &kp TAB       &kp Q  &kp W  &kp E  &kp R     &kp T        &kp Y    &kp U      &kp I      &kp O    &kp P     &kp LCTRL
+   &kp LA(BSPC)  &kp A  &kp S  &kp D  &kp F     &kp G        &kp H    &kp J      &kp K      &kp L    &kp SEMI  &kp LALT
+   &kp LSHFT     &kp Z  &kp X  &kp C  &kp V     &kp B        &kp N    &kp M      &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
+                               &kp LGUI  &kp BSPC  &go_l1    &kp ESC  &kp SPACE  &kp RET
+            >;
+        };
+
+        // ----------------------------------------------------
+        // L1 — Lower: numbers, screenshots, Ctrl+B, arrows, mods
+        //
+        // │ `   │ 1  │ 2   │ 3  │ 4   │ 5 │   │ 6 │ 7 │ 8   │ 9   │ 0   │ ✕   │
+        // │ →L0 │ SC │ SCA │ ✕  │ C-b │ ✕ │   │ ← │ ↓ │ ↑   │ →   │ ✕   │ ✕   │
+        // │ M4  │ M1 │ M2  │ M3 │ ✕   │ ✕ │   │ ✕ │ ✕ │ M3b │ M2b │ M1b │ M4b │
+        //        ✕ │ ✕ │ →L2     ✕ │ ✕ │ ✕
+        // ----------------------------------------------------
+        lower_layer {
+            display-name = "L1";
+            bindings = <
+   &kp GRAVE  &kp N1     &kp N2    &kp N3    &kp N4     &kp N5     &kp N6    &kp N7    &kp N8    &kp N9     &kp N0     &none
+   &go_l0     &mac_sc    &mac_sca  &none     &kp LC(B)  &none      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none      &none
+   &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI  &none      &none      &none     &none     &kp RGUI  &kp RALT   &kp RCTRL  &kp RSHFT
+                                   &none     &none      &go_l2     &none     &none     &none
+            >;
+        };
+
+        // ----------------------------------------------------
+        // L2 — Raise: symbols
+        //
+        // │ ~   │ !  │ @  │ #  │ $ │ % │   │ ^ │ & │ * │ ( │ ) │ ✕ │
+        // │ →L0 │ ✕  │ ✕  │ ✕  │ ✕ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
+        // │ ✕   │ M1 │ M2 │ M3 │ ✕ │ ✕ │   │ { │ _ │ + │ } │ | │ " │
+        //        ✕ │ ✕ │ →L3     ✕ │ ✕ │ ✕
+        // ----------------------------------------------------
+        raise_layer {
+            display-name = "L2";
+            bindings = <
+   &kp TILDE  &kp EXCL   &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &none
+   &go_l0     &none      &none     &none     &none     &none        &kp LBKT   &kp MINUS  &kp EQUAL        &kp RBKT  &kp BSLH  &kp SQT
+   &none      &kp LCTRL  &kp LALT  &kp LGUI  &none     &none        &kp LBRC   &kp UNDER  &kp PLUS         &kp RBRC  &kp PIPE  &kp DQT
+                                   &none     &none     &go_l3       &none      &none      &none
+            >;
+        };
+
+        // ----------------------------------------------------
+        // L3 — Func: Bluetooth, RGB underglow, F1–F12
+        //
+        // │ BT_CLR │ BT0 │ BT1 │ BT2 │ BT3 │ BT4 │   │ ✕ │ F1 │ F2  │ F3  │ F4  │ ✕ │
+        // │ →L0    │ TOG │ EFF │ HUI │ HUD │ BRI │   │ ✕ │ F5 │ F6  │ F7  │ F8  │ ✕ │
+        // │ ✕      │ M1  │ M2  │ M3  │ ✕   │ BRD │   │ ✕ │ F9 │ F10 │ F11 │ F12 │ ✕ │
+        //        ✕ │ ✕ │ ✕     ✕ │ ✕ │ ✕
+        // BRI/BRD = underglow brightness up/down (added in v21).
+        // LT3 is &none here: the cycle stops at L3; LP2 is the only exit.
+        // ----------------------------------------------------
+        func_layer {
+            display-name = "L3";
+            bindings = <
+   &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4    &none  &kp F1  &kp F2   &kp F3   &kp F4   &none
+   &go_l0      &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_HUI  &rgb_ug RGB_HUD  &rgb_ug RGB_BRI &none  &kp F5  &kp F6   &kp F7   &kp F8   &none
+   &none       &kp LCTRL        &kp LALT         &kp LGUI         &none            &rgb_ug RGB_BRD &none  &kp F9  &kp F10  &kp F11  &kp F12  &none
+                                                 &none            &none            &none           &none  &none   &none
+            >;
+        };
+    };
+};

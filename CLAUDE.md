@@ -47,7 +47,8 @@ All switches are persistent (`&to`); no hold-layers. v18–v19 had 6 layers (Num
 
 <!-- [cc] Added so future sessions learn the key/layer shorthand used in v20+ design discussions. -->
 ## Key & Layer Notation (v20+)
-Full definition and the in-progress v20 design: `config/corne_prod_v20_notation.md` — read it before discussing or editing v20.
+<!-- [cc] Each version from v20 on has its own notation/design file; read the latest one. -->
+Full definitions and per-version design: `config/corne_prod_vN_notation.md` (v20, v21, …) — read the latest one before discussing or editing a version.
 - **LP1–LP3 / RP1–RP3**: outer pinky column keys (left/right), numbered top → bottom (positions 0/12/24 and 11/23/35)
 - **LT1–LT3 / RT1–RT3**: thumb keys, numbered outer → inner (LT1=36, LT2=37, LT3=38; RT3=39, RT2=40, RT1=41)
 - Alpha-block keys are named by their L0 letter ("the A key")
