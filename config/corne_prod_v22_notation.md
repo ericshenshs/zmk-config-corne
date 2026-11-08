@@ -38,10 +38,17 @@ brightness set with BRI/BRD persists across layer switches.
 |-------|------|-----------|
 | Left pinky (outer column)  | LP1, LP2, LP3 | top → bottom |
 | Right pinky (outer column) | RP1, RP2, RP3 | top → bottom |
-| Left thumb  | LT1, LT2, LT3 | outer → inner (LT1 farthest from center) |
-| Right thumb | RT1, RT2, RT3 | outer → inner (RT1 farthest from center) |
+| Left thumb  | (LT0), LT1, LT2, LT3 | left → right = outer → inner (LT0 slot is empty on the Corne) |
+| Right thumb | RT3, RT2, RT1, (RT0) | left → right = inner → outer (RT0 slot is empty on the Corne) |
 
-"1" is always the outermost key on both halves, so the halves mirror each other
+<!-- [cc] 2026-11-08: index 0 added so Corne and Dygma Sonsei share one naming. Thumbs read LT0 LT1 LT2 LT3
+     left to right; the Corne has no LT0/RT0 key, so its keys stay LT1–3 / RT1–3 and nothing renumbers.
+     Index 0 (LP0, RP0, LT0, RT0) marks the Sonsei-only positions; see
+     ysconfig keyboard/dygma_sonsei/v1/sonsei_vs_corne.zet (Sonsei production v1). -->
+Index 0 is the outermost slot: the left thumbs read LT0 LT1 LT2 LT3 from left
+to right, and the right thumbs mirror them (RT3 RT2 RT1 RT0). The Corne has no
+key at index 0 (LP0, RP0, LT0, RT0); those positions exist only on the Dygma
+Sonsei, so the Corne's own keys keep their names. The halves mirror each other
 (LP1 ↔ RP1, LT1 ↔ RT1). The 3×5 alpha block keys are referred to by their L0
 letter (e.g. "the A key", "`;` key").
 
