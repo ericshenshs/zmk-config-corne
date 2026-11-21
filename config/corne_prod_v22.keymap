@@ -4,13 +4,16 @@
  *
  * Corne Keymap v22
  * Reference: https://zmk.dev/docs/keymaps/behaviors/key-press
- * Notation (LP/RP/LT/RT, L0–L3, M1–M4/M1b–M4b): corne_prod_v22_notation.md
+ * Notation (LP/RP/LT/RT, L0–L3, M1–M4/M1b–M4b): corne_prod_v20_notation.md
  *
- * Changes from v21:
- *  - [cc] L1 SC / SCA / C-b stay plain (send shortcut, stay on L1), as in v21;
- *    an earlier v22 draft returned them to L0, dropped by request.
- *  - [cc] RT2 on L1–L3 stays go_l0 (one tap back to L0), as in v21; an
- *    earlier v22 draft freed RT2 (&none), restored by request.
+ * Changes from v21 (the Sofle v5 changes, ported):
+ *  - [cc] L2 D / F = Ctrl+← / Ctrl+→ (the Corne had none before).
+ *  - [cc] L2 symbols (incl. ' and ") and Ctrl+← / Ctrl+→ are one-shot: &sym taps the key, then
+ *    returns to L0 with the L0 colour (white), like go_l0. Mods held at the same time still apply;
+ *    a one-shot key does not auto-repeat when held.
+ *  - [cc] RT1 on L1 and L3 = go_l0, the same as RT2 (and LT2).
+ *  - [cc] L2 LT3 = go_l1 (L1 ⇄ L2 by tapping LT3); L2 RT1 (right-end thumb) = go_l3, the only way to L3.
+ *    The Sofle uses its fifth (outermost) right thumb for this; RT1 is the Corne's right-end thumb.
  *
  * v21 changes from v20 (kept for history):
  *  - [cc] L3: added underglow brightness up (G) / down (B) under HUD's row.
@@ -143,6 +146,19 @@
                 ;
         };
 
+        // [cc] v22: one-shot key for L2 (ported from Sofle v5). &sym X taps X, then goes to L0
+        // [cc] and sets the L0 colour, so each L2 symbol drops back to the base layer after one press.
+        sym: symbol_then_l0 {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings
+                = <&macro_param_1to1>
+                , <&macro_tap &kp MACRO_PLACEHOLDER>
+                , <&macro_tap &rgb_hs 0 0>
+                , <&macro_tap &to L0>
+                ;
+        };
+
         // L1: green
         go_l1: go_l1 {
             compatible = "zmk,behavior-macro";
@@ -208,18 +224,12 @@
         };
 
         // ----------------------------------------------------
-        // [cc] Usage convention for leaving L1/L2/L3 (requested 2026-11-01):
-        //   want a space next  → press RT2 to go back to L0 (RT2 is the Space
-        //                        thumb on L0, so the next RT2 tap types it);
-        //   no space next      → press LT2 to go back to L0.
-        //   Either key only switches layer; neither sends a character itself.
-        // ----------------------------------------------------
         // L1 — Lower: numbers, screenshots, Ctrl+B, arrows, mods
         //
         // │ `   │ 1  │ 2   │ 3  │ 4   │ 5 │   │ 6 │ 7 │ 8   │ 9   │ 0   │ ✕   │
         // │ ✕   │ SC │ SCA │ ✕  │ C-b │ ✕ │   │ ← │ ↓ │ ↑   │ →   │ ✕   │ ✕   │
         // │ M4  │ M1 │ M2  │ M3 │ ✕   │ ✕ │   │ ✕ │ ✕ │ M3b │ M2b │ M1b │ M4b │
-        //        ✕ │ →L0 │ →L2     ✕ │ →L0 │ ✕
+        //        ✕ │ →L0 │ →L2     ✕ │ →L0 │ →L0   ([cc] v22: RT1 →L0)
         // ----------------------------------------------------
         lower_layer {
             display-name = "L1";
@@ -227,7 +237,7 @@
    &kp GRAVE  &kp N1     &kp N2    &kp N3    &kp N4     &kp N5     &kp N6    &kp N7    &kp N8    &kp N9     &kp N0     &none
    &none      &mac_sc    &mac_sca  &none     &kp LC(B)  &none      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none      &none
    &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI  &none      &none      &none     &none     &kp RGUI  &kp RALT   &kp RCTRL  &kp RSHFT
-                                   &none     &go_l0     &go_l2     &none     &go_l0    &none
+                                   &none     &go_l0     &go_l2     &none     &go_l0    &go_l0
             >;
         };
 
@@ -235,17 +245,18 @@
         // L2 — Raise: symbols
         //
         // │ ~   │ !  │ @  │ #  │ $ │ % │   │ ^ │ & │ * │ ( │ ) │ ✕ │
-        // │ ✕   │ ✕  │ ✕  │ ✕  │ ✕ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
-        // │ M4  │ M1 │ M2 │ M3 │ ✕ │ ✕ │   │ { │ _ │ + │ } │ | │ " │
-        //        ✕ │ →L0 │ →L3     ✕ │ →L0 │ ✕
+        // │ ✕   │ ✕  │ ✕  │ C-← │ C-→ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
+        // │ M4  │ M1 │ M2 │ M3  │ ✕   │ ✕ │   │ { │ _ │ + │ } │ | │ " │
+        //        ✕ │ →L0 │ →L1     ✕ │ →L0 │ →L3
+        // [cc] v22: every symbol and C-← / C-→ is one-shot (&sym: type it, then back to L0).
         // ----------------------------------------------------
         raise_layer {
             display-name = "L2";
             bindings = <
-   &kp TILDE  &kp EXCL   &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp STAR         &kp LPAR  &kp RPAR  &none
-   &none      &none      &none     &none     &none     &none        &kp LBKT   &kp MINUS  &kp EQUAL        &kp RBKT  &kp BSLH  &kp SQT
-   &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI  &none     &none        &kp LBRC   &kp UNDER  &kp PLUS         &kp RBRC  &kp PIPE  &kp DQT
-                                   &none     &go_l0    &go_l3       &none      &go_l0     &none
+   &sym TILDE  &sym EXCL  &sym AT   &sym HASH      &sym DLLR       &sym PRCNT    &sym CARET  &sym AMPS   &sym STAR   &sym LPAR  &sym RPAR  &none
+   &none       &none      &none     &sym LC(LEFT)  &sym LC(RIGHT)  &none         &sym LBKT   &sym MINUS  &sym EQUAL  &sym RBKT  &sym BSLH  &sym SQT
+   &kp LSHFT   &kp LCTRL  &kp LALT  &kp LGUI       &none           &none         &sym LBRC   &sym UNDER  &sym PLUS   &sym RBRC  &sym PIPE  &sym DQT
+                                    &none          &go_l0          &go_l1        &none       &go_l0      &go_l3
             >;
         };
 
@@ -255,9 +266,9 @@
         // │ BT_CLR │ BT0 │ BT1 │ BT2 │ BT3 │ BT4 │   │ ✕ │ F1 │ F2  │ F3  │ F4  │ ✕ │
         // │ ✕      │ TOG │ EFF │ HUI │ HUD │ BRI │   │ ✕ │ F5 │ F6  │ F7  │ F8  │ ✕ │
         // │ ✕      │ M1  │ M2  │ M3  │ ✕   │ BRD │   │ ✕ │ F9 │ F10 │ F11 │ F12 │ ✕ │
-        //        ✕ │ →L0 │ ✕     ✕ │ →L0 │ ✕
+        //        ✕ │ →L0 │ ✕     ✕ │ →L0 │ →L0   ([cc] v22: RT1 →L0)
         // BRI/BRD = underglow brightness up/down (added in v21).
-        // LT3 is &none here: the cycle stops at L3; LT2 / RT2 exit to L0.
+        // LT3 is &none here; LT2 / RT2 / RT1 exit to L0. [cc] v22: L3 is reached only by RT1 on L2.
         // ----------------------------------------------------
         func_layer {
             display-name = "L3";
@@ -265,7 +276,7 @@
    &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4    &none  &kp F1  &kp F2   &kp F3   &kp F4   &none
    &none       &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_HUI  &rgb_ug RGB_HUD  &rgb_ug RGB_BRI &none  &kp F5  &kp F6   &kp F7   &kp F8   &none
    &none       &kp LCTRL        &kp LALT         &kp LGUI         &none            &rgb_ug RGB_BRD &none  &kp F9  &kp F10  &kp F11  &kp F12  &none
-                                                 &none            &go_l0           &none           &none  &go_l0  &none
+                                                 &none            &go_l0           &none           &none  &go_l0  &go_l0
             >;
         };
     };
