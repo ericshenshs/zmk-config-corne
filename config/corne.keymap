@@ -2,11 +2,20 @@
  * Copyright (c) 2020 The ZMK Contributors
  * SPDX-License-Identifier: MIT
  *
- * Corne Keymap v22
+ * Corne Keymap v23
  * Reference: https://zmk.dev/docs/keymaps/behaviors/key-press
  * Notation (LP/RP/LT/RT, L0–L3, M1–M4/M1b–M4b): corne_prod_v20_notation.md
  *
- * Changes from v21 (the Sofle v5 changes, ported):
+ * Changes from v22:
+ *  - [cc] 2026-11-22: SC (Cmd+Ctrl+Shift+4), SCA (Cmd+Shift+4) and C-b (Ctrl+B) moved from L1 to
+ *    L2 on the same A / S / F keys, as one-shot &sym keys (send, then back to L0) like the
+ *    other L2 keys; their L1 spots are now &none.
+ *  - [cc] 2026-11-22: L2 Ctrl+← / Ctrl+→ (D / F) removed to make room: D = &none, F = C-b.
+ *  - [cc] 2026-11-22: mac_sc / mac_sca macros removed (replaced by &sym with modifier functions).
+ *  - [cc] 2026-11-23: L2 V = &tmux_nav (C-b, then v: toggles tmux statusline-navigation mode),
+ *    then back to L0 like the other L2 keys.
+ *
+ * v22 changes from v21 (the Sofle v5 changes, ported; kept for history):
  *  - [cc] L2 D / F = Ctrl+← / Ctrl+→ (the Corne had none before).
  *  - [cc] L2 symbols (incl. ' and ") and Ctrl+← / Ctrl+→ are one-shot: &sym taps the key, then
  *    returns to L0 with the L0 colour (white), like go_l0. Mods held at the same time still apply;
@@ -96,33 +105,6 @@
 / {
     macros {
 
-        // macOS screenshot to clipboard (Cmd+Ctrl+Shift+4)
-        mac_sc: macos_screenshot {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LGUI>
-                , <&macro_press   &kp LCTRL>
-                , <&macro_press   &kp LSHFT>
-                , <&macro_tap     &kp N4>
-                , <&macro_release &kp LSHFT>
-                , <&macro_release &kp LCTRL>
-                , <&macro_release &kp LGUI>
-                ;
-        };
-
-        // macOS screenshot with annotation (Cmd+Shift+4)
-        mac_sca: macos_screenshot_with_annotation {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press   &kp LGUI>
-                , <&macro_press   &kp LSHFT>
-                , <&macro_tap     &kp N4>
-                , <&macro_release &kp LSHFT>
-                , <&macro_release &kp LGUI>
-                ;
-        };
 
         // [cc] v21: per-layer underglow colour. Stock ZMK has no per-layer
         // RGB, so every layer-switch key is a macro that switches the layer
@@ -154,6 +136,19 @@
             bindings
                 = <&macro_param_1to1>
                 , <&macro_tap &kp MACRO_PLACEHOLDER>
+                , <&macro_tap &rgb_hs 0 0>
+                , <&macro_tap &to L0>
+                ;
+        };
+
+        // [cc] v23: tmux nav key. Sends the tmux prefix C-b, then v, which toggles tmux's
+        // [cc] statusline-navigation mode (ysconfig tmux/scripts/slnav.conf), then returns to L0
+        // [cc] with the L0 colour, like the other one-shot L2 keys.
+        tmux_nav: tmux_nav {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_tap &kp LC(B) &kp V>
                 , <&macro_tap &rgb_hs 0 0>
                 , <&macro_tap &to L0>
                 ;
@@ -224,10 +219,11 @@
         };
 
         // ----------------------------------------------------
-        // L1 — Lower: numbers, screenshots, Ctrl+B, arrows, mods
+        // L1 — Lower: numbers, arrows, mods
+        // [cc] v23: SC / SCA / C-b moved to L2 (same A / S / F keys).
         //
         // │ `   │ 1  │ 2   │ 3  │ 4   │ 5 │   │ 6 │ 7 │ 8   │ 9   │ 0   │ ✕   │
-        // │ ✕   │ SC │ SCA │ ✕  │ C-b │ ✕ │   │ ← │ ↓ │ ↑   │ →   │ ✕   │ ✕   │
+        // │ ✕   │ ✕  │ ✕   │ ✕  │ ✕   │ ✕ │   │ ← │ ↓ │ ↑   │ →   │ ✕   │ ✕   │
         // │ M4  │ M1 │ M2  │ M3 │ ✕   │ ✕ │   │ ✕ │ ✕ │ M3b │ M2b │ M1b │ M4b │
         //        ✕ │ →L0 │ →L2     ✕ │ →L0 │ →L0   ([cc] v22: RT1 →L0)
         // ----------------------------------------------------
@@ -235,7 +231,7 @@
             display-name = "L1";
             bindings = <
    &kp GRAVE  &kp N1     &kp N2    &kp N3    &kp N4     &kp N5     &kp N6    &kp N7    &kp N8    &kp N9     &kp N0     &none
-   &none      &mac_sc    &mac_sca  &none     &kp LC(B)  &none      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none      &none
+   &none      &none      &none     &none     &none      &none      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none      &none
    &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI  &none      &none      &none     &none     &kp RGUI  &kp RALT   &kp RCTRL  &kp RSHFT
                                    &none     &go_l0     &go_l2     &none     &go_l0    &go_l0
             >;
@@ -245,17 +241,19 @@
         // L2 — Raise: symbols
         //
         // │ ~   │ !  │ @  │ #  │ $ │ % │   │ ^ │ & │ * │ ( │ ) │ ✕ │
-        // │ ✕   │ ✕  │ ✕  │ C-← │ C-→ │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
-        // │ M4  │ M1 │ M2 │ M3  │ ✕   │ ✕ │   │ { │ _ │ + │ } │ | │ " │
+        // │ ✕   │ SC │ SCA │ ✕  │ C-b │ ✕ │   │ [ │ - │ = │ ] │ \ │ ' │
+        // │ M4  │ M1 │ M2 │ M3  │ NAV │ ✕ │   │ { │ _ │ + │ } │ | │ " │
         //        ✕ │ →L0 │ →L1     ✕ │ →L0 │ →L3
         // [cc] v22: every symbol and C-← / C-→ is one-shot (&sym: type it, then back to L0).
+        // [cc] v23: SC / SCA / C-b moved here from L1 (also one-shot); C-← / C-→ removed.
+        // [cc] v23: V = NAV (C-b then v: tmux statusline-navigation toggle), one-shot.
         // ----------------------------------------------------
         raise_layer {
             display-name = "L2";
             bindings = <
    &sym TILDE  &sym EXCL  &sym AT   &sym HASH      &sym DLLR       &sym PRCNT    &sym CARET  &sym AMPS   &sym STAR   &sym LPAR  &sym RPAR  &none
-   &none       &none      &none     &sym LC(LEFT)  &sym LC(RIGHT)  &none         &sym LBKT   &sym MINUS  &sym EQUAL  &sym RBKT  &sym BSLH  &sym SQT
-   &kp LSHFT   &kp LCTRL  &kp LALT  &kp LGUI       &none           &none         &sym LBRC   &sym UNDER  &sym PLUS   &sym RBRC  &sym PIPE  &sym DQT
+   &none       &sym LG(LC(LS(N4)))  &sym LG(LS(N4))  &none  &sym LC(B)  &none   &sym LBKT   &sym MINUS  &sym EQUAL  &sym RBKT  &sym BSLH  &sym SQT
+   &kp LSHFT   &kp LCTRL  &kp LALT  &kp LGUI       &tmux_nav       &none         &sym LBRC   &sym UNDER  &sym PLUS   &sym RBRC  &sym PIPE  &sym DQT
                                     &none          &go_l0          &go_l1        &none       &go_l0      &go_l3
             >;
         };
