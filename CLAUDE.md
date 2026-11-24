@@ -33,7 +33,9 @@ gh run download <run-id> --repo ericshenshs/zmk-config-corne --dir <path>
 - **Symlinks don't work well** for `corne.keymap` — use exact copies
 <!-- [cc] 2026-11-20: v22 rebuilt from v21 exactly (old draft notes dropped) plus the Sofle v5 changes, and made prod. -->
 <!-- [cc] 2026-11-23: v23 made prod (SC/SCA/C-b moved L1 → L2, L2 Ctrl+←/→ removed, L2 V = tmux nav). -->
-- Current prod version is **v23** (2026-11-23): v22 with SC/SCA/C-b moved from L1 to L2 (one-shot), L2 Ctrl+←/→
+<!-- [cc] 2026-11-23: v24 made prod (empty L1–L3 keys at LP2, LT1, RT3, L3 LT3 and L1 , . / ; ' → one-tap L0). -->
+- Current prod version is **v24** (2026-11-23): v23 with one-tap →L0 on LP2, LT1 and RT3 on L1–L3, LT3 on L3,
+  and L1 , . / ; ' (L1 right-hand Cmd/Alt/Ctrl removed). Before that **v23** (2026-11-23): v22 with SC/SCA/C-b moved from L1 to L2 (one-shot), L2 Ctrl+←/→
   removed, L2 V = tmux nav (C-b v, then L0). Before that **v22** (2026-11-20): v21 plus the Sofle v5 changes (one-shot L2 symbols, Ctrl+←/→ on L2 D/F,
   RT1 →L0 on L1/L3, L2 LT3 →L1, L2 RT1 →L3); v21 before that, v20 before that
 - `corne.keymap` must always match the current prod version file
