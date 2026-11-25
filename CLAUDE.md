@@ -24,6 +24,18 @@ Download with:
 gh run download <run-id> --repo ericshenshs/zmk-config-corne --dir <path>
 ```
 
+<!-- [cc] 2026-11-25: user rule: flashing always starts with the left half, so never ask which half is plugged in. -->
+## Flashing
+- **Always flash the left half first, then the right.** The first half plugged in for a flash is the left
+  half; do not ask which half it is. After the left half is done, the next half plugged in is the right.
+- Flash with `~/github/zmk-config-sofle/scripts/flash_serial.sh left|right <file>.uf2 <port>` (serial DFU; see
+  that repo's `FLASHING.md`). On the mac_mini the NICENANO drive mounts but refuses writes, so skip copying the UF2.
+- Wait until both `nice!nano v2` shows in `ioreg -p IOUSB -w0` **and** a `/dev/cu.usbmodem*` port (not the
+  `NTNH` one) exists before flashing; the port appears a few seconds after the bootloader. The bootloader times
+  out by itself, so flash as soon as it is up.
+- If the script fails creating its venv, run it with `TMPDIR` set to a writable folder (e.g. the session scratchpad).
+- Done when it prints `Device programmed.`: the left half then shows `Corne@…` on USB; the right half shows nothing.
+
 ## LaTeX Guides
 - Each version has a `corne_prod_vN_keymap_guide.tex` and compiled `.pdf`
 - Compile with: `pdflatex -interaction=nonstopmode <file>.tex` (run twice for correct TOC)
