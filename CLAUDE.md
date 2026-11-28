@@ -9,6 +9,18 @@ ZMK firmware config for a 42-key Keebmaker Corne split keyboard running on Nice!
 - To create a new version: copy the previous version, increment N, make changes
 - Each version should have a matching `config/corne_prod_vN_keymap_guide.tex` and `.pdf`
 
+## Git branches — commit on main
+<!-- [cc] Added 2026-11-27: Claude's default "branch first" habit left ysconfig and
+zmk-config-corne on stray branches, so other devices pulling main missed commits. -->
+- In personal repos like this one (zmk-config-corne)
+  commit directly on the current default branch (`main` / `master`).
+- Do **not** create, switch to, or push a new branch unless the user explicitly
+  asks for one. This overrides Claude Code's default "if on the default branch,
+  branch first" guidance.
+- To mark a version (e.g. a keymap or firmware release), use an annotated
+  **tag** (`git tag -a corne-v25 -m "..."`), not a branch.
+- Past versions are tagged `corne-v22`, `corne-v23`, `corne-v24` (formerly branches).
+
 ## Build System
 - GitHub Actions builds on every push (`.github/workflows/build.yml`)
 - Board name: `nice_nano//zmk` (requires `//zmk` suffix since ZMK's Zephyr 4.1 update, Dec 2025)
